@@ -1,0 +1,120 @@
+@import "tailwindcss";
+
+/*
+ * FiscalPlace design tokens — "Le grand livre réconcilié".
+ * Semantic color grammar (learned on the first screen, reused everywhere):
+ *   debit  = wrongly withheld   (never on brand elements or CTAs)
+ *   brand  = treaty rate / recovered / actions (solid fill only)
+ *   gold   = recoverable over-withholding (hatched = potential, wash = highlight)
+ */
+@theme {
+  --color-paper: #f4f7f3;
+  --color-ink: #152119;
+  --color-mine: #54625b;
+  --color-rule: #dce4dd;
+  --color-brand: #0a5c3e;
+  --color-brand-deep: #084a32;
+  --color-debit: #9e2b1f;
+  --color-gold: #c9a227;
+  --color-gold-ink: #7a6017;
+  --color-gold-wash: #f5e7b2;
+  --color-tint-green: #e9f3ee;
+  --color-tint-gold: #fbf4dc;
+  --color-tint-red: #f9ecea;
+
+  --font-display: var(--font-besley), Georgia, serif;
+  --font-sans: var(--font-plex-sans), system-ui, sans-serif;
+  --font-mono: var(--font-plex-mono), ui-monospace, monospace;
+
+  --shadow-float: 0 8px 24px rgba(21, 33, 25, 0.08);
+}
+
+body {
+  background-color: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Every figure on this site is tabular. */
+.font-mono {
+  font-variant-numeric: tabular-nums;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-brand);
+  outline-offset: 2px;
+}
+
+::selection {
+  background: var(--color-gold-wash);
+  color: var(--color-ink);
+}
+
+/* Dotted leaders between a ledger label and its amount. */
+.leaders {
+  flex: 1;
+  min-width: 1.5rem;
+  margin: 0 0.5rem;
+  border-bottom: 2px dotted var(--color-rule);
+  transform: translateY(-0.35em);
+}
+
+/* The accountant's double rule — drawn under a settled total. */
+.double-rule {
+  border-bottom: 4px double var(--color-ink);
+}
+
+/* 45° gold hatching = recoverable potential (vs solid green = realised). */
+.hatch-gold {
+  background-image: repeating-linear-gradient(
+    45deg,
+    var(--color-gold) 0,
+    var(--color-gold) 1px,
+    transparent 1px,
+    transparent 5px
+  );
+}
+
+@keyframes settle-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-settle {
+  animation: settle-in 0.5s ease-out both;
+}
+
+@keyframes stamp-in {
+  from {
+    opacity: 0;
+    transform: rotate(-2deg) scale(1.05);
+  }
+  to {
+    opacity: 1;
+    transform: rotate(0deg) scale(1);
+  }
+}
+
+.animate-stamp {
+  animation: stamp-in 0.25s ease-out both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-settle,
+  .animate-stamp {
+    animation: none;
+  }
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
