@@ -13,10 +13,24 @@ export async function generateMetadata({
   const { locale } = await params;
   if (!isLocale(locale)) return {};
   const meta = getMeta(locale);
+  const url = href(locale, "home");
   return {
     title: { absolute: meta.title },
     description: meta.description,
     alternates: { languages: { fr: href("fr", "home"), en: href("en", "home") } },
+    openGraph: {
+      title: meta.title,
+      description: meta.description,
+      url,
+      siteName: "FiscalPlace",
+      locale: locale === "fr" ? "fr_FR" : "en_GB",
+      type: "website",
+    },
+    twitter: {
+      card: "summary",
+      title: meta.title,
+      description: meta.description,
+    },
   };
 }
 

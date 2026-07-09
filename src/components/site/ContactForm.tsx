@@ -8,9 +8,10 @@ import { Badge, Button, Card, TrustLine } from "@/components/ui/primitives";
 
 /**
  * Contact form — client component. Submission is mocked for launch (no
- * backend): validation runs, then a confirmation panel is shown, carrying
- * the same action name as the submit button ("Message envoyé" / "Message
- * sent") plus the direct-email fallback so nobody is left without a route.
+ * backend): validation runs, then the form honestly explains that no
+ * delivery service is connected yet — instead of a fake success message
+ * promising a reply — and points to the direct-email fallback so nobody is
+ * left without a route.
  */
 
 type SubjectKey = "claim" | "partner" | "press" | "other";
@@ -36,12 +37,10 @@ interface FormCopy {
   sent: {
     badge: string;
     title: string;
-    bodyBefore: string;
-    bodyAfter: string;
-    subjectLine: string;
+    body: string;
     fallbackBefore: string;
     fallbackAfter: string;
-    again: string;
+    back: string;
   };
 }
 
@@ -74,15 +73,12 @@ const copy: Localized<FormCopy> = {
     },
     submit: "Envoyer le message",
     sent: {
-      badge: "Envoyé",
-      title: "Message envoyé",
-      bodyBefore: "Nous vous répondons sous 2 jours ouvrés à",
-      bodyAfter:
-        "— une vraie réponse, pas un accusé de réception automatique. Si la question dépasse notre périmètre, nous vous le dirons aussi.",
-      subjectLine: "Sujet",
-      fallbackBefore: "Pas de réponse sous 2 jours ouvrés ? Écrivez directement à",
-      fallbackAfter: "et mentionnez ce premier message.",
-      again: "Envoyer un autre message",
+      badge: "Pas encore branché",
+      title: "Ce formulaire ne transmet rien pour l'instant",
+      body: "Vos informations sont valides, mais aucun service d'envoi n'est encore branché derrière ce formulaire : ce message n'a pas été transmis.",
+      fallbackBefore: "Pour nous contacter dès maintenant, écrivez directement à",
+      fallbackAfter: "en précisant votre sujet.",
+      back: "Revenir au formulaire",
     },
   },
   en: {
@@ -113,15 +109,12 @@ const copy: Localized<FormCopy> = {
     },
     submit: "Send the message",
     sent: {
-      badge: "Sent",
-      title: "Message sent",
-      bodyBefore: "We will reply within 2 business days at",
-      bodyAfter:
-        "— a real answer, not an automated acknowledgement. If your question is outside our scope, we will say that too.",
-      subjectLine: "Subject",
-      fallbackBefore: "No reply within 2 business days? Email us directly at",
-      fallbackAfter: "and mention this first message.",
-      again: "Send another message",
+      badge: "Not wired up yet",
+      title: "This form does not send anything yet",
+      body: "Your details are valid, but no delivery service is connected behind this form yet: this message was not sent.",
+      fallbackBefore: "To reach us right now, email us directly at",
+      fallbackAfter: "with your subject.",
+      back: "Back to the form",
     },
   },
 };
@@ -171,15 +164,9 @@ export function ContactForm({ locale }: { locale: Locale }) {
   if (submitted) {
     return (
       <div role="status" className="animate-stamp rounded-[6px] border border-rule bg-white p-5 sm:p-8">
-        <Badge tone="green">{t.sent.badge}</Badge>
+        <Badge tone="gold">{t.sent.badge}</Badge>
         <h2 className="mt-3 font-display text-2xl font-semibold text-ink">{t.sent.title}</h2>
-        <p className="mt-3 max-w-[62ch] text-[15px] leading-relaxed text-mine">
-          {t.sent.bodyBefore} <span className="font-mono text-ink">{email.trim()}</span>{" "}
-          {t.sent.bodyAfter}
-        </p>
-        <p className="mt-3 font-mono text-[13px] text-mine">
-          {t.sent.subjectLine} · {t.fields.subject.options[subject]}
-        </p>
+        <p className="mt-3 max-w-[62ch] text-[15px] leading-relaxed text-mine">{t.sent.body}</p>
         <p className="mt-4 max-w-[62ch] text-[15px] leading-relaxed text-mine">
           {t.sent.fallbackBefore}{" "}
           <a
@@ -192,7 +179,7 @@ export function ContactForm({ locale }: { locale: Locale }) {
         </p>
         <div className="mt-5">
           <Button variant="secondary" onClick={reset}>
-            {t.sent.again}
+            {t.sent.back}
           </Button>
         </div>
       </div>

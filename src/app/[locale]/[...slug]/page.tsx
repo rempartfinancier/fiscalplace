@@ -113,6 +113,7 @@ export async function generateMetadata({
     en: altHrefFor("fr", resolution),
   };
   // altHrefFor(locale) returns the OTHER locale's URL, so swap arguments above.
+  const ogLocale = locale === "fr" ? "fr_FR" : "en_GB";
   if (resolution.kind === "static") {
     // Portal modules are client components: never call their exports here.
     if (ROUTES[resolution.key].section === "portal") {
@@ -124,19 +125,57 @@ export async function generateMetadata({
     }
     const mod = await PAGES[resolution.key]();
     const meta = mod.getMeta(locale);
+    const url = href(locale, resolution.key);
     return {
       title: meta.title,
       description: meta.description,
       alternates: { languages },
+      openGraph: {
+        title: meta.title,
+        description: meta.description,
+        url,
+        siteName: "FiscalPlace",
+        locale: ogLocale,
+        type: "website",
+      },
+      twitter: { card: "summary", title: meta.title, description: meta.description },
     };
   }
   if (resolution.kind === "country") {
     const meta = getCountryMeta(locale, resolution.country);
-    return { title: meta.title, description: meta.description, alternates: { languages } };
+    const url = countryHref(locale, resolution.country.slug[locale]);
+    return {
+      title: meta.title,
+      description: meta.description,
+      alternates: { languages },
+      openGraph: {
+        title: meta.title,
+        description: meta.description,
+        url,
+        siteName: "FiscalPlace",
+        locale: ogLocale,
+        type: "website",
+      },
+      twitter: { card: "summary", title: meta.title, description: meta.description },
+    };
   }
   if (resolution.kind === "article") {
     const meta = getArticleMeta(locale, resolution.article);
-    return { title: meta.title, description: meta.description, alternates: { languages } };
+    const url = articleHref(locale, resolution.article.slug[locale]);
+    return {
+      title: meta.title,
+      description: meta.description,
+      alternates: { languages },
+      openGraph: {
+        title: meta.title,
+        description: meta.description,
+        url,
+        siteName: "FiscalPlace",
+        locale: ogLocale,
+        type: "article",
+      },
+      twitter: { card: "summary", title: meta.title, description: meta.description },
+    };
   }
   const t = getPortalStrings(locale);
   return { title: `${t.common.claim} ${resolution.claim.id}`, robots: { index: false } };
