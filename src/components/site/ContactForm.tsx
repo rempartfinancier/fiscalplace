@@ -34,7 +34,14 @@ interface FormCopy {
     summary: string;
   };
   submit: string;
+  sending: string;
   sent: {
+    badge: string;
+    title: string;
+    body: string;
+    back: string;
+  };
+  failed: {
     badge: string;
     title: string;
     body: string;
@@ -72,10 +79,17 @@ const copy: Localized<FormCopy> = {
       summary: "Le formulaire contient des erreurs : corrigez les champs signalés ci-dessus.",
     },
     submit: "Envoyer le message",
+    sending: "Envoi en cours…",
     sent: {
-      badge: "Pas encore branché",
-      title: "Ce formulaire ne transmet rien pour l'instant",
-      body: "Vos informations sont valides, mais aucun service d'envoi n'est encore branché derrière ce formulaire : ce message n'a pas été transmis.",
+      badge: "Message envoyé",
+      title: "Votre message a bien été transmis",
+      body: "Merci, nous revenons vers vous rapidement.",
+      back: "Revenir au formulaire",
+    },
+    failed: {
+      badge: "Échec de l'envoi",
+      title: "Ce message n'a pas pu être transmis",
+      body: "Une erreur technique a empêché l'envoi. Vos informations n'ont pas été perdues, mais rien n'a été transmis.",
       fallbackBefore: "Pour nous contacter dès maintenant, écrivez directement à",
       fallbackAfter: "en précisant votre sujet.",
       back: "Revenir au formulaire",
@@ -108,10 +122,17 @@ const copy: Localized<FormCopy> = {
       summary: "The form has errors: please fix the highlighted fields above.",
     },
     submit: "Send the message",
+    sending: "Sending…",
     sent: {
-      badge: "Not wired up yet",
-      title: "This form does not send anything yet",
-      body: "Your details are valid, but no delivery service is connected behind this form yet: this message was not sent.",
+      badge: "Message sent",
+      title: "Your message has been sent",
+      body: "Thanks, we'll get back to you shortly.",
+      back: "Back to the form",
+    },
+    failed: {
+      badge: "Delivery failed",
+      title: "This message could not be sent",
+      body: "A technical error prevented delivery. Your details were not lost, but nothing was sent.",
       fallbackBefore: "To reach us right now, email us directly at",
       fallbackAfter: "with your subject.",
       back: "Back to the form",
@@ -136,7 +157,7 @@ export function ContactForm({ locale }: { locale: Locale }) {
   const [subject, setSubject] = useState<SubjectKey>("claim");
   const [message, setMessage] = useState("");
   const [errors, setErrors] = useState<FieldErrors>({});
-  const [submitted, setSubmitted] = useState(false);
+  const [status, setStatus] = useState<"idle" | "sending" | "sent" | "failed">("idle");
 
   function validate(): FieldErrors {
     const next: FieldErrors = {};
@@ -146,40 +167,53 @@ export function ContactForm({ locale }: { locale: Locale }) {
     return next;
   }
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     const next = validate();
     setErrors(next);
-    if (Object.keys(next).length === 0) {
-      setSubmitted(true);
+    if (Object.keys(next).length > 0) return;
+
+    setStatus("sending");
+    try {
+      const res = await fetch("/api/lead", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name: name.trim(), email: email.trim(), subject, message: message.trim() }),
+      });
+      setStatus(res.ok ? "sent" : "failed");
+    } catch {
+      setStatus("failed");
     }
   }
 
   function reset() {
-    setSubmitted(false);
+    setStatus("idle");
     setMessage("");
     setErrors({});
   }
 
-  if (submitted) {
+  if (status === "sent" || status === "failed") {
+    const c = status === "sent" ? t.sent : t.failed;
     return (
       <div role="status" className="animate-stamp rounded-[6px] border border-rule bg-white p-5 sm:p-8">
-        <Badge tone="gold">{t.sent.badge}</Badge>
-        <h2 className="mt-3 font-display text-2xl font-semibold text-ink">{t.sent.title}</h2>
-        <p className="mt-3 max-w-[62ch] text-[15px] leading-relaxed text-mine">{t.sent.body}</p>
-        <p className="mt-4 max-w-[62ch] text-[15px] leading-relaxed text-mine">
-          {t.sent.fallbackBefore}{" "}
-          <a
-            href={`mailto:${CONTACT_EMAIL}`}
-            className="font-mono text-brand underline underline-offset-4"
-          >
-            {CONTACT_EMAIL}
-          </a>{" "}
-          {t.sent.fallbackAfter}
-        </p>
+        <Badge tone={status === "sent" ? "gold" : "red"}>{c.badge}</Badge>
+        <h2 className="mt-3 font-display text-2xl font-semibold text-ink">{c.title}</h2>
+        <p className="mt-3 max-w-[62ch] text-[15px] leading-relaxed text-mine">{c.body}</p>
+        {status === "failed" && (
+          <p className="mt-4 max-w-[62ch] text-[15px] leading-relaxed text-mine">
+            {t.failed.fallbackBefore}{" "}
+            <a
+              href={`mailto:${CONTACT_EMAIL}`}
+              className="font-mono text-brand underline underline-offset-4"
+            >
+              {CONTACT_EMAIL}
+            </a>{" "}
+            {t.failed.fallbackAfter}
+          </p>
+        )}
         <div className="mt-5">
           <Button variant="secondary" onClick={reset}>
-            {t.sent.back}
+            {c.back}
           </Button>
         </div>
       </div>
@@ -287,7 +321,9 @@ export function ContactForm({ locale }: { locale: Locale }) {
         )}
 
         <div className="mt-5 flex flex-col items-start gap-2">
-          <Button type="submit">{t.submit}</Button>
+          <Button type="submit" disabled={status === "sending"}>
+            {status === "sending" ? t.sending : t.submit}
+          </Button>
           <TrustLine text={common.trustLine} />
         </div>
       </form>
