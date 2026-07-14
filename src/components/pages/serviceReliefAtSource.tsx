@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/primitives";
 import { LedgerEntry } from "@/components/ui/ledger";
 import { FAQAccordion, type FAQItem } from "@/components/ui/FAQAccordion";
+import { LeadCaptureButton } from "@/components/site/LeadCaptureButton";
 
 /* ------------------------------------------------------------------ */
 /* Copy                                                                */
@@ -41,6 +42,7 @@ interface BridgeItem {
 interface ReliefCopy {
   metaTitle: string;
   metaDescription: string;
+  leadServiceLabel: string;
   hero: {
     kicker: string;
     h1: string;
@@ -113,6 +115,7 @@ const copy: Localized<ReliefCopy> = {
       "Relief at source : le taux conventionnel appliqué dès le versement, pays par pays",
     metaDescription:
       "Le relief at source, c'est le bon taux de retenue appliqué au moment où le dividende tombe — rien à récupérer ensuite. Nous mettons en place les documents pays par pays, à forfait, et nous vous disons honnêtement où le mécanisme n'existe pas.",
+    leadServiceLabel: "Relief at source",
     hero: {
       kicker: "Service à forfait · relief at source",
       h1: "Le meilleur trop-perçu est celui qu'on ne vous prélève jamais.",
@@ -263,6 +266,7 @@ const copy: Localized<ReliefCopy> = {
       "Relief at source: the treaty rate applied at payment time, country by country",
     metaDescription:
       "Relief at source means the right withholding rate applied the moment the dividend lands — nothing to claw back afterwards. We set up the documents country by country, at fixed fees, and tell you honestly where the mechanism does not exist.",
+    leadServiceLabel: "Relief at source",
     hero: {
       kicker: "Fixed-fee service · relief at source",
       h1: "The best over-withholding is the kind that never gets taken.",
@@ -468,9 +472,9 @@ export default function Page({ locale }: { locale: Locale }) {
             </h1>
             <p className="mt-5 max-w-[58ch] text-[17px] leading-relaxed text-mine">{t.hero.sub}</p>
             <div className="mt-7 flex flex-wrap items-center gap-3">
-              <ButtonLink href={href(locale, "portalOnboarding")}>
+              <LeadCaptureButton serviceLabel={t.leadServiceLabel}>
                 {common.cta.openAccount}
-              </ButtonLink>
+              </LeadCaptureButton>
               <ButtonLink href={href(locale, "serviceRecovery")} variant="ghost">
                 {t.hero.secondary}
               </ButtonLink>
@@ -666,9 +670,9 @@ export default function Page({ locale }: { locale: Locale }) {
         <Container className="py-16 text-center sm:py-20">
           <SectionHeading center title={t.finalCta.title} lede={t.finalCta.lede} />
           <div className="mt-7 flex flex-col items-center gap-3">
-            <ButtonLink href={href(locale, "portalOnboarding")}>
+            <LeadCaptureButton serviceLabel={t.leadServiceLabel}>
               {common.cta.openAccount}
-            </ButtonLink>
+            </LeadCaptureButton>
             <TrustLine text={common.trustLine} />
             <ButtonLink variant="ghost" href={href(locale, "contact")}>
               {common.cta.contactUs}

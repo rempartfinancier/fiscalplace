@@ -24,6 +24,12 @@ import { PRICING } from "@/config/pricing";
 import { getCommon } from "@/content/common";
 import { ButtonLink, Card, TrustLine } from "@/components/ui/primitives";
 import { DoubleRule, LedgerEntry, LedgerLine } from "@/components/ui/ledger";
+import { LeadCaptureButton } from "./LeadCaptureButton";
+
+const LEAD_SERVICE_LABEL: Localized<string> = {
+  fr: "Simulateur — ouverture de dossier",
+  en: "Simulator — opening a claim",
+};
 
 /**
  * The public refund simulator — self-service tool #1.
@@ -288,6 +294,11 @@ export function SimulatorTool({ locale }: { locale: Locale }) {
     residence === "OTHER"
       ? `${t.results.treatyRefGeneric} · ${formatPercent(result.treatyRate, locale, 3)}`
       : `${t.results.treatyRefPrefix} ${residence}-${country.id} · ${formatPercent(result.treatyRate, locale, 3)}`;
+
+  const leadDetail =
+    locale === "fr"
+      ? `Pays source : ${country.name.fr} · Résidence : ${RESIDENCE_LABELS[residence].fr} · Dividendes bruts simulés : ${formatCurrency(gross, locale)} · Trop-perçu estimé : ${formatCurrency(result.recoverable, locale)} (net après commission : ${formatCurrency(result.netToClient, locale)})`
+      : `Source country: ${country.name.en} · Residence: ${RESIDENCE_LABELS[residence].en} · Simulated gross dividends: ${formatCurrency(gross, locale)} · Estimated over-withholding: ${formatCurrency(result.recoverable, locale)} (net after fee: ${formatCurrency(result.netToClient, locale)})`;
 
   return (
     <section aria-label={t.results.heading}>
@@ -596,9 +607,9 @@ export function SimulatorTool({ locale }: { locale: Locale }) {
 
             <div>
               <div className="flex flex-col items-start gap-3 sm:flex-row sm:items-center">
-                <ButtonLink href={href(locale, "portalOnboarding")}>
+                <LeadCaptureButton serviceLabel={LEAD_SERVICE_LABEL[locale]} detail={leadDetail}>
                   {common.cta.openAccount}
-                </ButtonLink>
+                </LeadCaptureButton>
                 <ButtonLink
                   variant="ghost"
                   href={countryHref(locale, country.slug[locale])}

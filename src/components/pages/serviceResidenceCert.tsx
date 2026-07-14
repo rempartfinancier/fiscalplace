@@ -15,6 +15,7 @@ import {
   TrustLine,
 } from "@/components/ui/primitives";
 import { FAQAccordion, type FAQItem } from "@/components/ui/FAQAccordion";
+import { LeadCaptureButton } from "@/components/site/LeadCaptureButton";
 
 /* ------------------------------------------------------------------ */
 /* Copy                                                                */
@@ -39,6 +40,7 @@ interface BridgeItem {
 interface CertCopy {
   metaTitle: (price: string) => string;
   metaDescription: (price: string) => string;
+  leadServiceLabel: string;
   hero: {
     kicker: string;
     h1: string;
@@ -98,6 +100,7 @@ const copy: Localized<CertCopy> = {
       `Certificat de résidence fiscale pour ${price} : le document qui débloque vos remboursements | FiscalPlace`,
     metaDescription: (price) =>
       `Aucune administration étrangère ne rembourse sans preuve de votre résidence fiscale. Nous préparons le bon formulaire, au bon millésime, prêt à faire viser par votre centre des impôts — forfait de ${price}.`,
+    leadServiceLabel: "Certificat de résidence fiscale",
     hero: {
       kicker: "Service à forfait · certificat de résidence",
       h1: "Le document sans lequel aucun fisc étranger ne vous remboursera — préparé sans aller-retour ni case ratée.",
@@ -241,6 +244,7 @@ const copy: Localized<CertCopy> = {
       `Certificate of tax residence for ${price}: the document that unlocks your refunds | FiscalPlace`,
     metaDescription: (price) =>
       `No foreign administration refunds anything without proof of your tax residence. We prepare the right form, for the right year, ready for your tax office to stamp — a ${price} fixed fee.`,
+    leadServiceLabel: "Certificate of tax residence",
     hero: {
       kicker: "Fixed-fee service · residence certificate",
       h1: "The document no foreign tax authority will refund you without — prepared with no back-and-forth and no missed box.",
@@ -424,9 +428,9 @@ export default function Page({ locale }: { locale: Locale }) {
               {t.hero.sub(fc(PRICING.fixedServices.residenceCertificate))}
             </p>
             <div className="mt-7 flex flex-wrap items-center gap-3">
-              <ButtonLink href={href(locale, "portalOnboarding")}>
+              <LeadCaptureButton serviceLabel={t.leadServiceLabel}>
                 {common.cta.openAccount}
-              </ButtonLink>
+              </LeadCaptureButton>
               <ButtonLink href={href(locale, "serviceRecovery")} variant="ghost">
                 {t.hero.secondary}
               </ButtonLink>
@@ -572,9 +576,9 @@ export default function Page({ locale }: { locale: Locale }) {
         <Container className="py-16 text-center sm:py-20">
           <SectionHeading center title={t.finalCta.title} lede={t.finalCta.lede} />
           <div className="mt-7 flex flex-col items-center gap-3">
-            <ButtonLink href={href(locale, "portalOnboarding")}>
+            <LeadCaptureButton serviceLabel={t.leadServiceLabel}>
               {common.cta.openAccount}
-            </ButtonLink>
+            </LeadCaptureButton>
             <TrustLine text={common.trustLine} />
             <ButtonLink variant="ghost" href={href(locale, "contact")}>
               {common.cta.contactUs}

@@ -16,8 +16,16 @@ import { fiscalplaceVsBroker } from "./fiscalplace-vs-broker";
 import { bestCountriesFrenchResident } from "./best-countries-french-resident";
 import { solRankingByCountry } from "./sol-ranking-by-country";
 import { w8benExplained } from "./w8ben-explained";
+import { w8benVsW8beneVsW9 } from "./w8ben-vs-w8bene-vs-w9";
+import { nothingToRecover } from "./nothing-to-recover";
+import { formsByCountry } from "./forms-by-country";
 
 export const ARTICLES: Article[] = [
+  w8benVsW8beneVsW9,
+  nothingToRecover,
+  formsByCountry,
+  bestCountriesFrenchResident,
+  solRankingByCountry,
   costOfRecovery,
   whyNoPublicPricing,
   rejectionReasons,
@@ -25,8 +33,6 @@ export const ARTICLES: Article[] = [
   brokerWontTellYou,
   diyVsDelegate,
   fiscalplaceVsBroker,
-  bestCountriesFrenchResident,
-  solRankingByCountry,
   w8benExplained,
 ];
 

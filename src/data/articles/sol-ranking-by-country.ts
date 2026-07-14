@@ -1,6 +1,7 @@
 import { formatCurrency, formatDate, type Locale, type Localized } from "@/lib/i18n";
 import { articleHref, countryHref, href } from "@/lib/routes";
 import {
+  COUNTRIES,
   getCountryById,
   solDeadline,
   type CountryTaxProfile,
@@ -18,19 +19,20 @@ import type { Article, ArticleBlock } from "./types";
  */
 
 const ca = getCountryById("CA")!;
-const us = getCountryById("US")!;
 const ch = getCountryById("CH")!;
-const nl = getCountryById("NL")!;
 const de = getCountryById("DE")!;
 const ie = getCountryById("IE")!;
-const gb = getCountryById("GB")!;
-const au = getCountryById("AU")!;
-const jp = getCountryById("JP")!;
 const at = getCountryById("AT")!;
 const se = getCountryById("SE")!;
+const be = getCountryById("BE")!;
+const es = getCountryById("ES")!;
+const fi = getCountryById("FI")!;
+const no = getCountryById("NO")!;
+const pt = getCountryById("PT")!;
+const us = getCountryById("US")!;
 
-/** Ranked from the shortest window to the most comfortable. */
-const ranked: CountryTaxProfile[] = [ca, us, ch, nl, de, ie, gb, au, jp, at, se];
+/** Ranked from the shortest window to the most comfortable (auto-scales with the panel). */
+const ranked: CountryTaxProfile[] = [...COUNTRIES].sort((a, b) => a.sol.years - b.sol.years);
 
 const eur = (amount: number, locale: Locale) => formatCurrency(amount, locale);
 
@@ -88,6 +90,38 @@ const TABLE_NOTES: Record<string, Localized<string>> = {
     fr: `À confirmer lors du diagnostic ; administration réputée réactive`,
     en: `To be confirmed at diagnostic stage; a famously responsive administration`,
   },
+  IT: {
+    fr: `48 mois date par date ; l'instruction la plus lente du panel — plusieurs années fréquentes`,
+    en: `48 months, date by date; the panel's slowest processing — multi-year waits are common`,
+  },
+  ES: {
+    fr: `Décompte lié à la période de dépôt du Modelo 210 — à confirmer`,
+    en: `Count tied to the Modelo 210 filing window — to be confirmed`,
+  },
+  BE: {
+    fr: `Décompte depuis le 1er janvier de l'année du prélèvement — les distraits y perdent un an`,
+    en: `Counted from 1 January of the withholding year — the inattentive lose a year`,
+  },
+  DK: {
+    fr: `Depuis le prélèvement — à confirmer ; documentation renforcée depuis les fraudes`,
+    en: `From the withholding date — to be confirmed; tightened checks since the frauds`,
+  },
+  NO: {
+    fr: `À confirmer ; le taux réduit à la source est une vraie option si documenté à l'avance`,
+    en: `To be confirmed; relief at source is a real option when documented in advance`,
+  },
+  FI: {
+    fr: `Les 3 années civiles suivant l'année du versement ; 0 % dû par un résident de France`,
+    en: `The 3 calendar years after the payment year; 0% owed by a French resident`,
+  },
+  PT: {
+    fr: `Aussi court que le Canada — la prévention (21-RFI) vaut mieux que la course`,
+    en: `As short as Canada — prevention (21-RFI) beats the race`,
+  },
+  FR: {
+    fr: `Jusqu'au 31 décembre de la 2e année suivante ; rien à récupérer dans le cas standard`,
+    en: `Until 31 December of the 2nd following year; nothing to recover in the standard case`,
+  },
 };
 
 const rankingRows = (locale: Locale): string[][] =>
@@ -106,7 +140,7 @@ const usDeadlineIso = isoOf(solDeadline(us, EXAMPLE_PAYMENT)); // payment date +
 
 /* The 31 December cliff: dividend years expiring at the end of CLIFF_YEAR. */
 const CLIFF_YEAR = 2026;
-const cliffCountries = [ca, ch, de, ie, at, se];
+const cliffCountries = [ca, pt, fi, ch, be, es, de, ie, at, se, no];
 const cliffItems = (locale: Locale): string[] =>
   cliffCountries.map((c) =>
     locale === "fr"
@@ -131,7 +165,7 @@ const BEST_COUNTRIES_SLUG = {
 const frContent: ArticleBlock[] = [
   {
     type: "p",
-    text: `Un trop-perçu de retenue à la source ne vous attend pas indéfiniment : chaque pays fixe un délai de prescription au-delà duquel votre droit s'éteint — définitivement, sans recours ni exception. Ces délais vont du simple au plus du double : ${yearsLabel(ca, "fr")} au Canada, ${yearsLabel(at, "fr")} en Autriche, en Suède ou au Japon. Voici le classement complet, les règles de décompte qui changent tout, et l'ordre dans lequel déposer quand plusieurs pays s'accumulent.`,
+    text: `Un trop-perçu de retenue à la source ne vous attend pas indéfiniment : chaque pays fixe un délai de prescription au-delà duquel votre droit s'éteint — définitivement, sans recours ni exception. Ces délais vont du simple au plus du double : ${yearsLabel(ca, "fr")} au Canada ou au Portugal, ${yearsLabel(at, "fr")} en Autriche, en Suède, au Japon ou en Norvège. Voici le classement complet des ${COUNTRIES.length} pays couverts, les règles de décompte qui changent tout, et l'ordre dans lequel déposer quand plusieurs pays s'accumulent.`,
   },
   {
     type: "p",
@@ -149,7 +183,7 @@ const frContent: ArticleBlock[] = [
   { type: "h2", text: `Le classement, du couperet le plus court au plus confortable` },
   {
     type: "table",
-    caption: `Délais de prescription pour une demande standard de remboursement — règles générales, indicatives. Données revues en juin 2026.`,
+    caption: `Délais de prescription pour une demande standard de remboursement — règles générales, indicatives. Données revues mi-2026.`,
     headers: [`Délai`, `Pays`, `Décompte`, `À savoir`],
     rows: rankingRows("fr"),
   },
@@ -165,16 +199,16 @@ const frContent: ArticleBlock[] = [
   { type: "ul", items: cliffItems("fr") },
   {
     type: "p",
-    text: `(Le Royaume-Uni et l'Australie suivent leurs années fiscales décalées — 5 avril et 30 juin — et les Pays-Bas relèvent du cas « rien à récupérer » pour la plupart des particuliers.) C'est pour cela que le quatrième trimestre est la haute saison du métier — et que déposer en novembre un dossier qui pouvait l'être en juin est le moyen le plus sûr de le faire traiter dans l'urgence.`,
+    text: `(Le Royaume-Uni et l'Australie suivent leurs années fiscales décalées — 5 avril et 30 juin — et les Pays-Bas comme la France relèvent du cas « rien à récupérer » pour la plupart des particuliers.) C'est pour cela que le quatrième trimestre est la haute saison du métier — et que déposer en novembre un dossier qui pouvait l'être en juin est le moyen le plus sûr de le faire traiter dans l'urgence.`,
   },
   { type: "h2", text: `Dans quel ordre déposer : la stratégie par urgence` },
   {
     type: "ol",
     items: [
-      `**Le [Canada](${countryHref("fr", ca.slug.fr)}) d'abord, toujours.** Avec ${yearsLabel(ca, "fr")} après la fin de l'année civile, c'est mécaniquement le premier dossier à mourir — et la procédure papier NR7-R ajoute son propre délai de traitement.`,
+      `**Le [Canada](${countryHref("fr", ca.slug.fr)}) et le [Portugal](${countryHref("fr", pt.slug.fr)}) d'abord, toujours.** Avec ${yearsLabel(ca, "fr")} après la fin de l'année civile, ce sont mécaniquement les premiers dossiers à mourir — et la procédure papier (NR7-R canadien, 22-RFI portugais) ajoute son propre délai de traitement.`,
       `**Puis tout ce qui expire au prochain 31 décembre.** Listez vos échéances exactes avec le [calculateur de prescription](${href("fr", "solCalculator")}) : une année de dividendes suisses, allemands ou irlandais peut tomber d'un bloc.`,
       `**Les États-Unis au fil de l'eau.** Le décompte à date anniversaire répartit les échéances sur l'année : traitez versement par versement — en gardant en tête que la plupart des cas américains sont préventifs (W-8BEN) plutôt que rétroactifs.`,
-      `**Les pays à ${yearsLabel(at, "fr")} en dernier — mais pas en année 5.** Autriche, Suède et Japon laissent du temps ; le consommer entièrement n'est pas gratuit : les justificatifs vieillissent, les comptes se ferment, et l'instruction s'ajoute au délai. Notre pratique : ne jamais viser volontairement la dernière année.`,
+      `**Les pays à ${yearsLabel(at, "fr")} en dernier — mais pas en année 5.** Autriche, Suède, Japon et Norvège laissent du temps ; le consommer entièrement n'est pas gratuit : les justificatifs vieillissent, les comptes se ferment, et l'instruction s'ajoute au délai. Notre pratique : ne jamais viser volontairement la dernière année.`,
     ],
   },
   {
@@ -193,7 +227,7 @@ const frContent: ArticleBlock[] = [
     items: [
       {
         question: `Le délai court-il depuis la date du dividende ou depuis la fin de l'année ?`,
-        answer: `Selon le pays : la plupart comptent depuis la fin de l'année civile du versement (Canada, Suisse, Allemagne, Irlande, Autriche, Suède…), d'autres depuis le versement lui-même (États-Unis en règle simplifiée, Japon depuis le lendemain). C'est précisément cette règle, pays par pays, que le calculateur applique pour vous.`,
+        answer: `Selon le pays : la plupart comptent depuis la fin de l'année civile du versement (Canada, Suisse, Allemagne, Irlande, Autriche, Suède, Finlande, Portugal…), d'autres depuis le versement lui-même (États-Unis en règle simplifiée, Italie, Danemark, Japon depuis le lendemain). C'est précisément cette règle, pays par pays, que le calculateur applique pour vous.`,
       },
       {
         question: `Puis-je encore déposer à quelques semaines de l'échéance ?`,
@@ -205,7 +239,7 @@ const frContent: ArticleBlock[] = [
       },
       {
         question: `Les délais peuvent-ils changer ?`,
-        answer: `Oui : ce sont des règles nationales, que chaque législateur peut modifier — la Suisse a bien rendu son dépôt électronique obligatoire en 2025. Les délais de cette page sont les règles générales revues en juin 2026 ; certains cas particuliers (année fiscale décalée, statut spécifique) suivent d'autres décomptes, vérifiés au diagnostic.`,
+        answer: `Oui : ce sont des règles nationales, que chaque législateur peut modifier — la Suisse a bien rendu son dépôt électronique obligatoire en 2025. Les délais de cette page sont les règles générales revues mi-2026 ; certains cas particuliers (année fiscale décalée, statut spécifique) suivent d'autres décomptes, vérifiés au diagnostic.`,
       },
       {
         question: `Que devient un dossier déposé à temps mais rejeté pour une erreur ?`,
@@ -223,7 +257,7 @@ const frContent: ArticleBlock[] = [
 const enContent: ArticleBlock[] = [
   {
     type: "p",
-    text: `Over-withheld tax does not wait for you forever: every country sets a statute of limitations beyond which your right lapses — permanently, with no appeal and no exception. The windows range from short to more than double: ${yearsLabel(ca, "en")} in Canada, ${yearsLabel(at, "en")} in Austria, Sweden or Japan. Here is the full ranking, the counting rules that change everything, and the order in which to file when several countries pile up.`,
+    text: `Over-withheld tax does not wait for you forever: every country sets a statute of limitations beyond which your right lapses — permanently, with no appeal and no exception. The windows range from short to more than double: ${yearsLabel(ca, "en")} in Canada or Portugal, ${yearsLabel(at, "en")} in Austria, Sweden, Japan or Norway. Here is the full ranking of all ${COUNTRIES.length} covered countries, the counting rules that change everything, and the order in which to file when several countries pile up.`,
   },
   {
     type: "p",
@@ -241,7 +275,7 @@ const enContent: ArticleBlock[] = [
   { type: "h2", text: `The ranking, from the sharpest guillotine to the most comfortable` },
   {
     type: "table",
-    caption: `Statutes of limitations for a standard refund claim — general, indicative rules. Data reviewed in June 2026.`,
+    caption: `Statutes of limitations for a standard refund claim — general, indicative rules. Data reviewed in mid-2026.`,
     headers: [`Window`, `Country`, `Counting rule`, `Worth knowing`],
     rows: rankingRows("en"),
   },
@@ -257,16 +291,16 @@ const enContent: ArticleBlock[] = [
   { type: "ul", items: cliffItems("en") },
   {
     type: "p",
-    text: `(The UK and Australia follow their shifted tax years — 5 April and 30 June — and the Netherlands mostly falls under "nothing to recover" for individuals.) This is why the fourth quarter is the trade's high season — and why filing in November what could have been filed in June is the surest way to have it handled in a rush.`,
+    text: `(The UK and Australia follow their shifted tax years — 5 April and 30 June — and the Netherlands, like France, mostly falls under "nothing to recover" for individuals.) This is why the fourth quarter is the trade's high season — and why filing in November what could have been filed in June is the surest way to have it handled in a rush.`,
   },
   { type: "h2", text: `In what order to file: the urgency strategy` },
   {
     type: "ol",
     items: [
-      `**[Canada](${countryHref("en", ca.slug.en)}) first, always.** With ${yearsLabel(ca, "en")} after the end of the calendar year, it is mechanically the first file to die — and the paper NR7-R procedure adds its own processing time.`,
+      `**[Canada](${countryHref("en", ca.slug.en)}) and [Portugal](${countryHref("en", pt.slug.en)}) first, always.** With ${yearsLabel(ca, "en")} after the end of the calendar year, they are mechanically the first files to die — and the paper procedures (Canada's NR7-R, Portugal's 22-RFI) add their own processing time.`,
       `**Then everything expiring next 31 December.** List your exact dates with the [deadline calculator](${href("en", "solCalculator")}): a whole year of Swiss, German or Irish dividends can drop off in one block.`,
       `**The United States as you go.** Anniversary counting spreads deadlines across the year: handle payment by payment — bearing in mind most US cases are preventive (W-8BEN) rather than retroactive.`,
-      `**The ${yearsLabel(at, "en")} countries last — but not in year five.** Austria, Sweden and Japan leave time; using all of it isn't free: evidence ages, accounts close, and processing time stacks on top. Our practice: never deliberately aim for the final year.`,
+      `**The ${yearsLabel(at, "en")} countries last — but not in year five.** Austria, Sweden, Japan and Norway leave time; using all of it isn't free: evidence ages, accounts close, and processing time stacks on top. Our practice: never deliberately aim for the final year.`,
     ],
   },
   {
@@ -285,7 +319,7 @@ const enContent: ArticleBlock[] = [
     items: [
       {
         question: `Does the clock run from the dividend date or from the end of the year?`,
-        answer: `It depends on the country: most count from the end of the calendar year of payment (Canada, Switzerland, Germany, Ireland, Austria, Sweden…), others from the payment itself (the US under the simplified rule, Japan from the day after). That country-by-country rule is exactly what the calculator applies for you.`,
+        answer: `It depends on the country: most count from the end of the calendar year of payment (Canada, Switzerland, Germany, Ireland, Austria, Sweden, Finland, Portugal…), others from the payment itself (the US under the simplified rule, Italy, Denmark, Japan from the day after). That country-by-country rule is exactly what the calculator applies for you.`,
       },
       {
         question: `Can I still file a few weeks before the deadline?`,
@@ -297,7 +331,7 @@ const enContent: ArticleBlock[] = [
       },
       {
         question: `Can the deadlines change?`,
-        answer: `Yes: these are national rules, and any legislature can amend them — Switzerland did make electronic filing mandatory in 2025. The windows on this page are the general rules as reviewed in June 2026; some special cases (shifted tax years, specific statuses) follow different counts, checked at diagnostic stage.`,
+        answer: `Yes: these are national rules, and any legislature can amend them — Switzerland did make electronic filing mandatory in 2025. The windows on this page are the general rules as reviewed in mid-2026; some special cases (shifted tax years, specific statuses) follow different counts, checked at diagnostic stage.`,
       },
       {
         question: `What happens to a claim filed on time but rejected over an error?`,
@@ -324,11 +358,31 @@ export const solRankingByCountry: Article = {
     en: "Statute of limitations: how long you have to claim, ranked by country",
   },
   description: {
-    fr: `Du Canada (${ca.sol.years} ans seulement) à l'Autriche, la Suède et le Japon (${at.sol.years} ans), le classement complet des délais de prescription — avec les deux règles de décompte, l'effet falaise du 31 décembre et l'ordre de dépôt qui en découle.`,
-    en: `From Canada (only ${ca.sol.years} years) to Austria, Sweden and Japan (${at.sol.years} years): the full ranking of claim deadlines — with both counting rules, the 31 December cliff, and the filing order that follows.`,
+    fr: `Du Canada et du Portugal (${ca.sol.years} ans seulement) à l'Autriche, la Suède, le Japon et la Norvège (${at.sol.years} ans), le classement complet des délais de prescription des ${COUNTRIES.length} pays couverts — avec les deux règles de décompte, l'effet falaise du 31 décembre et l'ordre de dépôt qui en découle.`,
+    en: `From Canada and Portugal (only ${ca.sol.years} years) to Austria, Sweden, Japan and Norway (${at.sol.years} years): claim deadlines ranked across all ${COUNTRIES.length} covered countries — with both counting rules, the 31 December cliff, and the filing order that follows.`,
   },
-  updated: "2026-07-08",
+  updated: "2026-07-12",
   readingMinutes: 9,
   content: { fr: frContent, en: enContent },
-  relatedCountries: ["CA", "US", "CH", "NL", "DE", "IE", "GB", "AU", "JP", "AT", "SE"],
+  relatedCountries: [
+    "CA",
+    "PT",
+    "US",
+    "CH",
+    "DK",
+    "FI",
+    "NL",
+    "DE",
+    "IE",
+    "GB",
+    "AU",
+    "BE",
+    "ES",
+    "IT",
+    "JP",
+    "AT",
+    "SE",
+    "NO",
+    "FR",
+  ],
 };

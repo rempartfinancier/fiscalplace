@@ -60,7 +60,7 @@ const copy: Localized<{
     tools: {
       kicker: "Self-service",
       title: "Les réponses les plus rapides ne sont pas des articles",
-      lede: "Avant de lire quoi que ce soit : deux outils gratuits donnent une réponse chiffrée à votre situation, en quelques minutes et sans créer de compte.",
+      lede: "Avant de lire quoi que ce soit : quatre outils gratuits donnent une réponse chiffrée à votre situation, en quelques minutes et sans créer de compte.",
       tag: "Gratuit · sans compte",
       open: "Ouvrir l'outil",
       items: [
@@ -75,6 +75,18 @@ const copy: Localized<{
           title: "Calculateur de prescription",
           description:
             "Chaque pays efface les trop-perçus passé son délai. Vérifiez ce qui reste récupérable dans votre historique — et ce qui expire bientôt.",
+        },
+        {
+          routeKey: "w8benChecker",
+          title: "Vérificateur W-8BEN",
+          description:
+            "Un W-8BEN expiré rebascule vos dividendes américains au taux plein, sans prévenir. La date d'expiration exacte du vôtre, en dix secondes.",
+        },
+        {
+          routeKey: "statementReader",
+          title: "Lecteur de relevé",
+          description:
+            "Collez une ligne de dividende telle quelle : pays, montants et taux réellement appliqué sont détectés, puis comparés à la convention. Verdict immédiat.",
         },
       ],
     },
@@ -124,7 +136,7 @@ const copy: Localized<{
     tools: {
       kicker: "Self-service",
       title: "The fastest answers aren't articles",
-      lede: "Before you read anything: two free tools give you a figure for your own situation, in minutes and without creating an account.",
+      lede: "Before you read anything: four free tools give you a figure for your own situation, in minutes and without creating an account.",
       tag: "Free · no account",
       open: "Open the tool",
       items: [
@@ -139,6 +151,18 @@ const copy: Localized<{
           title: "Deadline calculator",
           description:
             "Every country writes off over-withholding once its deadline passes. Check what is still recoverable in your history — and what expires soon.",
+        },
+        {
+          routeKey: "w8benChecker",
+          title: "W-8BEN checker",
+          description:
+            "An expired W-8BEN silently reverts your US dividends to the full rate. Your form's exact expiry date, in ten seconds.",
+        },
+        {
+          routeKey: "statementReader",
+          title: "Statement reader",
+          description:
+            "Paste a dividend line as is: country, amounts and the rate actually applied are detected, then compared with the treaty. Instant verdict.",
         },
       ],
     },

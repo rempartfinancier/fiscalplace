@@ -57,6 +57,16 @@ export const ROUTES = {
     en: ["tools", "deadline-calculator"],
     section: "tools",
   },
+  w8benChecker: {
+    fr: ["outils", "verificateur-w8ben"],
+    en: ["tools", "w-8ben-checker"],
+    section: "tools",
+  },
+  statementReader: {
+    fr: ["outils", "lecteur-de-releve"],
+    en: ["tools", "statement-reader"],
+    section: "tools",
+  },
   countries: { fr: ["pays"], en: ["countries"], section: "marketing" },
   resources: { fr: ["ressources"], en: ["resources"], section: "marketing" },
   comparison: { fr: ["comparatif"], en: ["compare"], section: "marketing" },

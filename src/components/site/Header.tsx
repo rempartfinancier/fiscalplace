@@ -2,10 +2,16 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import type { Locale } from "@/lib/i18n";
+import type { Locale, Localized } from "@/lib/i18n";
 import { href, type RouteKey } from "@/lib/routes";
 import { getCommon } from "@/content/common";
 import { ButtonLink } from "@/components/ui/primitives";
+import { useLeadCapture } from "./LeadCapture";
+
+const LOGIN_LEAD_LABEL: Localized<string> = {
+  fr: "Connexion à l'espace client",
+  en: "Client-area login",
+};
 
 function BrandMark({ locale }: { locale: Locale }) {
   return (
@@ -22,6 +28,8 @@ function BrandMark({ locale }: { locale: Locale }) {
 export function Header({ locale, altHref }: { locale: Locale; altHref: string }) {
   const t = getCommon(locale);
   const [open, setOpen] = useState(false);
+  const { openLeadCapture } = useLeadCapture();
+  const openLoginLead = () => openLeadCapture({ kind: "login", serviceLabel: LOGIN_LEAD_LABEL[locale] });
   const links: { key: RouteKey; label: string }[] = [
     { key: "howItWorks", label: t.nav.howItWorks },
     { key: "services", label: t.nav.services },
@@ -59,9 +67,13 @@ export function Header({ locale, altHref }: { locale: Locale; altHref: string })
           >
             {otherLocale}
           </Link>
-          <Link href={href(locale, "login")} className="text-[15px] text-ink hover:text-brand">
+          <button
+            type="button"
+            onClick={openLoginLead}
+            className="text-[15px] text-ink hover:text-brand"
+          >
             {t.nav.login}
-          </Link>
+          </button>
           <ButtonLink href={href(locale, "simulator")}>{t.nav.simulateCta}</ButtonLink>
         </div>
         <button
@@ -92,13 +104,16 @@ export function Header({ locale, altHref }: { locale: Locale; altHref: string })
               </li>
             ))}
             <li>
-              <Link
-                href={href(locale, "login")}
-                className="block rounded-[6px] px-2 py-2 text-[16px] text-ink hover:bg-paper"
-                onClick={() => setOpen(false)}
+              <button
+                type="button"
+                onClick={() => {
+                  setOpen(false);
+                  openLoginLead();
+                }}
+                className="block w-full rounded-[6px] px-2 py-2 text-left text-[16px] text-ink hover:bg-paper"
               >
                 {t.nav.login}
-              </Link>
+              </button>
             </li>
             <li>
               <Link

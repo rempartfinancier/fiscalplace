@@ -19,6 +19,7 @@ import {
 import { DoubleRule, LedgerEntry, LedgerLine } from "@/components/ui/ledger";
 import { TimelineCompact } from "@/components/ui/ClaimTimeline";
 import { FAQAccordion } from "@/components/ui/FAQAccordion";
+import { LeadCaptureButton } from "@/components/site/LeadCaptureButton";
 
 /**
  * /services/recuperation-withholding-tax — the flagship product page.
@@ -31,6 +32,7 @@ const EXAMPLE_GROSS = 20_000;
 interface Copy {
   metaTitle: string;
   metaDescription: string;
+  leadServiceLabel: string;
   hero: {
     kicker: string;
     h1: string;
@@ -119,6 +121,7 @@ const copy: Localized<Copy> = {
     metaTitle: "Récupération de retenue à la source de A à Z",
     metaDescription:
       "Nous récupérons le trop-perçu de retenue à la source sur vos dividendes étrangers : diagnostic, documents, formulaires, dépôt, relances, versement. Sans avance de frais — payé uniquement au résultat.",
+    leadServiceLabel: "Récupération de withholding tax",
     hero: {
       kicker: "Service phare",
       h1: "Votre trop-perçu, récupéré de bout en bout",
@@ -310,6 +313,7 @@ const copy: Localized<Copy> = {
     metaTitle: "End-to-end withholding-tax recovery",
     metaDescription:
       "We recover the over-withheld tax on your foreign dividends: diagnostic, documents, forms, filing, follow-ups, payout. No upfront fees — you only pay on results.",
+    leadServiceLabel: "Withholding-tax recovery",
     hero: {
       kicker: "Flagship service",
       h1: "Your over-withheld tax, recovered end to end",
@@ -828,9 +832,9 @@ export default function Page({ locale }: { locale: Locale }) {
           <SectionHeading title={t.finalCta.title} lede={t.finalCta.desc} center />
           <div className="mt-7 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
             <ButtonLink href={href(locale, "simulator")}>{c.cta.simulate}</ButtonLink>
-            <ButtonLink href={href(locale, "portalOnboarding")} variant="secondary">
+            <LeadCaptureButton serviceLabel={t.leadServiceLabel} variant="secondary">
               {c.cta.openAccount}
-            </ButtonLink>
+            </LeadCaptureButton>
           </div>
           <TrustLine text={c.trustLine} className="mt-4" />
         </Container>

@@ -79,7 +79,7 @@ const frContent: ArticleBlock[] = [
     items: [
       `**Ce n'est pas son modèle économique.** Un courtier se rémunère sur les ordres, les encours ou le change — pas sur la paperasse fiscale internationale, qui est pour lui un centre de coût sans revenu. Personne ne facture ce qu'il ne fait pas ; personne ne fait spontanément ce qui ne rapporte rien.`,
       `**Il n'a souvent pas la main.** Le relief at source — obtenir le bon taux dès le versement — suppose que **toute la chaîne de dépositaires** (courtier, dépositaire, sous-dépositaire local) transmette votre statut fiscal jusqu'au pays source. En compte omnibus, vos titres sont fondus dans une masse anonyme : l'administration étrangère applique le taux plein par défaut, et votre courtier, en bout de chaîne, ne peut pas grand-chose.`,
-      `**Le reclaim n'est pas son métier.** Récupérer l'excédent a posteriori exige de connaître les formulaires (${ca.refundForm.fr} canadien, formulaire 83 suisse…), les millésimes, les règles de preuve et les délais de onze administrations aux pratiques différentes. C'est un métier de spécialiste, avec un outillage dédié — pas une extension naturelle du courtage.`,
+      `**Le reclaim n'est pas son métier.** Récupérer l'excédent a posteriori exige de connaître les formulaires (${ca.refundForm.fr} canadien, formulaire 83 suisse…), les millésimes, les règles de preuve et les délais de ${COUNTRIES.length} administrations aux pratiques différentes. C'est un métier de spécialiste, avec un outillage dédié — pas une extension naturelle du courtage.`,
     ],
   },
   {
@@ -89,7 +89,7 @@ const frContent: ArticleBlock[] = [
   { type: "h2", text: `Comment vérifier en 5 minutes si vous êtes sur-prélevé ?` },
   {
     type: "p",
-    text: `Pas besoin d'être fiscaliste : il faut un relevé et une division. Prenez votre dernier relevé de compte-titres (ou le rapport fiscal annuel de votre courtier) et suivez ces cinq étapes :`,
+    text: `Pas besoin d'être fiscaliste : il faut un relevé et une division. Le plus rapide : collez la ligne de dividende dans notre [lecteur de relevé](${href("fr", "statementReader")}), gratuit, qui fait la division et le diagnostic pour vous. À la main, prenez votre dernier relevé de compte-titres (ou le rapport fiscal annuel de votre courtier) et suivez ces cinq étapes :`,
   },
   {
     type: "ol",
@@ -243,7 +243,7 @@ const enContent: ArticleBlock[] = [
     items: [
       `**It is not their business model.** A broker earns on orders, assets under custody or FX — not on international tax paperwork, which for them is a cost centre with no revenue attached. Nobody charges for what they don't do; nobody spontaneously does what earns nothing.`,
       `**They often don't hold the levers.** Relief at source — getting the right rate at payment time — requires **the entire custodian chain** (broker, custodian, local sub-custodian) to pass your tax status all the way to the source country. In an omnibus account, your securities are pooled into an anonymous mass: the foreign administration applies the full rate by default, and your broker, at the end of the chain, can do little about it.`,
-      `**Reclaims are not their trade.** Recovering the excess after the fact means knowing the forms (Canada's ${ca.refundForm.en}, Switzerland's Form 83…), the form versions, the evidence rules and the deadlines of eleven administrations with different practices. It is a specialist's trade with dedicated tooling — not a natural extension of brokerage.`,
+      `**Reclaims are not their trade.** Recovering the excess after the fact means knowing the forms (Canada's ${ca.refundForm.en}, Switzerland's Form 83…), the form versions, the evidence rules and the deadlines of ${COUNTRIES.length} administrations with different practices. It is a specialist's trade with dedicated tooling — not a natural extension of brokerage.`,
     ],
   },
   {
@@ -253,7 +253,7 @@ const enContent: ArticleBlock[] = [
   { type: "h2", text: `How do you check in 5 minutes whether you are over-withheld?` },
   {
     type: "p",
-    text: `No tax degree required: you need a statement and one division. Take your latest securities-account statement (or your broker's annual tax report) and follow these five steps:`,
+    text: `No tax degree required: you need a statement and one division. The fastest route: paste the dividend line into our free [statement reader](${href("en", "statementReader")}), which does the division and the diagnosis for you. By hand, take your latest securities-account statement (or your broker's annual tax report) and follow these five steps:`,
   },
   {
     type: "ol",

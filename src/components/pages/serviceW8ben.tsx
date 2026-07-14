@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/primitives";
 import { LedgerEntry } from "@/components/ui/ledger";
 import { FAQAccordion, type FAQItem } from "@/components/ui/FAQAccordion";
+import { LeadCaptureButton } from "@/components/site/LeadCaptureButton";
 
 /* ------------------------------------------------------------------ */
 /* Local helpers                                                       */
@@ -57,6 +58,7 @@ interface BridgeItem {
 interface W8Copy {
   metaTitle: (treatyPct: string, statutoryPct: string) => string;
   metaDescription: (price: string, statutoryPct: string, treatyPct: string) => string;
+  leadServiceLabel: string;
   hero: {
     kicker: string;
     h1: (treatyPct: string, statutoryPct: string) => ReactNode;
@@ -99,6 +101,7 @@ interface W8Copy {
     lede: string;
     items: PitfallItem[];
     recoveryLink: string;
+    checkerLink: string;
   };
   bridges: {
     kicker: string;
@@ -119,6 +122,7 @@ const copy: Localized<W8Copy> = {
       `Formulaire W-8BEN : ${treatyPct} au lieu de ${statutoryPct} sur vos dividendes américains | FiscalPlace`,
     metaDescription: (price, statutoryPct, treatyPct) =>
       `Sans W-8BEN valide, le fisc américain prélève ${statutoryPct} sur chaque dividende au lieu de ${treatyPct}. Nous préparons votre formulaire pour ${price} : questionnaire de 5 minutes, remise guidée à votre courtier, rappel avant expiration.`,
+    leadServiceLabel: "Formulaire W-8BEN",
     hero: {
       kicker: "Service à forfait · W-8BEN",
       h1: (treatyPct, statutoryPct) => (
@@ -208,6 +212,7 @@ const copy: Localized<W8Copy> = {
         },
       ],
       recoveryLink: "Récupérer ce qui a déjà été prélevé",
+      checkerLink: "Vérifier la date d'expiration de mon W-8BEN",
     },
     bridges: {
       kicker: "Et ensuite",
@@ -263,6 +268,7 @@ const copy: Localized<W8Copy> = {
       `W-8BEN form: ${treatyPct} instead of ${statutoryPct} on your US dividends | FiscalPlace`,
     metaDescription: (price, statutoryPct, treatyPct) =>
       `Without a valid W-8BEN, the US withholds ${statutoryPct} on every dividend instead of ${treatyPct}. We prepare your form for ${price}: a 5-minute questionnaire, guided delivery to your broker, a reminder before it expires.`,
+    leadServiceLabel: "W-8BEN form",
     hero: {
       kicker: "Fixed-fee service · W-8BEN",
       h1: (treatyPct, statutoryPct) => (
@@ -352,6 +358,7 @@ const copy: Localized<W8Copy> = {
         },
       ],
       recoveryLink: "Recover what was already withheld",
+      checkerLink: "Check my W-8BEN's expiry date",
     },
     bridges: {
       kicker: "What comes next",
@@ -466,9 +473,9 @@ export default function Page({ locale }: { locale: Locale }) {
               {t.hero.sub(fc(PRICING.fixedServices.w8ben))}
             </p>
             <div className="mt-7 flex flex-wrap items-center gap-3">
-              <ButtonLink href={href(locale, "portalOnboarding")}>
+              <LeadCaptureButton serviceLabel={t.leadServiceLabel}>
                 {common.cta.openAccount}
-              </ButtonLink>
+              </LeadCaptureButton>
               <ButtonLink href={href(locale, "serviceReliefAtSource")} variant="ghost">
                 {t.hero.secondary}
               </ButtonLink>
@@ -563,7 +570,10 @@ export default function Page({ locale }: { locale: Locale }) {
               </Card>
             ))}
           </div>
-          <div className="mt-5">
+          <div className="mt-5 flex flex-wrap gap-3">
+            <ButtonLink variant="ghost" href={href(locale, "w8benChecker")}>
+              {t.pitfalls.checkerLink} →
+            </ButtonLink>
             <ButtonLink variant="ghost" href={href(locale, "serviceRecovery")}>
               {t.pitfalls.recoveryLink} →
             </ButtonLink>
@@ -605,9 +615,9 @@ export default function Page({ locale }: { locale: Locale }) {
         <Container className="py-16 text-center sm:py-20">
           <SectionHeading center title={t.finalCta.title} lede={t.finalCta.lede} />
           <div className="mt-7 flex flex-col items-center gap-3">
-            <ButtonLink href={href(locale, "portalOnboarding")}>
+            <LeadCaptureButton serviceLabel={t.leadServiceLabel}>
               {common.cta.openAccount}
-            </ButtonLink>
+            </LeadCaptureButton>
             <TrustLine text={common.trustLine} />
             <ButtonLink variant="ghost" href={href(locale, "contact")}>
               {common.cta.contactUs}

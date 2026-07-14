@@ -14,7 +14,7 @@ import type { Localized } from "@/lib/i18n";
  * carry known uncertainty.
  */
 
-export const DATA_VERSION = "2026-06.1";
+export const DATA_VERSION = "2026-07.1";
 
 /** Residences supported by the simulator. "OTHER" = generic treaty-country fallback. */
 export const RESIDENCES = ["FR", "BE", "LU", "CH", "OTHER"] as const;
@@ -577,6 +577,415 @@ export const COUNTRIES: CountryTaxProfile[] = [
     },
     recoveryPotential: "high",
     lastReviewed: "2026-06-15",
+  },
+  {
+    id: "IT",
+    slug: { fr: "italie", en: "italy" },
+    name: { fr: "Italie", en: "Italy" },
+    flag: "🇮🇹",
+    statutoryRate: 0.26,
+    treatyRate: { default: 0.15 },
+    sol: {
+      years: 4,
+      rule: "anniversary",
+      notes: {
+        fr: "48 mois (4 ans) à compter de la date du prélèvement, en règle générale : chaque ligne de dividende a sa propre date limite.",
+        en: "48 months (4 years) from the withholding date, as a general rule: each dividend line has its own deadline.",
+      },
+    },
+    reliefAtSource: true,
+    onlineFiling: false,
+    refundForm: { fr: "Modello A (dividendes)", en: "Form A (dividends)" },
+    authority: {
+      fr: "Agenzia delle Entrate — Centre opérationnel de Pescara",
+      en: "Agenzia delle Entrate — Pescara Operations Centre",
+    },
+    docsRequired: {
+      fr: [
+        "Formulaire italien de remboursement (Modello A) avec attestation de résidence intégrée, visée par votre administration",
+        "Justificatifs des dividendes et de la retenue de 26 % (relevés, tax vouchers)",
+        "Attestation de bénéficiaire effectif des dividendes",
+        "Mandat de représentation",
+      ],
+      en: [
+        "Italian refund form (Form A) with the embedded residence certification, stamped by your administration",
+        "Evidence of the dividends and the 26% withholding (statements, tax vouchers)",
+        "Beneficial-ownership attestation for the dividends",
+        "A representation mandate",
+      ],
+    },
+    specifics: {
+      fr: [
+        "11 points d'écart (26 % retenus, 15 % dus) sur des valeurs très présentes dans les portefeuilles (ENI, Enel, Intesa, Generali…).",
+        "L'instruction italienne est la plus lente du panel : plusieurs années d'attente sont fréquentes — des intérêts moratoires s'ajoutent aux remboursements tardifs.",
+        "Le taux réduit à la source existe en théorie via le dépositaire, mais reste rarement accessible à un particulier passant par un courtier en ligne : la récupération a posteriori est la voie usuelle.",
+        "La procédure demeure papier, auprès du centre opérationnel de Pescara : la qualité du dossier initial est déterminante.",
+      ],
+      en: [
+        "An 11-point gap (26% withheld, 15% owed) on names most portfolios hold (ENI, Enel, Intesa, Generali…).",
+        "Italian processing is the slowest in the panel: multi-year waits are common — late refunds accrue statutory interest.",
+        "Relief at source exists in theory via the custodian but is rarely available to an individual using an online broker: the after-the-fact refund is the usual route.",
+        "The procedure is still paper-based, with the Pescara Operations Centre: initial file quality is decisive.",
+      ],
+    },
+    recoveryPotential: "high",
+    lastReviewed: "2026-07-12",
+  },
+  {
+    id: "ES",
+    slug: { fr: "espagne", en: "spain" },
+    name: { fr: "Espagne", en: "Spain" },
+    flag: "🇪🇸",
+    statutoryRate: 0.19,
+    treatyRate: { default: 0.15 },
+    sol: {
+      years: 4,
+      rule: "calendar-year-end",
+      verify: true,
+      notes: {
+        fr: "4 ans en règle générale, décomptés à partir de la fin de la période de dépôt du Modelo 210 — le point de départ exact dépend de la date du prélèvement (donnée à confirmer selon votre cas).",
+        en: "4 years as a general rule, counted from the end of the Modelo 210 filing window — the exact starting point depends on the withholding date (to be confirmed for your case).",
+      },
+    },
+    reliefAtSource: true,
+    onlineFiling: true,
+    refundForm: { fr: "Modelo 210", en: "Modelo 210" },
+    authority: { fr: "Agencia Tributaria (AEAT)", en: "Agencia Tributaria (AEAT)" },
+    docsRequired: {
+      fr: [
+        "Certificat de résidence fiscale récent, au sens de la convention",
+        "Justificatifs des dividendes espagnols et de la retenue de 19 %",
+        "Identifiant fiscal pour le dépôt du Modelo 210",
+        "Coordonnées bancaires pour le virement du remboursement",
+      ],
+      en: [
+        "Recent certificate of tax residence, within the meaning of the treaty",
+        "Evidence of the Spanish dividends and the 19% withholding",
+        "A tax identifier for the Modelo 210 filing",
+        "Bank details for the refund transfer",
+      ],
+    },
+    specifics: {
+      fr: [
+        "L'écart espagnol est modeste : 4 points (19 % retenus, 15 % dus). Sur de petits dividendes, notre diagnostic conclura parfois « dossier non rentable » — et vous le dira.",
+        "Le vrai point de friction n'est pas le formulaire mais l'identifiant fiscal exigé pour déposer le Modelo 210 : c'est lui qui décourage le fait-maison.",
+        "Particularité locale : les grandes valeurs espagnoles distribuent souvent en « scrip dividend » — la part servie en actions ne subit pas de retenue, seule la part en espèces en subit une.",
+      ],
+      en: [
+        "The Spanish gap is modest: 4 points (19% withheld, 15% owed). On small dividends our diagnostic will sometimes conclude 'not worth filing' — and will tell you so.",
+        "The real friction point is not the form but the tax identifier required to file the Modelo 210: that is what defeats most do-it-yourself attempts.",
+        "Local quirk: large Spanish names often pay 'scrip dividends' — the portion served in shares bears no withholding, only the cash portion does.",
+      ],
+    },
+    recoveryPotential: "medium",
+    lastReviewed: "2026-07-12",
+  },
+  {
+    id: "BE",
+    slug: { fr: "belgique", en: "belgium" },
+    name: { fr: "Belgique", en: "Belgium" },
+    flag: "🇧🇪",
+    statutoryRate: 0.3,
+    treatyRate: { default: 0.15, byResidence: { BE: 0.3 } },
+    sol: {
+      years: 4,
+      rule: "calendar-year-end",
+      verify: true,
+      notes: {
+        fr: "5 ans à compter du 1er janvier de l'année du prélèvement — soit, en pratique, jusqu'au 31 décembre de la 4e année suivant le versement.",
+        en: "5 years from 1 January of the withholding year — in practice, until 31 December of the 4th year after payment.",
+      },
+    },
+    reliefAtSource: false,
+    onlineFiling: true,
+    refundForm: { fr: "276 Div.-Aut.", en: "276 Div.-Aut." },
+    authority: { fr: "SPF Finances", en: "FPS Finance (Belgian tax administration)" },
+    docsRequired: {
+      fr: [
+        "Formulaire 276 Div.-Aut. visé par l'administration fiscale de votre pays de résidence",
+        "Justificatifs d'encaissement des dividendes et de la retenue de 30 %",
+        "Attestation de détention des titres à la date de mise en paiement",
+        "Mandat de représentation",
+      ],
+      en: [
+        "Form 276 Div.-Aut. stamped by the tax administration of your residence country",
+        "Evidence of the dividend payments and the 30% withholding",
+        "Proof of holding the securities on the payment date",
+        "A representation mandate",
+      ],
+    },
+    specifics: {
+      fr: [
+        "15 points d'écart (30 % retenus, 15 % dus) sur les grandes valeurs belges (KBC, Ageas, Solvay, UCB…) : l'un des gisements les plus rentables du panel.",
+        "Le dépôt peut désormais passer par le portail en ligne de l'administration, ce qui raccourcit un circuit historiquement postal.",
+        "Cas honnête : pour un résident belge, le précompte mobilier sur ses propres actions belges est un impôt domestique définitif — il n'y a rien à récupérer par la voie conventionnelle.",
+      ],
+      en: [
+        "A 15-point gap (30% withheld, 15% owed) on the big Belgian names (KBC, Ageas, Solvay, UCB…): one of the most profitable pools in the panel.",
+        "Filing can now go through the administration's online portal, shortening a historically postal circuit.",
+        "Honest case: for a Belgian resident, the withholding on their own Belgian shares is a final domestic tax — there is nothing to recover through the treaty route.",
+      ],
+    },
+    recoveryPotential: "high",
+    lastReviewed: "2026-07-12",
+  },
+  {
+    id: "DK",
+    slug: { fr: "danemark", en: "denmark" },
+    name: { fr: "Danemark", en: "Denmark" },
+    flag: "🇩🇰",
+    statutoryRate: 0.27,
+    treatyRate: { default: 0.15 },
+    sol: {
+      years: 3,
+      rule: "anniversary",
+      verify: true,
+      notes: {
+        fr: "3 ans à compter du prélèvement, en règle générale (donnée à confirmer lors du diagnostic de votre dossier).",
+        en: "3 years from the withholding date, as a general rule (to be confirmed during your file's diagnostic).",
+      },
+    },
+    reliefAtSource: false,
+    onlineFiling: true,
+    refundForm: { fr: "Formulaire 06.003 (demande en ligne)", en: "Form 06.003 (online claim)" },
+    authority: { fr: "Skattestyrelsen", en: "Skattestyrelsen (Danish Tax Agency)" },
+    docsRequired: {
+      fr: [
+        "Certificat de résidence fiscale",
+        "Justificatifs des dividendes danois et de la retenue de 27 %",
+        "Preuve de la détention des titres à la date de détachement",
+        "Coordonnées bancaires et mandat de représentation",
+      ],
+      en: [
+        "Certificate of tax residence",
+        "Evidence of the Danish dividends and the 27% withholding",
+        "Proof of holding the shares on the ex-date",
+        "Bank details and a representation mandate",
+      ],
+    },
+    specifics: {
+      fr: [
+        "12 points d'écart (27 % retenus, 15 % dus) sur des valeurs recherchées (Novo Nordisk, Ørsted, Maersk…).",
+        "Depuis les fraudes massives au remboursement qui ont visé le Danemark, Skattestyrelsen vérifie chaque dossier en profondeur : documentation exigeante et instruction longue — un dossier propre du premier coup fait toute la différence.",
+        "Particularité franco-danoise : après plus d'une décennie sans convention fiscale entre la France et le Danemark, une nouvelle convention s'applique aux dividendes récents — les années plus anciennes s'examinent au cas par cas.",
+      ],
+      en: [
+        "A 12-point gap (27% withheld, 15% owed) on sought-after names (Novo Nordisk, Ørsted, Maersk…).",
+        "Since the massive refund frauds that targeted Denmark, Skattestyrelsen vets every file in depth: demanding documentation and long processing — a clean first submission makes all the difference.",
+        "A French-Danish particularity: after more than a decade without a tax treaty between France and Denmark, a new treaty applies to recent dividends — older years are assessed case by case.",
+      ],
+    },
+    recoveryPotential: "high",
+    lastReviewed: "2026-07-12",
+  },
+  {
+    id: "NO",
+    slug: { fr: "norvege", en: "norway" },
+    name: { fr: "Norvège", en: "Norway" },
+    flag: "🇳🇴",
+    statutoryRate: 0.25,
+    treatyRate: { default: 0.15 },
+    sol: {
+      years: 5,
+      rule: "calendar-year-end",
+      verify: true,
+      notes: {
+        fr: "5 ans à compter de la fin de l'année du versement, en règle générale (donnée à confirmer lors du diagnostic de votre dossier).",
+        en: "5 years from the end of the payment year, as a general rule (to be confirmed during your file's diagnostic).",
+      },
+    },
+    reliefAtSource: true,
+    onlineFiling: true,
+    refundForm: { fr: "RF-1306 (demande en ligne)", en: "RF-1306 (online claim)" },
+    authority: { fr: "Skatteetaten", en: "Skatteetaten (Norwegian Tax Administration)" },
+    docsRequired: {
+      fr: [
+        "Certificat de résidence fiscale au sens de la convention",
+        "Justificatifs des dividendes norvégiens et de la retenue de 25 %",
+        "Relevés établissant la chaîne de détention des titres",
+        "Mandat de représentation",
+      ],
+      en: [
+        "Certificate of tax residence within the meaning of the treaty",
+        "Evidence of the Norwegian dividends and the 25% withholding",
+        "Statements establishing the custody chain for the securities",
+        "A representation mandate",
+      ],
+    },
+    specifics: {
+      fr: [
+        "10 points d'écart (25 % retenus, 15 % dus) sur les piliers de la cote d'Oslo (Equinor, DNB, Telenor…).",
+        "Le taux réduit à la source fonctionne réellement en Norvège quand la chaîne de dépositaires est documentée à l'avance : la prévention est une option sérieuse, pas une promesse théorique.",
+        "Pour les particuliers résidents de l'EEE, une voie alternative existe (la déduction dite « d'abri ») qui peut, sur certains profils, faire mieux que le taux conventionnel : nous chiffrons les deux voies avant de déposer.",
+      ],
+      en: [
+        "A 10-point gap (25% withheld, 15% owed) on the pillars of the Oslo exchange (Equinor, DNB, Telenor…).",
+        "Relief at source genuinely works in Norway when the custody chain is documented in advance: prevention is a serious option, not a theoretical promise.",
+        "For EEA-resident individuals an alternative route exists (the so-called shielding deduction) which can beat the treaty rate on some profiles: we quantify both routes before filing.",
+      ],
+    },
+    recoveryPotential: "high",
+    lastReviewed: "2026-07-12",
+  },
+  {
+    id: "FI",
+    slug: { fr: "finlande", en: "finland" },
+    name: { fr: "Finlande", en: "Finland" },
+    flag: "🇫🇮",
+    statutoryRate: 0.3,
+    treatyRate: { default: 0.15, byResidence: { FR: 0 } },
+    sol: {
+      years: 3,
+      rule: "calendar-year-end",
+      notes: {
+        fr: "La demande peut être déposée pendant les 3 années civiles qui suivent l'année du versement du dividende.",
+        en: "The claim can be filed during the 3 calendar years following the year of the dividend payment.",
+      },
+    },
+    reliefAtSource: true,
+    onlineFiling: true,
+    refundForm: { fr: "Formulaire 6164 (particuliers)", en: "Form 6164e (individuals)" },
+    authority: {
+      fr: "Vero Skatt (administration fiscale finlandaise)",
+      en: "Finnish Tax Administration (Vero Skatt)",
+    },
+    docsRequired: {
+      fr: [
+        "Certificat de résidence fiscale",
+        "Justificatifs des dividendes finlandais et de la retenue prélevée (30 %, parfois 35 %)",
+        "Détail des positions à la date de détachement",
+        "Mandat de représentation",
+      ],
+      en: [
+        "Certificate of tax residence",
+        "Evidence of the Finnish dividends and the withholding levied (30%, sometimes 35%)",
+        "Position details on the ex-date",
+        "A representation mandate",
+      ],
+    },
+    specifics: {
+      fr: [
+        "Le cas le plus spectaculaire du panel pour un résident de France : la convention franco-finlandaise réserve l'imposition des dividendes au pays de résidence — 0 % dû en Finlande, l'intégralité des 30 points retenus est récupérable (Nokia, Sampo, Fortum, UPM…).",
+        "Quand le dépositaire n'a pas identifié l'investisseur, la retenue grimpe à 35 % : ce sur-prélèvement se récupère aussi.",
+        "Le taux réduit à la source existe via les dépositaires enregistrés auprès de l'administration finlandaise, mais reste rare à travers un courtier grand public : la récupération a posteriori est la voie usuelle.",
+        "Pour les autres résidences du panel, le taux conventionnel usuel est de 15 % : l'écart reste substantiel, mais sans commune mesure avec le cas français.",
+      ],
+      en: [
+        "The panel's most spectacular case for a French resident: the France–Finland treaty reserves dividend taxation to the residence country — 0% owed in Finland, the full 30 withheld points are recoverable (Nokia, Sampo, Fortum, UPM…).",
+        "When the custodian has not identified the investor, withholding climbs to 35%: that extra layer is recoverable too.",
+        "Relief at source exists via custodians registered with the Finnish administration but remains rare through a retail broker: the after-the-fact refund is the usual route.",
+        "For the panel's other residences the usual treaty rate is 15%: the gap remains substantial, but nowhere near the French case.",
+      ],
+    },
+    recoveryPotential: "high",
+    lastReviewed: "2026-07-12",
+  },
+  {
+    id: "PT",
+    slug: { fr: "portugal", en: "portugal" },
+    name: { fr: "Portugal", en: "Portugal" },
+    flag: "🇵🇹",
+    statutoryRate: 0.25,
+    treatyRate: { default: 0.15 },
+    sol: {
+      years: 2,
+      rule: "calendar-year-end",
+      verify: true,
+      notes: {
+        fr: "2 ans à compter de la fin de l'année du prélèvement, en règle générale — avec le Canada, l'un des délais les plus courts du panel.",
+        en: "2 years from the end of the withholding year, as a general rule — alongside Canada, one of the shortest windows in the panel.",
+      },
+    },
+    reliefAtSource: true,
+    onlineFiling: false,
+    refundForm: { fr: "Modelo 22-RFI", en: "Form 22-RFI" },
+    authority: {
+      fr: "Autoridade Tributária e Aduaneira",
+      en: "Autoridade Tributária e Aduaneira (Portuguese tax authority)",
+    },
+    docsRequired: {
+      fr: [
+        "Formulaire Modelo 22-RFI accompagné d'un certificat de résidence fiscale",
+        "Justificatifs des dividendes portugais et de la retenue de 25 %",
+        "Identification de l'agent payeur portugais",
+        "Mandat de représentation",
+      ],
+      en: [
+        "Form 22-RFI with a certificate of tax residence",
+        "Evidence of the Portuguese dividends and the 25% withholding",
+        "Identification of the Portuguese paying agent",
+        "A representation mandate",
+      ],
+    },
+    specifics: {
+      fr: [
+        "10 points d'écart (25 % retenus, 15 % dus) sur les valeurs phares de Lisbonne (EDP, Galp, Jerónimo Martins…).",
+        "Le délai de 2 ans est le piège portugais : comme au Canada, beaucoup de trop-perçus se prescrivent avant d'avoir été identifiés.",
+        "La prévention fonctionne : le Modelo 21-RFI remis à l'agent payeur avant le versement obtient directement les 15 % à la source — la meilleure démarche pour les positions conservées durablement.",
+        "Un taux majoré de 35 % frappe les comptes logés dans des juridictions listées : ces lignes s'examinent au cas par cas.",
+      ],
+      en: [
+        "A 10-point gap (25% withheld, 15% owed) on Lisbon's flagship names (EDP, Galp, Jerónimo Martins…).",
+        "The 2-year window is the Portuguese trap: as in Canada, many over-withholdings expire before anyone spots them.",
+        "Prevention works: Form 21-RFI handed to the paying agent before payment secures the 15% at source — the best move for long-held positions.",
+        "A higher 35% rate hits accounts booked in listed jurisdictions: those lines are assessed case by case.",
+      ],
+    },
+    recoveryPotential: "medium",
+    lastReviewed: "2026-07-12",
+  },
+  {
+    id: "FR",
+    slug: { fr: "france", en: "france" },
+    name: { fr: "France", en: "France" },
+    flag: "🇫🇷",
+    statutoryRate: 0.128,
+    treatyRate: { default: 0.15, byResidence: { FR: 0.128 } },
+    sol: {
+      years: 2,
+      rule: "calendar-year-end",
+      notes: {
+        fr: "Réclamation recevable jusqu'au 31 décembre de la 2e année suivant celle du prélèvement, en règle générale.",
+        en: "Claims are admissible until 31 December of the 2nd year following the withholding year, as a general rule.",
+      },
+    },
+    reliefAtSource: true,
+    onlineFiling: false,
+    refundForm: { fr: "Formulaires 5000 + 5001", en: "Forms 5000 + 5001" },
+    authority: {
+      fr: "DGFiP (Direction générale des Finances publiques)",
+      en: "DGFiP (French public finances directorate)",
+    },
+    docsRequired: {
+      fr: [
+        "Formulaire 5000 (attestation de résidence) visé par l'administration du pays de résidence",
+        "Annexe 5001 (liquidation de la retenue sur dividendes)",
+        "Justificatifs des dividendes français et de la retenue prélevée",
+        "Mandat de représentation le cas échéant",
+      ],
+      en: [
+        "Form 5000 (residence attestation) stamped by the residence-country administration",
+        "Schedule 5001 (computation of the dividend withholding)",
+        "Evidence of the French dividends and the withholding levied",
+        "A representation mandate where applicable",
+      ],
+    },
+    specifics: {
+      fr: [
+        "Cas honnête, à rebours de l'intuition : pour un particulier non résident, la France retient 12,8 % — en dessous des 15 % conventionnels usuels. Dans le cas standard, il n'y a donc rien à récupérer.",
+        "Le trop-perçu apparaît quand l'établissement payeur a appliqué un taux erroné (le 25 % réservé à certaines entités, ou un taux majoré) : ces écarts se récupèrent via le couple 5000/5001.",
+        "La prévention est la voie normale : un formulaire 5000 remis avant le versement obtient directement le bon taux à la source.",
+        "Un résident fiscal français n'est pas concerné par cette page : ses dividendes français relèvent de l'imposition domestique, pas d'une retenue conventionnelle.",
+      ],
+      en: [
+        "An honest, counter-intuitive case: for a non-resident individual, France withholds 12.8% — below the usual 15% treaty rates. In the standard case there is therefore nothing to recover.",
+        "Over-withholding appears when the paying agent applied a wrong rate (the 25% reserved for certain entities, or a punitive rate): those gaps are recovered through the 5000/5001 pair.",
+        "Prevention is the normal route: a Form 5000 delivered before payment secures the correct rate at source directly.",
+        "A French tax resident is not concerned by this page: their French dividends fall under domestic taxation, not treaty withholding.",
+      ],
+    },
+    recoveryPotential: "low",
+    lastReviewed: "2026-07-12",
   },
 ];
 

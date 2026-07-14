@@ -37,7 +37,12 @@ export type ArticleBlock =
       footnote?: string;
     }
   | { type: "faq"; items: { question: string; answer: string }[] }
-  | { type: "cta"; routeKey: "simulator" | "pricing" | "solCalculator" | "contact"; label: string; note?: string };
+  | {
+      type: "cta";
+      routeKey: "simulator" | "pricing" | "solCalculator" | "contact" | "w8benChecker" | "serviceW8ben";
+      label: string;
+      note?: string;
+    };
 
 export interface Article {
   id: string;

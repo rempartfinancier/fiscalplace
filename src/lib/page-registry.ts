@@ -31,6 +31,8 @@ export const PAGES: Record<RouteKey, () => Promise<PageModule>> = {
   pricing: () => import("@/components/pages/pricing"),
   simulator: () => import("@/components/pages/simulator"),
   solCalculator: () => import("@/components/pages/solCalculator"),
+  w8benChecker: () => import("@/components/pages/w8benChecker"),
+  statementReader: () => import("@/components/pages/statementReader"),
   countries: () => import("@/components/pages/countries"),
   resources: () => import("@/components/pages/resources"),
   comparison: () => import("@/components/pages/comparison"),

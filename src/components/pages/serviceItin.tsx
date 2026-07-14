@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/primitives";
 import { LedgerLine, DoubleRule } from "@/components/ui/ledger";
 import { FAQAccordion, type FAQItem } from "@/components/ui/FAQAccordion";
+import { LeadCaptureButton } from "@/components/site/LeadCaptureButton";
 
 /* ------------------------------------------------------------------ */
 /* Copy                                                                */
@@ -39,6 +40,7 @@ interface BridgeItem {
 interface ItinCopy {
   metaTitle: (price: string) => string;
   metaDescription: (price: string) => string;
+  leadServiceLabel: string;
   hero: {
     kicker: string;
     h1: string;
@@ -96,6 +98,7 @@ const copy: Localized<ItinCopy> = {
       `ITIN (numéro fiscal IRS) pour ${price}, déduits si vous récupérez avec nous | FiscalPlace`,
     metaDescription: (price) =>
       `L'ITIN est l'identifiant fiscal que l'IRS exige pour certaines demandes de remboursement américaines. Dossier W-7 complet pour ${price} — intégralement déduits de notre commission si vous nous confiez ensuite la récupération. Et si vous n'en avez pas besoin, on vous le dit.`,
+    leadServiceLabel: "Demande d'ITIN",
     hero: {
       kicker: "Service à forfait · ITIN",
       h1: "L'identifiant qui débloque certains remboursements de l'IRS — obtenu proprement, sans risquer votre passeport.",
@@ -237,6 +240,7 @@ const copy: Localized<ItinCopy> = {
       `ITIN (IRS tax number) for ${price}, deducted if you recover with us | FiscalPlace`,
     metaDescription: (price) =>
       `The ITIN is the tax ID the IRS requires for certain US refund claims. A complete W-7 file for ${price} — fully deducted from our fee if you then entrust us with the recovery. And if you do not need one, we tell you.`,
+    leadServiceLabel: "ITIN application",
     hero: {
       kicker: "Fixed-fee service · ITIN",
       h1: "The identifier that unlocks certain IRS refunds — obtained cleanly, without gambling with your passport.",
@@ -415,9 +419,9 @@ export default function Page({ locale }: { locale: Locale }) {
               {t.hero.sub(fc(itinPrice))}
             </p>
             <div className="mt-7 flex flex-wrap items-center gap-3">
-              <ButtonLink href={href(locale, "portalOnboarding")}>
+              <LeadCaptureButton serviceLabel={t.leadServiceLabel}>
                 {common.cta.openAccount}
-              </ButtonLink>
+              </LeadCaptureButton>
               <ButtonLink href={href(locale, "serviceRecovery")} variant="ghost">
                 {t.hero.secondary}
               </ButtonLink>
@@ -571,9 +575,9 @@ export default function Page({ locale }: { locale: Locale }) {
         <Container className="py-16 text-center sm:py-20">
           <SectionHeading center title={t.finalCta.title} lede={t.finalCta.lede} />
           <div className="mt-7 flex flex-col items-center gap-3">
-            <ButtonLink href={href(locale, "portalOnboarding")}>
+            <LeadCaptureButton serviceLabel={t.leadServiceLabel}>
               {common.cta.openAccount}
-            </ButtonLink>
+            </LeadCaptureButton>
             <TrustLine text={common.trustLine} />
             <ButtonLink variant="ghost" href={href(locale, "contact")}>
               {common.cta.contactUs}

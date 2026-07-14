@@ -15,6 +15,7 @@ import {
   TrustLine,
 } from "@/components/ui/primitives";
 import { FAQAccordion, type FAQItem } from "@/components/ui/FAQAccordion";
+import { LeadCaptureButton } from "@/components/site/LeadCaptureButton";
 
 /* ------------------------------------------------------------------ */
 /* Copy                                                                */
@@ -44,6 +45,7 @@ interface BridgeItem {
 interface MonitoringCopy {
   metaTitle: (monthly: string, yearly: string) => string;
   metaDescription: (monthly: string, yearly: string) => string;
+  leadServiceLabel: string;
   hero: {
     kicker: string;
     h1: string;
@@ -102,6 +104,7 @@ const copy: Localized<MonitoringCopy> = {
       `Suivi multi-portefeuilles : veille des retenues et alertes de prescription, ${monthly}/mois ou ${yearly}/an | FiscalPlace`,
     metaDescription: (monthly, yearly) =>
       `Pour les family offices, CGP et investisseurs multi-comptes : chaque ligne de dividende étranger surveillée, chaque échéance de prescription anticipée, un tableau consolidé par entité. ${monthly} par mois ou ${yearly} par an et par portefeuille — et aucun dépôt sans votre accord.`,
+    leadServiceLabel: "Suivi & alertes multi-portefeuille",
     hero: {
       kicker: "Abonnement · veille & prescriptions",
       h1: "Aucune prescription ne passe plus sous le radar. Sur aucun de vos portefeuilles.",
@@ -249,6 +252,7 @@ const copy: Localized<MonitoringCopy> = {
       `Multi-portfolio monitoring: withholding watch and deadline alerts, ${monthly}/month or ${yearly}/year | FiscalPlace`,
     metaDescription: (monthly, yearly) =>
       `For family offices, wealth managers and multi-account investors: every foreign dividend line watched, every limitation deadline anticipated, one consolidated dashboard per entity. ${monthly} per month or ${yearly} per year per portfolio — and no filing without your consent.`,
+    leadServiceLabel: "Portfolio monitoring & alerts",
     hero: {
       kicker: "Subscription · monitoring & deadlines",
       h1: "No limitation deadline slips under the radar again. On any of your portfolios.",
@@ -588,9 +592,9 @@ export default function Page({ locale }: { locale: Locale }) {
           <div className="mt-7 flex flex-col items-center gap-3">
             <ButtonLink href={href(locale, "contact")}>{common.cta.contactUs}</ButtonLink>
             <TrustLine text={common.trustLine} />
-            <ButtonLink variant="ghost" href={href(locale, "portalOnboarding")}>
+            <LeadCaptureButton variant="ghost" serviceLabel={t.leadServiceLabel}>
               {common.cta.openAccount}
-            </ButtonLink>
+            </LeadCaptureButton>
           </div>
         </Container>
       </section>
