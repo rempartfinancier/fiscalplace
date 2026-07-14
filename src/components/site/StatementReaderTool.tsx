@@ -1,12 +1,13 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 
 import {
   COUNTRIES,
   getCountryById,
   RESIDENCES,
   RESIDENCE_LABELS,
+  type CountryTaxProfile,
   type Residence,
 } from "@/data/countries";
 import { SMALL_CLAIM_ADVICE_THRESHOLD } from "@/lib/simulator";
@@ -17,11 +18,15 @@ import { Badge, ButtonLink, Card, TrustLine } from "@/components/ui/primitives";
 import { LedgerEntry } from "@/components/ui/ledger";
 import {
   diagnoseById,
+  parseMultipleStatements,
   parseStatement,
   type CountryEvidence,
+  type Diagnosis,
   type DiagnosisStatus,
   type ParseResult,
+  type StatementLine,
 } from "./statementParser";
+import { extractPdfText } from "./pdfExtract";
 
 /* ------------------------------------------------------------------- copy */
 
@@ -32,6 +37,25 @@ interface StatusCopy {
 }
 
 interface ToolCopy {
+  upload: {
+    label: string;
+    hint: string;
+    browse: string;
+    dragActive: string;
+    reading: string;
+    readingPdf: string;
+    fileLabel: (name: string) => string;
+    clear: string;
+    errorTitle: string;
+    errorPdf: string;
+    errorGeneric: string;
+    emptyTitle: string;
+    emptyBody: string;
+    resultsTitle: (n: number) => string;
+    resultsHint: string;
+    table: { security: string; amounts: string; rate: string; status: string };
+  };
+  manualKicker: string;
   paste: {
     label: string;
     placeholder: string;
@@ -88,6 +112,28 @@ interface ToolCopy {
 
 const copy: Localized<ToolCopy> = {
   fr: {
+    upload: {
+      label: "Déposez votre relevé ici",
+      hint: "PDF, CSV ou TXT — glissez-déposez ou choisissez un fichier. Rien n'est envoyé à un serveur : l'extraction se fait entièrement dans votre navigateur, y compris pour les PDF.",
+      browse: "Choisir un fichier",
+      dragActive: "Lâchez le fichier ici",
+      reading: "Lecture du fichier…",
+      readingPdf: "Extraction du texte du PDF…",
+      fileLabel: (name) => `Fichier analysé : ${name}`,
+      clear: "Analyser un autre fichier",
+      errorTitle: "Ce fichier n'a pas pu être lu",
+      errorPdf:
+        "Ce PDF ne contient pas de texte extractible — c'est probablement un scan (image). Essayez d'exporter un CSV depuis votre courtier, ou collez une ligne manuellement ci-dessous.",
+      errorGeneric:
+        "Le fichier n'a pas pu être décodé comme du texte. Vérifiez qu'il s'agit bien d'un CSV, d'un TXT ou d'un PDF, ou collez une ligne manuellement ci-dessous.",
+      emptyTitle: "Aucune ligne de dividende reconnue dans ce fichier",
+      emptyBody:
+        "Le fichier a bien été lu, mais aucun motif de dividende étranger (ISIN et montants) n'y a été trouvé. Essayez le collage manuel ci-dessous, ou vérifiez qu'il s'agit bien d'un relevé d'opérations sur titres.",
+      resultsTitle: (n) => `${n} ligne${n > 1 ? "s" : ""} de dividende détectée${n > 1 ? "s" : ""}`,
+      resultsHint: "Cliquez une ligne pour voir son diagnostic complet ci-dessous.",
+      table: { security: "Titre", amounts: "Brut / Retenu", rate: "Taux effectif", status: "Statut" },
+    },
+    manualKicker: "Ou collez une ligne manuellement",
     paste: {
       label: "Collez une ligne de dividende de votre relevé",
       placeholder:
@@ -217,6 +263,28 @@ const copy: Localized<ToolCopy> = {
       "Diagnostic indicatif, fondé sur les taux généraux de notre base pays (revue régulièrement). Chaque dossier est vérifié ligne à ligne avant tout dépôt.",
   },
   en: {
+    upload: {
+      label: "Drop your statement here",
+      hint: "PDF, CSV or TXT — drag and drop or choose a file. Nothing is sent to a server: extraction runs entirely in your browser, PDFs included.",
+      browse: "Choose a file",
+      dragActive: "Drop the file here",
+      reading: "Reading the file…",
+      readingPdf: "Extracting text from the PDF…",
+      fileLabel: (name) => `Analysed file: ${name}`,
+      clear: "Analyse another file",
+      errorTitle: "This file could not be read",
+      errorPdf:
+        "This PDF has no extractable text — it is probably a scanned image. Try exporting a CSV from your broker instead, or paste a line manually below.",
+      errorGeneric:
+        "The file could not be decoded as text. Check that it is really a CSV, TXT or PDF, or paste a line manually below.",
+      emptyTitle: "No dividend line recognised in this file",
+      emptyBody:
+        "The file was read correctly, but no foreign-dividend pattern (ISIN plus amounts) was found in it. Try the manual paste below, or check that this is really a securities transaction statement.",
+      resultsTitle: (n) => `${n} dividend line${n > 1 ? "s" : ""} detected`,
+      resultsHint: "Click a line to see its full diagnosis below.",
+      table: { security: "Security", amounts: "Gross / Withheld", rate: "Effective rate", status: "Status" },
+    },
+    manualKicker: "Or paste a line manually",
     paste: {
       label: "Paste a dividend line from your statement",
       placeholder:
@@ -367,6 +435,8 @@ const BADGE_TONE: Record<DiagnosisStatus, "green" | "gold" | "red" | "neutral"> 
   zeroWithheld: "neutral",
 };
 
+const ACCEPTED_EXTENSIONS = [".pdf", ".csv", ".txt"];
+
 function toNumber(input: string): number | null {
   const s = input.replace(/[\s  ]/g, "").replace(",", ".");
   if (s === "") return null;
@@ -374,11 +444,25 @@ function toNumber(input: string): number | null {
   return Number.isFinite(n) && n >= 0 ? n : null;
 }
 
+function isPdfFile(file: File): boolean {
+  return file.type === "application/pdf" || file.name.toLowerCase().endsWith(".pdf");
+}
+
 /* -------------------------------------------------------------- component */
+
+type FileStatus = "idle" | "loading" | "done" | "error";
+
+interface TableRow {
+  index: number;
+  country: CountryTaxProfile | undefined;
+  parsed: ParseResult;
+  diagnosis: Diagnosis | null;
+}
 
 export function StatementReaderTool({ locale }: { locale: Locale }) {
   const t = copy[locale];
   const common = getCommon(locale);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const [pasted, setPasted] = useState("");
   const [parse, setParse] = useState<ParseResult | null>(null);
@@ -386,6 +470,13 @@ export function StatementReaderTool({ locale }: { locale: Locale }) {
   const [residence, setResidence] = useState<Residence>("FR");
   const [grossStr, setGrossStr] = useState("");
   const [withheldStr, setWithheldStr] = useState("");
+
+  const [dragActive, setDragActive] = useState(false);
+  const [fileName, setFileName] = useState<string | null>(null);
+  const [fileIsPdf, setFileIsPdf] = useState(false);
+  const [fileStatus, setFileStatus] = useState<FileStatus>("idle");
+  const [multiResults, setMultiResults] = useState<StatementLine[]>([]);
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
 
   const applyText = (text: string) => {
     setPasted(text);
@@ -396,6 +487,52 @@ export function StatementReaderTool({ locale }: { locale: Locale }) {
     setWithheldStr(p.withheld !== null ? String(p.withheld) : "");
   };
 
+  function selectResult(index: number, source: StatementLine[]) {
+    const row = source[index];
+    if (!row) return;
+    setSelectedIndex(index);
+    applyText(row.sourceText);
+  }
+
+  async function handleFile(file: File) {
+    const pdf = isPdfFile(file);
+    setFileName(file.name);
+    setFileIsPdf(pdf);
+    setFileStatus("loading");
+    setMultiResults([]);
+    setSelectedIndex(null);
+    try {
+      const text = pdf ? await extractPdfText(file) : await file.text();
+      const results = parseMultipleStatements(text);
+      setMultiResults(results);
+      setFileStatus("done");
+      if (results.length > 0) selectResult(0, results);
+    } catch (err) {
+      console.error("[statement-reader] file read failed:", err);
+      setFileStatus("error");
+    }
+  }
+
+  function clearFile() {
+    setFileName(null);
+    setFileStatus("idle");
+    setMultiResults([]);
+    setSelectedIndex(null);
+  }
+
+  function onDrop(e: React.DragEvent<HTMLDivElement>) {
+    e.preventDefault();
+    setDragActive(false);
+    const file = e.dataTransfer.files?.[0];
+    if (file) void handleFile(file);
+  }
+
+  function onFileInputChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (file) void handleFile(file);
+    e.target.value = "";
+  }
+
   const gross = toNumber(grossStr);
   const withheld = toNumber(withheldStr);
   const currency = parse?.currency ?? "EUR";
@@ -405,6 +542,19 @@ export function StatementReaderTool({ locale }: { locale: Locale }) {
     if (countryId === "" || gross === null || withheld === null || gross <= 0) return null;
     return diagnoseById(countryId, residence, gross, withheld);
   }, [countryId, residence, gross, withheld]);
+
+  const tableRows: TableRow[] = useMemo(
+    () =>
+      multiResults.map((r, index) => {
+        const c = r.parsed.countryId !== null ? getCountryById(r.parsed.countryId) : undefined;
+        const d =
+          r.parsed.countryId !== null && r.parsed.gross !== null && r.parsed.withheld !== null
+            ? diagnoseById(r.parsed.countryId, residence, r.parsed.gross, r.parsed.withheld)
+            : null;
+        return { index, country: c, parsed: r.parsed, diagnosis: d };
+      }),
+    [multiResults, residence],
+  );
 
   const fc = (n: number) => formatCurrency(n, locale, currency, 2);
   const pct = (r: number) => formatPercent(r, locale, 2);
@@ -442,7 +592,155 @@ export function StatementReaderTool({ locale }: { locale: Locale }) {
 
   return (
     <div className="space-y-6">
+      {/* ------------------------------------------------------------ upload */}
+      <div
+        className={`rounded-[6px] border-2 border-dashed bg-white p-6 text-center transition-colors sm:p-8 ${
+          dragActive ? "border-brand bg-tint-green" : "border-rule"
+        }`}
+        onDragOver={(e) => {
+          e.preventDefault();
+          setDragActive(true);
+        }}
+        onDragLeave={(e) => {
+          e.preventDefault();
+          setDragActive(false);
+        }}
+        onDrop={onDrop}
+      >
+        <input
+          ref={fileInputRef}
+          type="file"
+          accept={ACCEPTED_EXTENSIONS.join(",")}
+          onChange={onFileInputChange}
+          className="sr-only"
+          aria-label={t.upload.label}
+        />
+        <p className="font-display text-xl font-semibold text-ink">
+          {dragActive ? t.upload.dragActive : t.upload.label}
+        </p>
+        <p className="mx-auto mt-2 max-w-[52ch] text-[14px] leading-relaxed text-mine">
+          {t.upload.hint}
+        </p>
+        <button
+          type="button"
+          onClick={() => fileInputRef.current?.click()}
+          className="mt-4 inline-flex items-center justify-center gap-2 rounded-[6px] border border-ink bg-white px-5 py-2.5 text-[15px] font-medium text-ink transition-colors hover:bg-paper"
+        >
+          {t.upload.browse}
+        </button>
+
+        {fileName !== null && (
+          <div className="mt-5 border-t border-rule pt-4 text-left">
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <p className="font-mono text-[13px] text-ink">{t.upload.fileLabel(fileName)}</p>
+              <button
+                type="button"
+                onClick={clearFile}
+                className="text-[13px] font-medium text-brand hover:underline underline-offset-4"
+              >
+                {t.upload.clear}
+              </button>
+            </div>
+
+            {fileStatus === "loading" && (
+              <p className="mt-2 font-mono text-sm text-mine">
+                {fileIsPdf ? t.upload.readingPdf : t.upload.reading}
+              </p>
+            )}
+
+            {fileStatus === "error" && (
+              <div className="mt-3 rounded-[6px] border border-debit/30 bg-tint-red p-4">
+                <p className="text-[15px] font-medium text-debit">{t.upload.errorTitle}</p>
+                <p className="mt-1 text-[14px] leading-relaxed text-ink">
+                  {fileIsPdf ? t.upload.errorPdf : t.upload.errorGeneric}
+                </p>
+              </div>
+            )}
+
+            {fileStatus === "done" && multiResults.length === 0 && (
+              <div className="mt-3 rounded-[6px] border border-rule bg-paper p-4">
+                <p className="text-[15px] font-medium text-ink">{t.upload.emptyTitle}</p>
+                <p className="mt-1 text-[14px] leading-relaxed text-mine">{t.upload.emptyBody}</p>
+              </div>
+            )}
+
+            {fileStatus === "done" && multiResults.length > 0 && (
+              <div className="mt-4">
+                <p className="text-[15px] font-medium text-ink">
+                  {t.upload.resultsTitle(multiResults.length)}
+                </p>
+                <p className="mt-1 text-[13px] text-mine">{t.upload.resultsHint}</p>
+                <div className="mt-3 overflow-x-auto rounded-[6px] border border-rule">
+                  <table className="w-full min-w-[560px] border-collapse bg-white text-left text-[14px]">
+                    <thead>
+                      <tr className="border-b border-rule bg-paper/60">
+                        <th className="px-3 py-2 font-mono text-[11px] font-medium uppercase tracking-wide text-mine">
+                          {t.upload.table.security}
+                        </th>
+                        <th className="px-3 py-2 font-mono text-[11px] font-medium uppercase tracking-wide text-mine">
+                          {t.upload.table.amounts}
+                        </th>
+                        <th className="px-3 py-2 font-mono text-[11px] font-medium uppercase tracking-wide text-mine">
+                          {t.upload.table.rate}
+                        </th>
+                        <th className="px-3 py-2 font-mono text-[11px] font-medium uppercase tracking-wide text-mine">
+                          {t.upload.table.status}
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-rule">
+                      {tableRows.map((row) => (
+                        <tr
+                          key={row.index}
+                          onClick={() => selectResult(row.index, multiResults)}
+                          className={`cursor-pointer transition-colors hover:bg-paper ${
+                            selectedIndex === row.index ? "bg-tint-green" : ""
+                          }`}
+                        >
+                          <td className="px-3 py-2 font-medium text-ink">
+                            {row.country !== undefined ? (
+                              <>
+                                <span aria-hidden="true">{row.country.flag}</span>{" "}
+                                {row.country.name[locale]}
+                              </>
+                            ) : (
+                              "—"
+                            )}
+                          </td>
+                          <td className="whitespace-nowrap px-3 py-2 font-mono text-ink">
+                            {row.parsed.gross !== null && row.parsed.currency !== null
+                              ? formatCurrency(row.parsed.gross, locale, row.parsed.currency, 2)
+                              : "—"}
+                            {" / "}
+                            {row.parsed.withheld !== null && row.parsed.currency !== null
+                              ? formatCurrency(row.parsed.withheld, locale, row.parsed.currency, 2)
+                              : "—"}
+                          </td>
+                          <td className="whitespace-nowrap px-3 py-2 font-mono text-ink">
+                            {row.diagnosis !== null ? pct(row.diagnosis.effectiveRate) : "—"}
+                          </td>
+                          <td className="px-3 py-2">
+                            {row.diagnosis !== null && (
+                              <Badge tone={BADGE_TONE[row.diagnosis.status]}>
+                                {t.statuses[row.diagnosis.status].badge}
+                              </Badge>
+                            )}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+
       {/* ------------------------------------------------------------ paste */}
+      <p className="font-mono text-xs font-medium uppercase tracking-[0.08em] text-mine">
+        {t.manualKicker}
+      </p>
       <Card className="p-5 sm:p-6">
         <label htmlFor="reader-paste" className="mb-1.5 block text-sm font-medium text-ink">
           {t.paste.label}

@@ -29,29 +29,29 @@ interface PageCopy {
 const copy: Localized<PageCopy> = {
   fr: {
     metaTitle: "Lecteur de relevé : votre dividende a-t-il été trop retenu ?",
-    metaDescription: `Collez une ligne de dividende de votre relevé de courtage : l'outil détecte le pays (via l'ISIN), le brut et la retenue, calcule le taux réellement appliqué et le compare aux conventions fiscales de ${N_COUNTRIES} pays. Gratuit, sans compte, analyse 100 % dans votre navigateur.`,
+    metaDescription: `Déposez votre relevé (PDF, CSV, TXT) ou collez une ligne de dividende : l'outil détecte chaque ligne, le pays (via l'ISIN), le brut et la retenue, calcule le taux réellement appliqué et le compare aux conventions fiscales de ${N_COUNTRIES} pays. Gratuit, sans compte, analyse 100 % dans votre navigateur.`,
     hero: {
       kicker: "Outil self-service · Gratuit · Sans compte",
       title: "Le lecteur de relevé : sur-prélevé ou pas ?",
-      lede: `Chaque ligne de dividende étranger contient deux chiffres que presque personne ne compare : le brut et l'impôt retenu. Collez la ligne telle quelle — l'outil reconnaît le pays via l'ISIN, retrouve les montants, calcule le taux réellement appliqué et le compare à ce que la convention fiscale autorise pour votre résidence. Verdict en dix secondes, ${N_COUNTRIES} pays couverts.`,
+      lede: `Chaque ligne de dividende étranger contient deux chiffres que presque personne ne compare : le brut et l'impôt retenu. Déposez votre relevé (PDF, CSV, TXT) ou collez une ligne telle quelle — l'outil reconnaît chaque pays via l'ISIN, retrouve les montants, calcule le taux réellement appliqué et le compare à ce que la convention fiscale autorise pour votre résidence, ligne après ligne si le fichier en contient plusieurs. Verdict en dix secondes, ${N_COUNTRIES} pays couverts.`,
     },
     toolFallback: "Chargement du lecteur…",
     how: {
       kicker: "Mode d'emploi",
-      title: "Où trouver la ligne à coller",
-      lede: "N'importe quel document qui montre le brut et l'impôt retenu convient — en français ou en anglais.",
+      title: "Quel document déposer",
+      lede: "N'importe quel document qui montre le brut et l'impôt retenu convient — en français ou en anglais, en PDF, CSV ou TXT.",
       items: [
         {
-          title: "Le relevé d'opérations sur titres",
-          body: "Chez la plupart des courtiers : rubrique « opérations », « coupons » ou « dividendes » de votre espace client. Copiez la ou les lignes de l'opération, avec les montants — l'ISIN, s'il figure, identifie le pays tout seul.",
+          title: "L'export CSV du relevé d'opérations",
+          body: "Chez la plupart des courtiers : rubrique « opérations », « coupons » ou « dividendes » de votre espace client, avec une option d'export. C'est le format le plus fiable — une ligne par dividende, l'ISIN identifie le pays tout seul.",
         },
         {
-          title: "L'avis d'opéré ou le décompte de coupon",
-          body: "Le document PDF émis à chaque versement. C'est le plus complet : brut, taux appliqué, impôt retenu, net crédité. Un copier-coller du bloc central suffit, mise en forme comprise.",
+          title: "L'avis d'opéré ou le décompte de coupon en PDF",
+          body: "Le document PDF émis à chaque versement, ou le rapport fiscal annuel complet. L'outil extrait le texte du PDF directement dans votre navigateur et repère chaque ligne de dividende, même sur plusieurs pages.",
         },
         {
-          title: "Le rapport fiscal annuel",
-          body: "La synthèse annuelle de votre courtier liste tous les dividendes et retenues de l'année. Collez une ligne à la fois : le diagnostic vaut par versement, pas en cumul — deux taux différents peuvent se cacher dans un total.",
+          title: "Une seule ligne, copiée à la main",
+          body: "Pas de fichier sous la main ? Collez simplement la ligne — brut, retenue, ISIN — dans le champ manuel plus bas. C'est le même moteur d'analyse, juste sans le fichier autour.",
         },
       ],
     },
@@ -60,14 +60,19 @@ const copy: Localized<PageCopy> = {
       title: "Vos questions sur le lecteur de relevé",
       items: [
         {
-          question: "Mes données de relevé sont-elles envoyées quelque part ?",
+          question: "Mon fichier ou mes données de relevé sont-ils envoyés quelque part ?",
           answer:
-            "Non. L'analyse s'exécute intégralement dans votre navigateur : le texte collé n'est transmis à aucun serveur, n'est pas enregistré, et disparaît quand vous quittez la page. C'est aussi pour cela que l'outil fonctionne hors connexion une fois la page chargée.",
+            "Non. Le fichier déposé ou le texte collé sont lus intégralement dans votre navigateur — extraction du PDF comprise — sans jamais transiter par un serveur ni être enregistrés : tout disparaît quand vous quittez la page. C'est aussi pour cela que l'outil fonctionne hors connexion une fois la page chargée.",
         },
         {
-          question: "Quels formats de relevés l'outil comprend-il ?",
+          question: "Quels formats de fichiers l'outil accepte-t-il ?",
           answer:
-            "Les formats usuels des courtiers français et internationaux : montants en notation française (1 234,56) ou anglo-saxonne (1,234.56), libellés « brut / retenue / net » ou « gross / withholding tax / net », ISIN, devises, pourcentages. Si la détection se trompe, les quatre champs restent modifiables à la main — le diagnostic repart de vos corrections.",
+            "PDF, CSV et TXT, en plus du collage manuel. Les montants en notation française (1 234,56) ou anglo-saxonne (1,234.56), les libellés « brut / retenue / net » ou « gross / withholding tax / net », ISIN, devises, pourcentages sont tous reconnus. Si la détection se trompe sur une ligne, les quatre champs du diagnostic détaillé restent modifiables à la main.",
+        },
+        {
+          question: "Mon PDF est un scan : ça fonctionne quand même ?",
+          answer:
+            "Non, pas directement : l'outil lit le texte du PDF, pas une image. Un PDF scanné (sans texte sélectionnable) ne donnera aucun résultat — le mieux est alors d'exporter un CSV depuis votre courtier, ou de recopier les montants à la main dans le champ manuel.",
         },
         {
           question: "L'outil fonctionne-t-il pour les ETF et les fonds ?",
@@ -80,9 +85,9 @@ const copy: Localized<PageCopy> = {
             "Non : c'est un diagnostic indicatif, fondé sur les taux généraux de notre base pays, revue régulièrement. Il vous dit si une ligne mérite un dossier — le dossier lui-même est ensuite vérifié ligne à ligne, taux et délais compris, avant tout dépôt. Et s'il n'y a rien à récupérer, l'outil vous le dit aussi.",
         },
         {
-          question: "Puis-je coller plusieurs lignes d'un coup ?",
+          question: "Le fichier contient plusieurs dividendes : ça marche comment ?",
           answer:
-            "Collez les lignes d'un seul et même versement (brut, impôt, net) — c'est le cas idéal. Pour plusieurs dividendes différents, analysez-les un par un : l'outil vous prévient s'il détecte plusieurs titres dans le texte. Pour chiffrer un portefeuille entier, le simulateur est l'étape suivante.",
+            "L'outil détecte chaque ligne de dividende du fichier et les liste dans un tableau, une par une, avec leur taux et leur statut. Cliquez une ligne pour afficher son diagnostic complet en dessous. Pour chiffrer l'ensemble du portefeuille commission déduite, le simulateur est l'étape suivante.",
         },
       ],
     },
@@ -93,29 +98,29 @@ const copy: Localized<PageCopy> = {
   },
   en: {
     metaTitle: "Statement reader: was your dividend over-withheld?",
-    metaDescription: `Paste a dividend line from your brokerage statement: the tool detects the country (via the ISIN), the gross and the withholding, computes the rate actually applied and compares it with the tax treaties of ${N_COUNTRIES} countries. Free, no account, 100% in-browser analysis.`,
+    metaDescription: `Upload your statement (PDF, CSV, TXT) or paste a dividend line: the tool detects every line, the country (via the ISIN), the gross and the withholding, computes the rate actually applied and compares it with the tax treaties of ${N_COUNTRIES} countries. Free, no account, 100% in-browser analysis.`,
     hero: {
       kicker: "Self-service tool · Free · No account",
       title: "The statement reader: over-withheld or not?",
-      lede: `Every foreign-dividend line holds two figures almost nobody compares: the gross and the tax withheld. Paste the line as is — the tool recognises the country via the ISIN, finds the amounts, computes the rate actually applied and compares it with what the tax treaty allows for your residence. Verdict in ten seconds, ${N_COUNTRIES} countries covered.`,
+      lede: `Every foreign-dividend line holds two figures almost nobody compares: the gross and the tax withheld. Upload your statement (PDF, CSV, TXT) or paste a line as is — the tool recognises every country via the ISIN, finds the amounts, computes the rate actually applied and compares it with what the tax treaty allows for your residence, line by line when the file holds several. Verdict in ten seconds, ${N_COUNTRIES} countries covered.`,
     },
     toolFallback: "Loading the reader…",
     how: {
       kicker: "How to use it",
-      title: "Where to find the line to paste",
-      lede: "Any document showing the gross and the tax withheld will do — in French or in English.",
+      title: "Which document to upload",
+      lede: "Any document showing the gross and the tax withheld will do — in French or in English, as a PDF, CSV or TXT.",
       items: [
         {
-          title: "The securities transaction statement",
-          body: "With most brokers: the 'transactions', 'coupons' or 'dividends' section of your client area. Copy the operation's line or lines, amounts included — the ISIN, when present, identifies the country on its own.",
+          title: "The CSV export of your transaction statement",
+          body: "With most brokers: the 'transactions', 'coupons' or 'dividends' section of your client area has an export option. It is the most reliable format — one line per dividend, the ISIN identifies the country on its own.",
         },
         {
-          title: "The contract note or coupon advice",
-          body: "The PDF issued at each payment. It is the most complete: gross, rate applied, tax withheld, net credited. A copy-paste of the central block is enough, formatting included.",
+          title: "The contract note or coupon advice, as a PDF",
+          body: "The PDF issued at each payment, or the full annual tax report. The tool extracts the PDF's text directly in your browser and finds every dividend line, even across several pages.",
         },
         {
-          title: "The annual tax report",
-          body: "Your broker's yearly summary lists every dividend and withholding of the year. Paste one line at a time: the diagnosis holds per payment, not in aggregate — two different rates can hide inside one total.",
+          title: "A single line, typed by hand",
+          body: "No file at hand? Just paste the line — gross, withholding, ISIN — into the manual field further down. It is the same analysis engine, minus the file around it.",
         },
       ],
     },
@@ -124,14 +129,19 @@ const copy: Localized<PageCopy> = {
       title: "Your questions about the statement reader",
       items: [
         {
-          question: "Is my statement data sent anywhere?",
+          question: "Is my uploaded file or statement data sent anywhere?",
           answer:
-            "No. The analysis runs entirely in your browser: the pasted text is transmitted to no server, is not stored, and vanishes when you leave the page. That is also why the tool keeps working offline once the page has loaded.",
+            "No. An uploaded file or pasted text is read entirely in your browser — PDF extraction included — never transmitted to a server, never stored: it all vanishes when you leave the page. That is also why the tool keeps working offline once the page has loaded.",
         },
         {
-          question: "Which statement formats does the tool understand?",
+          question: "Which file formats does the tool accept?",
           answer:
-            "The usual formats of French and international brokers: amounts in French notation (1 234,56) or Anglo-Saxon notation (1,234.56), 'brut / retenue / net' or 'gross / withholding tax / net' labels, ISINs, currencies, percentages. If detection gets something wrong, all four fields remain hand-editable — the diagnosis restarts from your corrections.",
+            "PDF, CSV and TXT, on top of manual paste. Amounts in French notation (1 234,56) or Anglo-Saxon notation (1,234.56), 'brut / retenue / net' or 'gross / withholding tax / net' labels, ISINs, currencies, percentages are all recognised. If detection gets a line wrong, the four fields of the detailed diagnosis remain hand-editable.",
+        },
+        {
+          question: "My PDF is a scan — will that work?",
+          answer:
+            "Not directly: the tool reads the PDF's text, not an image. A scanned PDF with no selectable text will yield no results — the best move then is to export a CSV from your broker instead, or type the amounts into the manual field.",
         },
         {
           question: "Does the tool work for ETFs and funds?",
@@ -144,9 +154,9 @@ const copy: Localized<PageCopy> = {
             "No: it is an indicative diagnosis, based on the general rates of our country database, reviewed regularly. It tells you whether a line deserves a file — the file itself is then verified line by line, rates and deadlines included, before any filing. And if there is nothing to recover, the tool says so too.",
         },
         {
-          question: "Can I paste several lines at once?",
+          question: "The file has several dividends — how does that work?",
           answer:
-            "Paste the lines of one single payment (gross, tax, net) — that is the ideal case. For several different dividends, analyse them one by one: the tool warns you when it detects several securities in the text. To quantify a whole portfolio, the simulator is the next step.",
+            "The tool detects every dividend line in the file and lists them in a table, one by one, with their rate and status. Click a line to see its full diagnosis below. To quantify the whole portfolio, fee deducted, the simulator is the next step.",
         },
       ],
     },

@@ -74,6 +74,9 @@ function normalize(text: string): string {
     .toLowerCase();
 }
 
+/** Matches an ISIN anywhere in text; group 1 is the 2-letter country prefix. */
+const ISIN_RE = /\b([A-Z]{2})[A-Z0-9]{9}\d\b/g;
+
 /* --------------------------------------------------------------- countries */
 
 /** ISIN prefixes that identify a covered source country directly. */
@@ -228,7 +231,7 @@ export function parseStatement(text: string): ParseResult {
 
   /* Country: ISIN first (the strongest evidence brokers all print) ------ */
   const isinPrefixes = new Set<string>();
-  for (const m of text.toUpperCase().matchAll(/\b([A-Z]{2})[A-Z0-9]{9}\d\b/g)) {
+  for (const m of text.toUpperCase().matchAll(ISIN_RE)) {
     isinPrefixes.add(m[1]);
   }
   const covered = [...isinPrefixes].filter((p) => PANEL_IDS.has(p));
@@ -491,4 +494,110 @@ export function diagnoseById(
   const country = getCountryById(countryId);
   if (country === undefined) return null;
   return diagnose(country, residence, gross, withheld);
+}
+
+/* -------------------------------------------------------------- documents */
+
+export interface StatementLine {
+  /** Raw text window this record was extracted from — shown for transparency. */
+  sourceText: string;
+  parsed: ParseResult;
+}
+
+/** Lines of context kept before/after an ISIN when carving out its block. */
+const LINES_BEFORE = 2;
+const LINES_AFTER = 4;
+
+/** A same-ISIN hit within this many lines of the previous one may complete the same entry. */
+const SAME_ISIN_MERGE_GAP = 2;
+
+function isComplete(p: ParseResult): boolean {
+  return p.countryId !== null && p.gross !== null && p.withheld !== null;
+}
+
+/**
+ * Full-document extraction: a real statement (CSV export, PDF text dump,
+ * annual tax report) lists many dividends, not one. Every ISIN occurrence in
+ * the text is a candidate anchor, resolved with a "solo first, merge only if
+ * needed" strategy:
+ *  1. Try the ISIN's own small window alone, run through the same
+ *     single-block `parseStatement()` used for manual paste. A self-
+ *     contained CSV/table row (ISIN + amounts all on one line) resolves
+ *     right here — this is the common case, and it is what keeps ten
+ *     dividends on the same stock as ten separate rows instead of one.
+ *  2. Only if that window alone is incomplete (e.g. the amount and the tax
+ *     sit on two separate lines, as IBKR-style exports do, with the ISIN
+ *     repeated on both) AND the very next ISIN hit is the identical ISIN
+ *     close by, merge the two into one window and retry. This is what
+ *     completes a split entry without merging unrelated repeats of the same
+ *     stock far apart in the document.
+ * Either way, blocks are clipped at neighbouring hits so entries never
+ * bleed into each other.
+ */
+export function parseMultipleStatements(text: string): StatementLine[] {
+  const lines = text.split("\n");
+  if (lines.length === 0) return [];
+
+  let offset = 0;
+  const lineStartOffsets = lines.map((line) => {
+    const start = offset;
+    offset += line.length + 1;
+    return start;
+  });
+
+  function lineIndexForOffset(charIndex: number): number {
+    let lo = 0;
+    let hi = lineStartOffsets.length - 1;
+    while (lo < hi) {
+      const mid = Math.ceil((lo + hi) / 2);
+      if (lineStartOffsets[mid] <= charIndex) lo = mid;
+      else hi = mid - 1;
+    }
+    return lo;
+  }
+
+  const hits: { isin: string; line: number }[] = [];
+  for (const m of text.toUpperCase().matchAll(ISIN_RE)) {
+    hits.push({ isin: m[0], line: lineIndexForOffset(m.index ?? 0) });
+  }
+  if (hits.length === 0) return [];
+
+  function windowText(firstLine: number, lastLine: number, prevBoundary: number, nextBoundary: number): string {
+    const start = Math.max(0, firstLine - LINES_BEFORE, prevBoundary + 1);
+    const end = Math.min(lines.length, lastLine + LINES_AFTER + 1, nextBoundary);
+    return lines.slice(start, end).join("\n");
+  }
+
+  const results: StatementLine[] = [];
+  let i = 0;
+  while (i < hits.length) {
+    const hit = hits[i];
+    const prevBoundary = i > 0 ? hits[i - 1].line : -1;
+    const nextHitLine = i < hits.length - 1 ? hits[i + 1].line : lines.length;
+
+    const soloText = windowText(hit.line, hit.line, prevBoundary, nextHitLine);
+    const soloParsed = parseStatement(soloText);
+    if (isComplete(soloParsed)) {
+      results.push({ sourceText: soloText, parsed: soloParsed });
+      i += 1;
+      continue;
+    }
+
+    const next = hits[i + 1];
+    if (next && next.isin === hit.isin && next.line - hit.line <= SAME_ISIN_MERGE_GAP) {
+      const afterNextBoundary = i + 2 < hits.length ? hits[i + 2].line : lines.length;
+      const mergedText = windowText(hit.line, next.line, prevBoundary, afterNextBoundary);
+      const mergedParsed = parseStatement(mergedText);
+      if (isComplete(mergedParsed)) {
+        results.push({ sourceText: mergedText, parsed: mergedParsed });
+      }
+      i += 2;
+      continue;
+    }
+
+    // Nothing diagnosable for this hit alone or merged with its neighbour —
+    // header rows, dates-only lines, a reference to an unrelated ISIN.
+    i += 1;
+  }
+  return results;
 }
