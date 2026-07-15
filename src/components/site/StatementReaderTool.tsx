@@ -54,6 +54,14 @@ interface ToolCopy {
     resultsTitle: (n: number) => string;
     resultsHint: string;
     table: { security: string; amounts: string; rate: string; status: string };
+    summary: {
+      title: string;
+      totalLine: (amounts: string) => string;
+      noneLine: string;
+      countLine: (recoverable: number, total: number) => string;
+      reviewLine: (n: number) => string;
+      cta: string;
+    };
   };
   manualKicker: string;
   paste: {
@@ -101,6 +109,8 @@ interface ToolCopy {
     adr: string;
     multipleIsins: string;
     uncovered: (prefix: string) => string;
+    lowConfidenceTitle: string;
+    lowConfidenceBody: string;
   };
   ctas: {
     simulate: string;
@@ -132,6 +142,16 @@ const copy: Localized<ToolCopy> = {
       resultsTitle: (n) => `${n} ligne${n > 1 ? "s" : ""} de dividende détectée${n > 1 ? "s" : ""}`,
       resultsHint: "Cliquez une ligne pour voir son diagnostic complet ci-dessous.",
       table: { security: "Titre", amounts: "Brut / Retenu", rate: "Taux effectif", status: "Statut" },
+      summary: {
+        title: "Ce que ce relevé peut vous rendre",
+        totalLine: (amounts) => `≈ ${amounts} potentiellement récupérables`,
+        noneLine: "Aucun trop-perçu détecté sur les lignes analysées — c'est aussi une réponse.",
+        countLine: (recoverable, total) =>
+          `${recoverable} ligne${recoverable > 1 ? "s" : ""} sur ${total} avec un écart à réclamer.`,
+        reviewLine: (n) =>
+          `${n} ligne${n > 1 ? "s" : ""} à vérifier manuellement : détection incertaine — cliquez la ligne pour contrôler les champs avant de conclure.`,
+        cta: "Chiffrer précisément sur le simulateur",
+      },
     },
     manualKicker: "Ou collez une ligne manuellement",
     paste: {
@@ -253,6 +273,9 @@ const copy: Localized<ToolCopy> = {
         "Plusieurs titres détectés dans le texte collé : analysez une seule ligne de dividende à la fois pour un diagnostic fiable.",
       uncovered: (prefix) =>
         `ISIN commençant par « ${prefix} » : ce pays est hors de notre panel actuel. Sélectionnez le pays manuellement si le titre distribue depuis une juridiction couverte, ou écrivez-nous.`,
+      lowConfidenceTitle: "Détection incertaine sur cette ligne",
+      lowConfidenceBody:
+        "Le pays et/ou les montants ci-dessus ont été devinés faute de signal fort — pas d'ISIN reconnu, ou aucun montant clairement étiqueté « brut »/« retenue » dans le texte. Vérifiez les quatre champs avant de faire confiance au verdict, ou corrigez-les directement : la détection reste une aide, jamais une certitude.",
     },
     ctas: {
       simulate: "Chiffrer sur tout mon portefeuille",
@@ -283,6 +306,16 @@ const copy: Localized<ToolCopy> = {
       resultsTitle: (n) => `${n} dividend line${n > 1 ? "s" : ""} detected`,
       resultsHint: "Click a line to see its full diagnosis below.",
       table: { security: "Security", amounts: "Gross / Withheld", rate: "Effective rate", status: "Status" },
+      summary: {
+        title: "What this statement can give back",
+        totalLine: (amounts) => `≈ ${amounts} potentially recoverable`,
+        noneLine: "No over-withholding detected on the analysed lines — that is an answer too.",
+        countLine: (recoverable, total) =>
+          `${recoverable} line${recoverable > 1 ? "s" : ""} out of ${total} with a gap to claim.`,
+        reviewLine: (n) =>
+          `${n} line${n > 1 ? "s" : ""} to check manually: uncertain detection — click the line to review the fields before concluding.`,
+        cta: "Run the numbers on the simulator",
+      },
     },
     manualKicker: "Or paste a line manually",
     paste: {
@@ -404,6 +437,9 @@ const copy: Localized<ToolCopy> = {
         "Several securities detected in the pasted text: analyse one dividend line at a time for a reliable diagnosis.",
       uncovered: (prefix) =>
         `ISIN starting with "${prefix}": this country is outside our current panel. Select the country manually if the security distributes from a covered jurisdiction, or write to us.`,
+      lowConfidenceTitle: "Uncertain detection on this line",
+      lowConfidenceBody:
+        "The country and/or amounts above were guessed for lack of a strong signal — no recognised ISIN, or no amount clearly labelled 'gross'/'withheld' in the text. Check all four fields before trusting the verdict, or correct them directly: detection is help, never certainty.",
     },
     ctas: {
       simulate: "Run it on my whole portfolio",
@@ -448,6 +484,11 @@ function isPdfFile(file: File): boolean {
   return file.type === "application/pdf" || file.name.toLowerCase().endsWith(".pdf");
 }
 
+/** Weakest evidence tiers: a country guessed from free text, or amounts guessed by ratio alone. */
+function isLowConfidence(p: ParseResult): boolean {
+  return p.countryEvidence === "name" || p.grossEvidence === "ratio" || p.withheldEvidence === "ratio";
+}
+
 /* -------------------------------------------------------------- component */
 
 type FileStatus = "idle" | "loading" | "done" | "error";
@@ -457,6 +498,7 @@ interface TableRow {
   country: CountryTaxProfile | undefined;
   parsed: ParseResult;
   diagnosis: Diagnosis | null;
+  lowConfidence: boolean;
 }
 
 export function StatementReaderTool({ locale }: { locale: Locale }) {
@@ -551,10 +593,27 @@ export function StatementReaderTool({ locale }: { locale: Locale }) {
           r.parsed.countryId !== null && r.parsed.gross !== null && r.parsed.withheld !== null
             ? diagnoseById(r.parsed.countryId, residence, r.parsed.gross, r.parsed.withheld)
             : null;
-        return { index, country: c, parsed: r.parsed, diagnosis: d };
+        return { index, country: c, parsed: r.parsed, diagnosis: d, lowConfidence: isLowConfidence(r.parsed) };
       }),
     [multiResults, residence],
   );
+
+  /** Portfolio-level rollup shown above the table: what this statement is worth, at a glance. */
+  const fileSummary = useMemo(() => {
+    if (tableRows.length === 0) return null;
+    const recoverableByCurrency = new Map<string, number>();
+    let recoverableCount = 0;
+    let reviewCount = 0;
+    for (const row of tableRows) {
+      if (row.lowConfidence) reviewCount += 1;
+      if (row.diagnosis !== null && row.diagnosis.recoverable > 0.005) {
+        recoverableCount += 1;
+        const cur = row.parsed.currency ?? "EUR";
+        recoverableByCurrency.set(cur, (recoverableByCurrency.get(cur) ?? 0) + row.diagnosis.recoverable);
+      }
+    }
+    return { recoverableByCurrency, recoverableCount, reviewCount, total: tableRows.length };
+  }, [tableRows]);
 
   const fc = (n: number) => formatCurrency(n, locale, currency, 2);
   const pct = (r: number) => formatPercent(r, locale, 2);
@@ -664,6 +723,46 @@ export function StatementReaderTool({ locale }: { locale: Locale }) {
               </div>
             )}
 
+            {fileStatus === "done" && multiResults.length > 0 && fileSummary !== null && (
+              <div
+                className={`mt-4 rounded-[6px] border p-4 sm:p-5 ${
+                  fileSummary.recoverableByCurrency.size > 0
+                    ? "border-gold/40 bg-tint-gold"
+                    : "border-rule bg-paper"
+                }`}
+              >
+                <p className="font-mono text-[11px] font-medium uppercase tracking-wide text-mine">
+                  {t.upload.summary.title}
+                </p>
+                {fileSummary.recoverableByCurrency.size > 0 ? (
+                  <>
+                    <p className="mt-1 font-display text-2xl font-semibold text-ink">
+                      {t.upload.summary.totalLine(
+                        [...fileSummary.recoverableByCurrency.entries()]
+                          .map(([cur, amt]) => formatCurrency(amt, locale, cur, 2))
+                          .join(" + "),
+                      )}
+                    </p>
+                    <p className="mt-1 text-[14px] text-ink">
+                      {t.upload.summary.countLine(fileSummary.recoverableCount, fileSummary.total)}
+                    </p>
+                  </>
+                ) : (
+                  <p className="mt-1 text-[15px] text-ink">{t.upload.summary.noneLine}</p>
+                )}
+                {fileSummary.reviewCount > 0 && (
+                  <p className="mt-2 text-[13px] leading-relaxed text-mine">
+                    {t.upload.summary.reviewLine(fileSummary.reviewCount)}
+                  </p>
+                )}
+                {fileSummary.recoverableByCurrency.size > 0 && (
+                  <div className="mt-3">
+                    <ButtonLink href={href(locale, "simulator")}>{t.upload.summary.cta}</ButtonLink>
+                  </div>
+                )}
+              </div>
+            )}
+
             {fileStatus === "done" && multiResults.length > 0 && (
               <div className="mt-4">
                 <p className="text-[15px] font-medium text-ink">
@@ -705,6 +804,11 @@ export function StatementReaderTool({ locale }: { locale: Locale }) {
                               </>
                             ) : (
                               "—"
+                            )}
+                            {row.lowConfidence && (
+                              <span className="ml-1 text-gold-ink" title={t.warnings.lowConfidenceTitle}>
+                                ?
+                              </span>
                             )}
                           </td>
                           <td className="whitespace-nowrap px-3 py-2 font-mono text-ink">
@@ -885,6 +989,16 @@ export function StatementReaderTool({ locale }: { locale: Locale }) {
       {parse?.flags.adr && (
         <Card className="p-4 sm:p-5">
           <p className="text-[15px] leading-relaxed text-mine">{t.warnings.adr}</p>
+        </Card>
+      )}
+      {parse !== null && isLowConfidence(parse) && (
+        <Card className="border-gold/40 bg-tint-gold p-4 sm:p-5">
+          <h3 className="font-display text-lg font-semibold text-ink">
+            {t.warnings.lowConfidenceTitle}
+          </h3>
+          <p className="mt-2 max-w-[62ch] text-[15px] leading-relaxed text-ink">
+            {t.warnings.lowConfidenceBody}
+          </p>
         </Card>
       )}
 

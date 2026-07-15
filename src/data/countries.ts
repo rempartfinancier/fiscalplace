@@ -973,19 +973,19 @@ export const COUNTRIES: CountryTaxProfile[] = [
     specifics: {
       fr: [
         "Cas honnête, à rebours de l'intuition : pour un particulier non résident, la France retient 12,8 % — en dessous des 15 % conventionnels usuels. Dans le cas standard, il n'y a donc rien à récupérer.",
-        "Le trop-perçu apparaît quand l'établissement payeur a appliqué un taux erroné (le 25 % réservé à certaines entités, ou un taux majoré) : ces écarts se récupèrent via le couple 5000/5001.",
+        "Le trop-perçu apparaît quand l'établissement payeur a appliqué un taux erroné (le 30 % de droit commun pour les personnes morales, réductible par convention, ou un taux majoré) : ces écarts se récupèrent via le couple 5000/5001.",
         "La prévention est la voie normale : un formulaire 5000 remis avant le versement obtient directement le bon taux à la source.",
-        "Un résident fiscal français n'est pas concerné par cette page : ses dividendes français relèvent de l'imposition domestique, pas d'une retenue conventionnelle.",
+        "Piège réel et méconnu pour un résident fiscal français : chez certains courtiers qui détiennent les titres « au porteur » via une entité américaine (Interactive Brokers LLC notamment), l'administration française applique la retenue due par cette entité américaine — une personne morale non résidente — et non le régime d'un particulier résident français. Le taux observé grimpe alors autour de 28 %, sans rapport avec le statut fiscal réel du client. C'est un vrai trop-perçu, récupérable via les mêmes formulaires 5000/5001 — vérifiez votre relevé annuel si votre courtier fonctionne ainsi.",
       ],
       en: [
         "An honest, counter-intuitive case: for a non-resident individual, France withholds 12.8% — below the usual 15% treaty rates. In the standard case there is therefore nothing to recover.",
-        "Over-withholding appears when the paying agent applied a wrong rate (the 25% reserved for certain entities, or a punitive rate): those gaps are recovered through the 5000/5001 pair.",
+        "Over-withholding appears when the paying agent applied a wrong rate (the standard 30% for legal entities, treaty-reducible, or a punitive rate): those gaps are recovered through the 5000/5001 pair.",
         "Prevention is the normal route: a Form 5000 delivered before payment secures the correct rate at source directly.",
-        "A French tax resident is not concerned by this page: their French dividends fall under domestic taxation, not treaty withholding.",
+        "A real, underappreciated trap for a French tax resident: with some brokers that hold shares 'in street name' through a US entity (notably Interactive Brokers LLC), the French administration applies the withholding owed by that US legal entity — a non-resident company — rather than the individual French resident's own regime. The rate observed then sits around 28%, unrelated to the client's actual tax status. That is a genuine over-withholding, recoverable through the same 5000/5001 forms — check your annual statement if your broker works this way.",
       ],
     },
     recoveryPotential: "low",
-    lastReviewed: "2026-07-12",
+    lastReviewed: "2026-07-15",
   },
 ];
 

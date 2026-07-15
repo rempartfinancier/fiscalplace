@@ -19,8 +19,10 @@ import { w8benExplained } from "./w8ben-explained";
 import { w8benVsW8beneVsW9 } from "./w8ben-vs-w8bene-vs-w9";
 import { nothingToRecover } from "./nothing-to-recover";
 import { formsByCountry } from "./forms-by-country";
+import { frenchSharesForeignBroker } from "./french-shares-foreign-broker";
 
 export const ARTICLES: Article[] = [
+  frenchSharesForeignBroker,
   w8benVsW8beneVsW9,
   nothingToRecover,
   formsByCountry,

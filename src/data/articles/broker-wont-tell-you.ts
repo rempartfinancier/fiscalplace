@@ -3,6 +3,7 @@ import { articleHref, countryHref, href } from "@/lib/routes";
 import { COUNTRIES, getCountryById, recoveryGap, treatyRateFor } from "@/data/countries";
 import { PRICING } from "@/config/pricing";
 import { missedDeadline } from "./missed-deadline";
+import { frenchSharesForeignBroker } from "./french-shares-foreign-broker";
 import type { Article, ArticleBlock } from "./types";
 
 /**
@@ -85,6 +86,12 @@ const frContent: ArticleBlock[] = [
   {
     type: "p",
     text: `**L'exception qui mérite d'être dite : les titres américains.** Beaucoup de courtiers tiennent correctement un W-8BEN à jour et appliquent ${pct(treatyRateFor(us, "FR"), "fr")} à la source au lieu de ${pct(us.statutoryRate, "fr")} sur les [dividendes américains](${countryHref("fr", us.slug.fr)}). Si c'est votre cas, ne payez personne — nous compris — pour ce qui est déjà fait gratuitement. La vérification prend une minute (voir les questions plus bas) ; et si votre courtier ne le propose pas, le [forfait W-8BEN](${href("fr", "serviceW8ben")}) existe à ${eur(PRICING.fixedServices.w8ben, "fr")}.`,
+  },
+  {
+    type: "callout",
+    tone: "info",
+    title: `Et les actions françaises détenues via un courtier étranger ?`,
+    text: `C'est presque le cas inverse de tout cet article — et il mérite d'être détaillé plutôt que résumé en une phrase. Le plus souvent, c'est l'acompte français de 12,8 % qu'un courtier établi en France prélève automatiquement qui manque chez un courtier étranger : plus à payer au solde, pas un trop-perçu à récupérer. Mais il existe un second cas, réel et distinct : certains courtiers (Interactive Brokers en tête) détiennent vos actions françaises « au porteur » via une entité américaine, ce qui déclenche une vraie retenue observée d'environ 28 % — un authentique trop-perçu, récupérable via les formulaires 5000/5001. [Les deux mécanismes, vérifiés, et comment savoir dans lequel vous êtes](${articleHref("fr", frenchSharesForeignBroker.slug.fr)}).`,
   },
   { type: "h2", text: `Comment vérifier en 5 minutes si vous êtes sur-prélevé ?` },
   {
@@ -250,6 +257,12 @@ const enContent: ArticleBlock[] = [
     type: "p",
     text: `**The exception worth stating: US securities.** Many brokers correctly maintain a W-8BEN and apply ${pct(treatyRateFor(us, "FR"), "en")} at source instead of ${pct(us.statutoryRate, "en")} on [US dividends](${countryHref("en", us.slug.en)}). If that is your case, pay nobody — us included — for what is already done for free. Checking takes a minute (see the questions below); and if your broker doesn't offer it, the [W-8BEN fixed-fee service](${href("en", "serviceW8ben")}) exists at ${eur(PRICING.fixedServices.w8ben, "en")}.`,
   },
+  {
+    type: "callout",
+    tone: "info",
+    title: `What about French shares held through a foreign broker?`,
+    text: `This is close to the mirror case of everything else in this article — and it deserves detail rather than a one-line summary. Most often, it's the French 12.8% advance payment that a France-based broker withholds automatically that goes missing with a foreign broker: more to pay at settlement, not an over-withholding to recover. But there's a second, real and distinct case: some brokers (Interactive Brokers foremost) hold your French shares "in street name" through a US entity, which triggers a genuine observed withholding of roughly 28% — a real over-withholding, recoverable via forms 5000/5001. [Both mechanisms, verified, and how to tell which one you're in](${articleHref("en", frenchSharesForeignBroker.slug.en)}).`,
+  },
   { type: "h2", text: `How do you check in 5 minutes whether you are over-withheld?` },
   {
     type: "p",
@@ -406,5 +419,5 @@ export const brokerWontTellYou: Article = {
   updated: "2026-07-08",
   readingMinutes: 10,
   content: { fr: frContent, en: enContent },
-  relatedCountries: ["US", "CH", "IE"],
+  relatedCountries: ["US", "CH", "IE", "FR"],
 };

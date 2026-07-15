@@ -245,8 +245,15 @@ export function parseStatement(text: string): ParseResult {
   }
 
   /* Country by name, then by unambiguous currency ----------------------- */
+  // FR is excluded here on purpose: the word "France" turns up in almost any
+  // French-language statement for reasons that have nothing to do with the
+  // dividend's source (the broker's own registered address, the investor's
+  // declared residence, boilerplate legal text) — a false-positive magnet
+  // that ISIN detection doesn't share. France as an actual source country
+  // still resolves correctly via its unambiguous "FR..." ISIN prefix.
   if (result.countryId === null) {
     outer: for (const country of COUNTRIES) {
+      if (country.id === "FR") continue;
       const candidates = [
         normalize(country.name.fr),
         normalize(country.name.en),
