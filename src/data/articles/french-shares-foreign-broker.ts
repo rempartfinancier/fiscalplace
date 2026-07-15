@@ -29,7 +29,7 @@ const eur = (amount: number, locale: Locale) => formatCurrency(amount, locale);
 
 /* Worked example: a street-name over-withholding case (LVMH-style, 500 € gross). */
 const EXAMPLE_GROSS = 500;
-const STREET_NAME_RATE = 0.28;
+const STREET_NAME_RATE = 0.25;
 const exampleWithheld = EXAMPLE_GROSS * STREET_NAME_RATE;
 const exampleOwed = EXAMPLE_GROSS * treatyRateFor(frCountry, "FR");
 const exampleRecoverable = EXAMPLE_GROSS * (STREET_NAME_RATE - treatyRateFor(frCountry, "FR"));
@@ -63,7 +63,7 @@ const frContent: ArticleBlock[] = [
   { type: "h2", text: `Mécanisme n°2 — la détention « au porteur » chez un courtier américain (un vrai trop-perçu)` },
   {
     type: "p",
-    text: `C'est très probablement ce que vous observez si votre relevé montre une ligne « withholding tax » explicite sur un dividende **français** — LVMH, Total, Sanofi… Certains courtiers, Interactive Brokers en tête, détiennent les titres de leurs clients « au porteur » (**street name**) : c'est une entité américaine du groupe (Interactive Brokers LLC) qui est l'actionnaire enregistré auprès du dépositaire français, pas vous. Vu depuis la France, le versement part vers un actionnaire américain — pas vers un résident fiscal français — et c'est la retenue de droit commun applicable à une **personne morale non résidente** qui s'applique : ${pct(0.3, "fr")} de base, ramenée par la pratique observée à environ ${pct(STREET_NAME_RATE, "fr")} (chiffre couramment cité depuis 2020, à vérifier sur votre relevé annuel — il peut varier selon les arrangements propres à chaque courtier).`,
+    text: `C'est très probablement ce que vous observez si votre relevé montre une ligne « withholding tax » explicite sur un dividende **français** — LVMH, Total, Sanofi… Certains courtiers, Interactive Brokers en tête, détiennent les titres de leurs clients « au porteur » (**street name**) : c'est une entité américaine du groupe (Interactive Brokers LLC) qui est l'actionnaire enregistré auprès du dépositaire français, pas vous. Vu depuis la France, le versement part vers un actionnaire américain — pas vers un résident fiscal français — et c'est la retenue de droit commun applicable à une **personne morale non résidente** qui s'applique, indexée sur le taux normal de l'impôt sur les sociétés : ${pct(STREET_NAME_RATE, "fr")} (article 187 du CGI, taux en vigueur depuis 2022 — attention, plusieurs pages de courtiers citent encore 28 %, un chiffre daté de 2020 qui n'a pas suivi les baisses ultérieures du taux normal de l'IS ; vérifiez le taux réel sur votre relevé annuel).`,
   },
   {
     type: "p",
@@ -117,7 +117,7 @@ const frContent: ArticleBlock[] = [
       },
       {
         question: `Comment être sûr du taux exact que j'ai subi ?`,
-        answer: `Le taux cité ici (environ 28 %) est celui couramment rapporté depuis 2020, mais il peut évoluer et dépend des arrangements propres à votre courtier. La seule source fiable est votre propre relevé annuel : divisez le montant retenu par le dividende brut sur une ligne française, et comparez.`,
+        answer: `Le taux cité ici (${pct(STREET_NAME_RATE, "fr")}) correspond au taux normal de l'impôt sur les sociétés en vigueur depuis 2022 (article 187 du CGI) — mais méfiez-vous des pages de courtiers qui citent encore 28 % ou 30 %, des chiffres datés de 2019-2020 qui n'ont pas suivi les baisses ultérieures du taux normal de l'IS. La seule source fiable reste votre propre relevé annuel : divisez le montant retenu par le dividende brut sur une ligne française, et comparez.`,
       },
       {
         question: `Mon courtier étranger a prélevé un acompte de 12,8 % en plus : je paie deux fois ?`,
@@ -166,7 +166,7 @@ const enContent: ArticleBlock[] = [
   { type: "h2", text: `Mechanism #2 — "street name" custody at a US-linked broker (a real over-withholding)` },
   {
     type: "p",
-    text: `This is very likely what you're seeing if your statement shows an explicit "withholding tax" line on a **French** dividend — LVMH, Total, Sanofi… Some brokers, Interactive Brokers foremost, hold client securities "in street name": a US entity of the group (Interactive Brokers LLC) is the registered shareholder with the French depositary, not you. Seen from France, the payment goes out to a US shareholder — not a French tax resident — and the standard withholding for a **non-resident legal entity** applies: ${pct(0.3, "en")} as the base rate, brought down in observed practice to roughly ${pct(STREET_NAME_RATE, "en")} (a figure commonly cited since 2020, to be checked against your own annual statement — it can vary by broker-specific arrangements).`,
+    text: `This is very likely what you're seeing if your statement shows an explicit "withholding tax" line on a **French** dividend — LVMH, Total, Sanofi… Some brokers, Interactive Brokers foremost, hold client securities "in street name": a US entity of the group (Interactive Brokers LLC) is the registered shareholder with the French depositary, not you. Seen from France, the payment goes out to a US shareholder — not a French tax resident — and the standard withholding for a **non-resident legal entity** applies, indexed to the standard corporate tax rate: ${pct(STREET_NAME_RATE, "en")} (Article 187 of the CGI, in effect since 2022 — note that several broker pages still cite 28%, a figure dated to 2020 that hasn't tracked later cuts to the standard corporate tax rate; check the actual rate on your own annual statement).`,
   },
   {
     type: "p",
@@ -220,7 +220,7 @@ const enContent: ArticleBlock[] = [
       },
       {
         question: `How can I be sure of the exact rate I was charged?`,
-        answer: `The rate cited here (around 28%) is the one commonly reported since 2020, but it can change and depends on your specific broker's arrangements. The only reliable source is your own annual statement: divide the amount withheld by the gross dividend on a French line, and compare.`,
+        answer: `The rate cited here (${pct(STREET_NAME_RATE, "en")}) matches the standard corporate tax rate in effect since 2022 (Article 187 of the CGI) — but watch out for broker pages still citing 28% or 30%, figures dated to 2019-2020 that haven't tracked later cuts to the standard corporate tax rate. Your own annual statement remains the only reliable source: divide the amount withheld by the gross dividend on a French line, and compare.`,
       },
       {
         question: `My foreign broker also withheld a 12.8% advance payment — am I paying twice?`,
@@ -252,8 +252,8 @@ export const frenchSharesForeignBroker: Article = {
     en: "French shares through a foreign broker: the two real mechanisms (and only one is recoverable)",
   },
   description: {
-    fr: "Un acompte de 12,8 % qui manque (rien à récupérer) ou une détention « au porteur » chez un courtier américain (un vrai trop-perçu, ~28 %, récupérable via 5000/5001) : deux mécanismes vérifiés, et comment savoir dans lequel vous êtes.",
-    en: "A missing 12.8% advance payment (nothing to recover) or 'street name' custody at a US-linked broker (a real ~28% over-withholding, recoverable via forms 5000/5001): two verified mechanisms, and how to tell which one you're in.",
+    fr: "Un acompte de 12,8 % qui manque (rien à récupérer) ou une détention « au porteur » chez un courtier américain (un vrai trop-perçu, 25 %, récupérable via 5000/5001) : deux mécanismes vérifiés, et comment savoir dans lequel vous êtes.",
+    en: "A missing 12.8% advance payment (nothing to recover) or 'street name' custody at a US-linked broker (a real 25% over-withholding, recoverable via forms 5000/5001): two verified mechanisms, and how to tell which one you're in.",
   },
   updated: "2026-07-15",
   readingMinutes: 9,

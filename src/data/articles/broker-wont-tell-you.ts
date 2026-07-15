@@ -91,7 +91,7 @@ const frContent: ArticleBlock[] = [
     type: "callout",
     tone: "info",
     title: `Et les actions françaises détenues via un courtier étranger ?`,
-    text: `C'est presque le cas inverse de tout cet article — et il mérite d'être détaillé plutôt que résumé en une phrase. Le plus souvent, c'est l'acompte français de 12,8 % qu'un courtier établi en France prélève automatiquement qui manque chez un courtier étranger : plus à payer au solde, pas un trop-perçu à récupérer. Mais il existe un second cas, réel et distinct : certains courtiers (Interactive Brokers en tête) détiennent vos actions françaises « au porteur » via une entité américaine, ce qui déclenche une vraie retenue observée d'environ 28 % — un authentique trop-perçu, récupérable via les formulaires 5000/5001. [Les deux mécanismes, vérifiés, et comment savoir dans lequel vous êtes](${articleHref("fr", frenchSharesForeignBroker.slug.fr)}).`,
+    text: `C'est presque le cas inverse de tout cet article — et il mérite d'être détaillé plutôt que résumé en une phrase. Le plus souvent, c'est l'acompte français de 12,8 % qu'un courtier établi en France prélève automatiquement qui manque chez un courtier étranger : plus à payer au solde, pas un trop-perçu à récupérer. Mais il existe un second cas, réel et distinct : certains courtiers (Interactive Brokers en tête) détiennent vos actions françaises « au porteur » via une entité américaine, ce qui déclenche une vraie retenue au taux normal de l'IS (25 % depuis 2022) — un authentique trop-perçu, récupérable via les formulaires 5000/5001. [Les deux mécanismes, vérifiés, et comment savoir dans lequel vous êtes](${articleHref("fr", frenchSharesForeignBroker.slug.fr)}).`,
   },
   { type: "h2", text: `Comment vérifier en 5 minutes si vous êtes sur-prélevé ?` },
   {
@@ -261,7 +261,7 @@ const enContent: ArticleBlock[] = [
     type: "callout",
     tone: "info",
     title: `What about French shares held through a foreign broker?`,
-    text: `This is close to the mirror case of everything else in this article — and it deserves detail rather than a one-line summary. Most often, it's the French 12.8% advance payment that a France-based broker withholds automatically that goes missing with a foreign broker: more to pay at settlement, not an over-withholding to recover. But there's a second, real and distinct case: some brokers (Interactive Brokers foremost) hold your French shares "in street name" through a US entity, which triggers a genuine observed withholding of roughly 28% — a real over-withholding, recoverable via forms 5000/5001. [Both mechanisms, verified, and how to tell which one you're in](${articleHref("en", frenchSharesForeignBroker.slug.en)}).`,
+    text: `This is close to the mirror case of everything else in this article — and it deserves detail rather than a one-line summary. Most often, it's the French 12.8% advance payment that a France-based broker withholds automatically that goes missing with a foreign broker: more to pay at settlement, not an over-withholding to recover. But there's a second, real and distinct case: some brokers (Interactive Brokers foremost) hold your French shares "in street name" through a US entity, which triggers a genuine withholding at the standard corporate tax rate (25% since 2022) — a real over-withholding, recoverable via forms 5000/5001. [Both mechanisms, verified, and how to tell which one you're in](${articleHref("en", frenchSharesForeignBroker.slug.en)}).`,
   },
   { type: "h2", text: `How do you check in 5 minutes whether you are over-withheld?` },
   {
