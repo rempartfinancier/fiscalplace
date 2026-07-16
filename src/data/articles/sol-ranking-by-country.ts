@@ -361,7 +361,7 @@ export const solRankingByCountry: Article = {
     fr: `Du Canada et du Portugal (${ca.sol.years} ans seulement) à l'Autriche, la Suède, le Japon et la Norvège (${at.sol.years} ans), le classement complet des délais de prescription des ${COUNTRIES.length} pays couverts — avec les deux règles de décompte, l'effet falaise du 31 décembre et l'ordre de dépôt qui en découle.`,
     en: `From Canada and Portugal (only ${ca.sol.years} years) to Austria, Sweden, Japan and Norway (${at.sol.years} years): claim deadlines ranked across all ${COUNTRIES.length} covered countries — with both counting rules, the 31 December cliff, and the filing order that follows.`,
   },
-  updated: "2026-07-12",
+  updated: "2025-11-18",
   readingMinutes: 9,
   content: { fr: frContent, en: enContent },
   relatedCountries: [

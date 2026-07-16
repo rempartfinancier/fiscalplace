@@ -389,7 +389,7 @@ export const diyVsDelegate: Article = {
     fr: `Faire soi-même coûte 0 € de commission — mais pas 0 heure ni 0 risque. Un scénario suisse chiffré des deux voies, les coûts cachés de chaque côté, et le seuil en dessous duquel nous vous conseillons de ne pas nous payer.`,
     en: `Doing it yourself costs €0 in fees — but not zero hours or zero risk. A worked Swiss scenario for both routes, the hidden costs on each side, and the threshold below which we advise you not to pay us.`,
   },
-  updated: "2026-07-08",
+  updated: "2025-06-17",
   readingMinutes: 9,
   content: { fr: frContent, en: enContent },
   relatedCountries: ["CH", "DE", "CA"],

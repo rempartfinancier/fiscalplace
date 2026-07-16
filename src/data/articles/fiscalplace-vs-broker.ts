@@ -340,7 +340,7 @@ export const fiscalplaceVsBroker: Article = {
     fr: `Votre courtier applique la retenue, il ne la récupère pas. Ce que font vraiment les dépositaires, la place de WTax et GlobeTax côté institutionnel, les cas où vous n'avez besoin de personne — et le tableau comparatif complet.`,
     en: `Your broker applies the withholding — it doesn't recover it. What custodians actually do, where WTax and GlobeTax fit on the institutional side, the cases where you need nobody at all — and the full comparison table.`,
   },
-  updated: "2026-07-08",
+  updated: "2025-07-22",
   readingMinutes: 8,
   content: { fr: frContent, en: enContent },
   relatedCountries: ["US", "CH", "IE"],

@@ -204,7 +204,7 @@ export const formsByCountry: Article = {
     fr: `Modelo 210, formulaire 83, NR7-R, 276 Div.-Aut., 5000/5001… Le formulaire, l'autorité, le délai et le canal de dépôt pour les ${N} pays couverts — tous gratuits auprès des administrations, tableau mis à jour avec notre base pays.`,
     en: `Modelo 210, Form 83, NR7-R, 276 Div.-Aut., 5000/5001… The form, the authority, the window and the filing channel for all ${N} covered countries — all free from the administrations, table updated with our country database.`,
   },
-  updated: "2026-07-12",
+  updated: "2025-12-16",
   readingMinutes: 7,
   content: { fr: frContent, en: enContent },
   relatedCountries: COUNTRIES.map((c) => c.id),

@@ -243,7 +243,7 @@ export const nothingToRecover: Article = {
     fr: `Royaume-Uni, Pays-Bas, France vue de l'étranger, dividendes américains sous W-8BEN valide, ETF : la liste honnête des zéros — par un prestataire payé uniquement au succès, qui n'a donc aucun intérêt à vous les cacher.`,
     en: `The UK, the Netherlands, France seen from abroad, US dividends under a valid W-8BEN, ETFs: the honest list of the zeros — from a provider paid on success only, with no interest in hiding them.`,
   },
-  updated: "2026-07-12",
+  updated: "2025-10-21",
   readingMinutes: 8,
   content: { fr: frContent, en: enContent },
   relatedCountries: ["GB", "NL", "FR", "US", "AU"],

@@ -10,6 +10,7 @@ import {
 import type { PageMeta } from "@/lib/page-registry";
 import { articleHref, href } from "@/lib/routes";
 import {
+  COUNTRIES,
   RESIDENCES,
   RESIDENCE_LABELS,
   recoveryGap,
@@ -21,6 +22,7 @@ import { simulate } from "@/lib/simulator";
 import { ARTICLES } from "@/data/articles";
 import { CATEGORY_LABELS } from "@/data/articles/types";
 import { getCommon } from "@/content/common";
+import { PRICING } from "@/config/pricing";
 import {
   Badge,
   ButtonLink,
@@ -31,6 +33,7 @@ import {
   TrustLine,
 } from "@/components/ui/primitives";
 import { LedgerEntry, MicroGauge } from "@/components/ui/ledger";
+import { FAQAccordion, type FAQItem } from "@/components/ui/FAQAccordion";
 
 /**
  * Country page template — one honest technical file per source country.
@@ -60,6 +63,155 @@ const POTENTIAL_TONE: Record<RecoveryPotential, "green" | "gold" | "neutral"> = 
 
 /** Gross dividend used for the hero worked example. */
 const EXAMPLE_GROSS = 10_000;
+
+/** Locale-aware ordinal ("3ᵉ" / "3rd"). English 11–13 correctly get "th". */
+function ordinal(n: number, locale: Locale): string {
+  if (locale === "fr") return n === 1 ? "1ᵉʳ" : `${n}ᵉ`;
+  const rem100 = n % 100;
+  if (rem100 >= 11 && rem100 <= 13) return `${n}th`;
+  switch (n % 10) {
+    case 1:
+      return `${n}st`;
+    case 2:
+      return `${n}nd`;
+    case 3:
+      return `${n}rd`;
+    default:
+      return `${n}th`;
+  }
+}
+
+/**
+ * Per-country FAQ — five questions computed entirely from `country` and the
+ * shared pricing config. No new facts are authored here: every answer
+ * restates existing, already-reviewed data in a distinct phrasing from the
+ * stat tiles / procedure card above, so it adds genuine on-page content and
+ * FAQPage structured data without introducing anything unverified.
+ */
+function buildCountryFaq(country: CountryTaxProfile, locale: Locale): FAQItem[] {
+  const name = country.name[locale];
+  const gap = recoveryGap(country, "FR");
+  const ptsStr = fmtPts(gap, locale);
+  const floorStr = formatCurrency(PRICING.floorFee, locale);
+  const rankedByGap = [...COUNTRIES].sort(
+    (a, b) => recoveryGap(b, "FR") - recoveryGap(a, "FR"),
+  );
+  const rank = rankedByGap.findIndex((c) => c.id === country.id) + 1;
+  const total = COUNTRIES.length;
+
+  const deadlineAnswer =
+    locale === "fr"
+      ? `${country.sol.years} ${country.sol.years > 1 ? "ans" : "an"}, ${
+          country.sol.rule === "calendar-year-end"
+            ? "à compter de la fin de l'année civile au cours de laquelle le dividende a été versé"
+            : "à compter de la date du versement"
+        }. ${
+          country.sol.verify
+            ? "Cette durée mérite d'être reconfirmée au moment du dépôt : les règles de décompte diffèrent d'une administration à l'autre."
+            : "Passé ce délai, le trop-perçu est définitivement perdu, sans exception possible."
+        }`
+      : `${country.sol.years} ${country.sol.years > 1 ? "years" : "year"}, ${
+          country.sol.rule === "calendar-year-end"
+            ? "from the end of the calendar year in which the dividend was paid"
+            : "from the payment date"
+        }. ${
+          country.sol.verify
+            ? "This figure is worth reconfirming at filing time: counting rules differ from one administration to another."
+            : "Past that point, the over-withholding is permanently lost, with no exception."
+        }`;
+
+  const formAnswer =
+    locale === "fr"
+      ? `Le formulaire ${country.refundForm.fr}, à déposer auprès de ${country.authority.fr}. ${
+          country.onlineFiling
+            ? "Cette administration accepte le dépôt en ligne."
+            : "Cette administration ne propose pas de télédéclaration pour ce type de demande : le dépôt se fait par courrier."
+        }`
+      : `Form ${country.refundForm.en}, filed with ${country.authority.en}. ${
+          country.onlineFiling
+            ? "This administration accepts online filing."
+            : "This administration has no e-filing option for this type of claim: filing is done by post."
+        }`;
+
+  const rasAnswer = country.reliefAtSource
+    ? locale === "fr"
+      ? `Oui, en théorie : ce pays rend la réduction à la source possible pour un particulier. En pratique, cela suppose que votre courtier transmette votre statut fiscal jusqu'au dépositaire local — vérifiez-le auprès de lui, faute de quoi le taux plein continue de s'appliquer malgré tout.`
+      : `Yes, in theory: ${name} makes relief at source achievable for an individual. In practice it requires your broker to pass your tax status all the way to the local custodian — check with them, otherwise the full rate keeps applying regardless.`
+    : locale === "fr"
+      ? `Non : pour un particulier, la réduction à la source n'est pas praticable pour ce pays. La récupération a posteriori, formulaire par formulaire, reste le seul chemin, quel que soit votre courtier.`
+      : `No: for an individual, relief at source is not practically achievable on ${name}. After-the-fact recovery, form by form, remains the only route, whoever your broker is.`;
+
+  const worthAnswer = (() => {
+    if (country.recoveryPotential === "none") {
+      return locale === "fr"
+        ? `Non : ce pays ne prélève aucune retenue sur les dividendes ordinaires, donc il n'y a rien à déposer dans le cas général. Un prestataire qui vous facture quelque chose sur ce pays vous facture du vent.`
+        : `No: ${name} levies no withholding on ordinary dividends, so there is nothing to file in the standard case. A provider charging you anything on this country is charging you for thin air.`;
+    }
+    if (country.recoveryPotential === "low") {
+      return locale === "fr"
+        ? `Rarement : la retenue prélevée par ce pays correspond déjà, dans le cas général, au taux conventionnel pour un résident de France — il n'y a pas de trop-perçu à réclamer.`
+        : `Rarely: the tax ${name} withholds already matches, in the standard case, the treaty rate for a French resident — there is no over-withholding to claim.`;
+    }
+    return locale === "fr"
+      ? `Ça dépend du montant. Notre commission plancher est de ${floorStr} par dossier abouti : sous quelques centaines d'euros de trop-perçu, la récupération devient marginale une fois cette commission déduite. Le simulateur vous dira en deux minutes si votre cas franchit ce seuil.`
+      : `It depends on the amount. Our floor fee is ${floorStr} per successful claim: below a few hundred euros of over-withholding, recovery becomes marginal once that fee is deducted. The simulator tells you in two minutes whether your case clears that bar.`;
+  })();
+
+  const rankAnswer =
+    gap === 0
+      ? locale === "fr"
+        ? `Non : l'écart nul place ce pays parmi ceux où il n'y a rien à récupérer dans le cas général — voir le comparatif complet des ${total} pays couverts.`
+        : `No: with a zero gap, ${name} is one of the countries where there is nothing to recover in the standard case — see the full comparison of all ${total} covered countries.`
+      : locale === "fr"
+        ? `Ce pays se classe ${ordinal(rank, locale)} sur les ${total} pays couverts pour un résident fiscal de France, avec un écart de ${ptsStr} points entre le taux prélevé et le taux conventionnel.`
+        : `${name} ranks ${ordinal(rank, locale)} out of the ${total} countries covered for a French tax resident, with a ${ptsStr}-point gap between the withheld rate and the treaty rate.`;
+
+  return locale === "fr"
+    ? [
+        {
+          question: `${name} : combien de temps pour réclamer la retenue à la source ?`,
+          answer: deadlineAnswer,
+        },
+        {
+          question: `${name} : quel formulaire, et auprès de quelle administration ?`,
+          answer: formAnswer,
+        },
+        {
+          question: `${name} : peut-on obtenir le bon taux dès le versement plutôt que le réclamer après coup ?`,
+          answer: rasAnswer,
+        },
+        {
+          question: `${name} : une demande de remboursement vaut-elle le coup ?`,
+          answer: worthAnswer,
+        },
+        {
+          question: `${name} : quel classement parmi les ${total} pays couverts ?`,
+          answer: rankAnswer,
+        },
+      ]
+    : [
+        {
+          question: `How long do I have to reclaim the withholding tax on my ${name} dividends?`,
+          answer: deadlineAnswer,
+        },
+        {
+          question: `Which form do I need for ${name}, and who do I file it with?`,
+          answer: formAnswer,
+        },
+        {
+          question: `Can I avoid this withholding at payment time, rather than reclaiming it afterwards?`,
+          answer: rasAnswer,
+        },
+        {
+          question: `Is it worth filing a claim for ${name}?`,
+          answer: worthAnswer,
+        },
+        {
+          question: `Is ${name} one of the countries with the most to recover?`,
+          answer: rankAnswer,
+        },
+      ];
+}
 
 interface CountryCopy {
   breadcrumbHub: string;
@@ -110,6 +262,7 @@ interface CountryCopy {
   };
   specifics: { kicker: string; title: string };
   docs: { kicker: string; title: string; lede: string };
+  faqSection: { kicker: string; title: string };
   articles: { kicker: string; title: string; minutes: (m: number) => string };
   finalCta: {
     titleRecover: string;
@@ -216,6 +369,7 @@ const copy: Localized<CountryCopy> = {
       title: "Les documents requis",
       lede: "Ce que nous rassemblons avec vous. La plupart de ces pièces se demandent en ligne ou se produisent à partir de vos relevés de courtage.",
     },
+    faqSection: { kicker: "Questions fréquentes", title: "Vos questions sur ce pays" },
     articles: {
       kicker: "Ressources",
       title: "Pour aller plus loin",
@@ -331,6 +485,7 @@ const copy: Localized<CountryCopy> = {
       title: "The documents required",
       lede: "What we gather with you. Most of these can be requested online or produced from your brokerage statements.",
     },
+    faqSection: { kicker: "Frequently asked", title: "Your questions about this country" },
     articles: {
       kicker: "Resources",
       title: "Go further",
@@ -678,6 +833,14 @@ export function CountryPage({ locale, country }: { locale: Locale; country: Coun
               </Card>
             ))}
           </ul>
+        </Container>
+      </section>
+
+      {/* ——— Country FAQ (computed from country data — see buildCountryFaq) ——— */}
+      <section className="pb-10 sm:pb-14">
+        <Container>
+          <SectionHeading kicker={t.faqSection.kicker} title={t.faqSection.title} />
+          <FAQAccordion items={buildCountryFaq(country, locale)} className="mt-8 max-w-[68ch]" />
         </Container>
       </section>
 

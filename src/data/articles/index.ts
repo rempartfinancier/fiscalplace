@@ -20,21 +20,25 @@ import { w8benVsW8beneVsW9 } from "./w8ben-vs-w8bene-vs-w9";
 import { nothingToRecover } from "./nothing-to-recover";
 import { formsByCountry } from "./forms-by-country";
 import { frenchSharesForeignBroker } from "./french-shares-foreign-broker";
+import { etfDomicileIrelandVsUs } from "./etf-domicile-ireland-vs-us";
+import { brokerTaxHandlingCompared } from "./broker-tax-handling-compared";
 
 export const ARTICLES: Article[] = [
   frenchSharesForeignBroker,
-  w8benVsW8beneVsW9,
-  nothingToRecover,
-  formsByCountry,
+  brokerWontTellYou,
+  brokerTaxHandlingCompared,
   bestCountriesFrenchResident,
+  formsByCountry,
   solRankingByCountry,
+  nothingToRecover,
+  w8benVsW8beneVsW9,
+  etfDomicileIrelandVsUs,
+  fiscalplaceVsBroker,
+  diyVsDelegate,
+  missedDeadline,
+  rejectionReasons,
   costOfRecovery,
   whyNoPublicPricing,
-  rejectionReasons,
-  missedDeadline,
-  brokerWontTellYou,
-  diyVsDelegate,
-  fiscalplaceVsBroker,
   w8benExplained,
 ];
 

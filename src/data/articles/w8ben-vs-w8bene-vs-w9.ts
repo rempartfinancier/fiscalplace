@@ -228,7 +228,7 @@ export const w8benVsW8beneVsW9: Article = {
     fr: `Trois formulaires IRS, trois populations : particuliers non-US, entités, et US persons — binationaux compris. Le choix en trente secondes, l'effet de chacun sur la retenue de ${pct(us.statutoryRate, "fr")}, et les deux confusions qui coûtent le plus cher.`,
     en: `Three IRS forms, three populations: non-US individuals, entities, and US persons — dual nationals included. The thirty-second decision, each form's effect on the ${pct(us.statutoryRate, "en")} withholding, and the two most expensive mix-ups.`,
   },
-  updated: "2026-07-12",
+  updated: "2025-09-09",
   readingMinutes: 8,
   content: { fr: frContent, en: enContent },
   relatedCountries: ["US"],

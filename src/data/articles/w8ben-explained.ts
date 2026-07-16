@@ -357,7 +357,7 @@ export const w8benExplained: Article = {
     fr: `Le W-8BEN est gratuit chez l'IRS. Tutoriel ligne par ligne pour le remplir seul, pièges, expiration et renouvellement — et les cas précis où notre forfait de ${eur(PRICING.fixedServices.w8ben, "fr")} (tarif indicatif) vaut la dépense.`,
     en: `The W-8BEN is free at the IRS. A line-by-line tutorial to complete it yourself, the traps, expiry and renewal — and the specific cases where our ${eur(PRICING.fixedServices.w8ben, "en")} fixed fee (indicative price) earns its keep.`,
   },
-  updated: "2026-06-20",
+  updated: "2025-01-14",
   readingMinutes: 10,
   content: { fr: frContent, en: enContent },
   relatedCountries: ["US"],

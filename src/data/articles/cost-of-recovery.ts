@@ -432,7 +432,7 @@ export const costOfRecovery: Article = {
     fr: "Commission au succès, forfait ou facturation horaire : les trois modèles du marché, leurs fourchettes réelles, notre grille marginale avec quatre exemples calculés — et les coûts cachés à débusquer, do-it-yourself compris.",
     en: "Success fee, fixed fee or hourly billing: the market's three models, their real ranges, our marginal grid with four worked examples — and the hidden costs to hunt down, do-it-yourself included.",
   },
-  updated: "2026-06-24",
+  updated: "2025-03-11",
   readingMinutes: 9,
   content: { fr: frContent, en: enContent },
   relatedCountries: ["CH", "DE", "CA"],

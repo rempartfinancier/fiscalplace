@@ -345,7 +345,7 @@ export const missedDeadline: Article = {
     fr: `La réponse honnête : passé la prescription, l'argent est définitivement perdu — personne ne peut le récupérer, et méfiez-vous de qui prétend le contraire. Les délais pays par pays, le piège canadien des ${ca.sol.years} ans, et comment sauver les années encore ouvertes.`,
     en: `The honest answer: once the limitation period expires, the money is permanently lost — nobody can recover it, and beware of anyone claiming otherwise. Deadlines country by country, the ${ca.sol.years}-year Canadian trap, and how to rescue the years still open.`,
   },
-  updated: "2026-07-08",
+  updated: "2025-05-06",
   readingMinutes: 9,
   content: { fr: frContent, en: enContent },
   relatedCountries: ["CA", "CH", "DE"],

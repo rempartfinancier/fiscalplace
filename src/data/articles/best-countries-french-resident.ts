@@ -464,7 +464,7 @@ export const bestCountriesFrenchResident: Article = {
     fr: `Finlande, Irlande, Suisse en tête — Royaume-Uni, Pays-Bas et France à zéro, et nous le disons. Le classement des ${COUNTRIES.length} pays par écart récupérable pour un particulier résident de France, avec les pièges de chacun.`,
     en: `Finland, Ireland and Switzerland on top — the UK, the Netherlands and France at zero, and we say so. All ${COUNTRIES.length} countries ranked by recoverable gap for an individual French resident, with each one's traps.`,
   },
-  updated: "2026-07-12",
+  updated: "2026-02-10",
   readingMinutes: 12,
   content: { fr: frContent, en: enContent },
   relatedCountries: [

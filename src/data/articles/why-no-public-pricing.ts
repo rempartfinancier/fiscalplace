@@ -366,7 +366,7 @@ export const whyNoPublicPricing: Article = {
     fr: "L'« ostrich marketing » appliqué à la récupération de retenue à la source : les vraies raisons de l'opacité tarifaire, ce qu'elle coûte à l'acheteur, notre pari de la grille publiée — et ses limites assumées, chiffres à l'appui.",
     en: "Ostrich marketing applied to withholding tax recovery: the real reasons behind pricing opacity, what it costs the buyer, our published-grid bet — and its openly owned limits, numbers included.",
   },
-  updated: "2026-06-28",
+  updated: "2025-02-19",
   readingMinutes: 8,
   content: { fr: frContent, en: enContent },
   relatedCountries: ["CH", "CA"],

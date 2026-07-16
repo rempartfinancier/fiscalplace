@@ -524,14 +524,16 @@ export const COUNTRIES: CountryTaxProfile[] = [
       fr: [
         "12,5 points d'écart (27,5 % retenus, 15 % dus) et 5 ans pour agir : l'Autriche est un dossier au rapport effort/gain très favorable.",
         "La procédure combine une pré-déclaration en ligne et un envoi papier signé : notre pipeline génère les deux automatiquement.",
+        "Depuis 2018, la demande de remboursement doit être précédée d'une pré-notification électronique (« DIAG ») déposée via le site du ministère des Finances autrichien : elle ne peut être transmise qu'à partir du 1er janvier de l'année suivant le versement, et la demande de remboursement elle-même doit être déposée au plus tard 5 ans après.",
       ],
       en: [
         "A 12.5-point gap (27.5% withheld, 15% owed) and 5 years to act: Austria offers a very favourable effort-to-gain ratio.",
         "The procedure combines an online pre-filing and a signed paper submission: our pipeline generates both automatically.",
+        "Since 2018, the refund claim must be preceded by an electronic pre-notification (\"DIAG\") filed via the Austrian Ministry of Finance website: it cannot be submitted before 1 January of the year following payment, and the refund claim itself must be filed within 5 years after that.",
       ],
     },
     recoveryPotential: "high",
-    lastReviewed: "2026-06-15",
+    lastReviewed: "2026-07-15",
   },
   {
     id: "SE",
@@ -543,14 +545,13 @@ export const COUNTRIES: CountryTaxProfile[] = [
     sol: {
       years: 5,
       rule: "calendar-year-end",
-      verify: true,
       notes: {
-        fr: "5 ans à compter de la fin de l'année civile du versement, en règle générale (donnée à confirmer lors du diagnostic de votre dossier).",
-        en: "5 years from the end of the calendar year of payment, as a general rule (to be confirmed during your file's diagnostic).",
+        fr: "5 ans à compter de la fin de l'année civile du versement — délai confirmé directement par le Skatteverket : la demande doit lui parvenir avant la fin de la 5e année suivant le versement.",
+        en: "5 years from the end of the calendar year of payment — confirmed directly by Skatteverket: the claim must reach them before the end of the 5th year following payment.",
       },
     },
     reliefAtSource: false,
-    onlineFiling: true,
+    onlineFiling: false,
     refundForm: { fr: "SKV 3740", en: "SKV 3740" },
     authority: { fr: "Skatteverket", en: "Skatteverket (Swedish Tax Agency)" },
     docsRequired: {
@@ -569,14 +570,16 @@ export const COUNTRIES: CountryTaxProfile[] = [
       fr: [
         "15 points d'écart sur des valeurs à dividendes réguliers (Volvo, Investor AB, banques nordiques) : les montants s'accumulent vite.",
         "Le Skatteverket est réputé pour ses réponses relativement rapides comparées à d'autres administrations du panel.",
+        "Contrairement à d'autres pays du panel, le formulaire SKV 3740 ne se dépose pas en ligne : il doit être envoyé signé, par courrier postal, au service Kupongskatt du Skatteverket — une téléprocédure est à l'étude côté suédois mais n'existe pas encore à ce jour.",
       ],
       en: [
         "A 15-point gap on regular dividend payers (Volvo, Investor AB, Nordic banks): amounts add up quickly.",
         "Skatteverket is known for relatively fast responses compared with other administrations in our panel.",
+        "Unlike some other countries in our panel, form SKV 3740 cannot be filed online: it must be signed and sent by post to Skatteverket's Kupongskatt unit — an electronic filing option is reportedly under consideration on the Swedish side but does not exist yet.",
       ],
     },
     recoveryPotential: "high",
-    lastReviewed: "2026-06-15",
+    lastReviewed: "2026-07-15",
   },
   {
     id: "IT",

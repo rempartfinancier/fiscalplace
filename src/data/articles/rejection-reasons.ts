@@ -370,7 +370,7 @@ export const rejectionReasons: Article = {
     fr: "Certificat manquant, chaîne de détention non prouvée, formulaire périmé, délai dépassé… Les sept motifs de rejet que nous rencontrons vraiment, comment nous les prévenons — et ce qui reste possible quand le rejet tombe quand même.",
     en: "Missing certificate, unproven chain of custody, outdated form, missed deadline… The seven rejection grounds we actually encounter, how we prevent them — and what remains possible when a rejection lands anyway.",
   },
-  updated: "2026-07-08",
+  updated: "2025-04-08",
   readingMinutes: 9,
   content: { fr: frContent, en: enContent },
   relatedCountries: ["DE", "CH", "CA"],

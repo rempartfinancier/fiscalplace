@@ -416,7 +416,7 @@ export const brokerWontTellYou: Article = {
     fr: "Ni incompétence ni complot : la récupération de retenue à la source n'est simplement pas le métier de votre courtier. Comment vérifier votre relevé en cinq minutes, les questions exactes à lui poser — et les cas, nombreux, où il suffit largement.",
     en: "Neither incompetence nor conspiracy: withholding-tax recovery is simply not your broker's trade. How to check your statement in five minutes, the exact questions to ask them — and the many cases where they are entirely sufficient.",
   },
-  updated: "2026-07-08",
+  updated: "2026-07-15",
   readingMinutes: 10,
   content: { fr: frContent, en: enContent },
   relatedCountries: ["US", "CH", "IE", "FR"],
