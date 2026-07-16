@@ -29,6 +29,10 @@ const eur = (amount: number, locale: Locale) => formatCurrency(amount, locale);
 
 /* Worked example: a street-name over-withholding case (LVMH-style, 500 € gross). */
 const EXAMPLE_GROSS = 500;
+
+/** Form 3916/3916-bis penalties (CGI art. 1649 A) — named so a rate change is a one-line edit. */
+const FORM_3916_PENALTY_STANDARD = 1_500;
+const FORM_3916_PENALTY_NON_COOPERATIVE = 10_000;
 const STREET_NAME_RATE = 0.25;
 const exampleWithheld = EXAMPLE_GROSS * STREET_NAME_RATE;
 const exampleOwed = EXAMPLE_GROSS * treatyRateFor(frCountry, "FR");
@@ -96,7 +100,7 @@ const frContent: ArticleBlock[] = [
   { type: "h2", text: `L'autre obligation qu'on oublie : le formulaire 3916` },
   {
     type: "p",
-    text: `Distinct de la question des dividendes : tout résident fiscal français qui détient un compte auprès d'un établissement dont le siège est hors de France doit le déclarer chaque année via le **formulaire 3916 / 3916-bis** (article 1649 A du CGI) — dès l'ouverture du compte, même vide ou inactif. L'absence de déclaration expose en règle générale à une amende de **1 500 € par compte non déclaré et par année**, portée à **10 000 €** pour un compte situé dans un État non coopératif, avec un délai de reprise étendu à 10 ans.`,
+    text: `Distinct de la question des dividendes : tout résident fiscal français qui détient un compte auprès d'un établissement dont le siège est hors de France doit le déclarer chaque année via le **formulaire 3916 / 3916-bis** (article 1649 A du CGI) — dès l'ouverture du compte, même vide ou inactif. L'absence de déclaration expose en règle générale à une amende de **${eur(FORM_3916_PENALTY_STANDARD, "fr")} par compte non déclaré et par année**, portée à **${eur(FORM_3916_PENALTY_NON_COOPERATIVE, "fr")}** pour un compte situé dans un État non coopératif, avec un délai de reprise étendu à 10 ans.`,
   },
   { type: "h2", text: `Et vos actions étrangères, dans tout ça ?` },
   {
@@ -199,7 +203,7 @@ const enContent: ArticleBlock[] = [
   { type: "h2", text: `The other obligation people forget: form 3916` },
   {
     type: "p",
-    text: `Separate from the dividend question: any French tax resident holding an account with an institution established outside France must declare it every year via **form 3916 / 3916-bis** (Article 1649 A of the CGI) — from the moment the account is opened, even if empty or inactive. Failing to declare generally exposes you to a fine of **€1,500 per undeclared account per year**, raised to **€10,000** for an account in a non-cooperative state, with the statute of limitations extended to 10 years.`,
+    text: `Separate from the dividend question: any French tax resident holding an account with an institution established outside France must declare it every year via **form 3916 / 3916-bis** (Article 1649 A of the CGI) — from the moment the account is opened, even if empty or inactive. Failing to declare generally exposes you to a fine of **${eur(FORM_3916_PENALTY_STANDARD, "en")} per undeclared account per year**, raised to **${eur(FORM_3916_PENALTY_NON_COOPERATIVE, "en")}** for an account in a non-cooperative state, with the statute of limitations extended to 10 years.`,
   },
   { type: "h2", text: `What about your foreign shares in all this?` },
   {

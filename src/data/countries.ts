@@ -1,4 +1,4 @@
-import type { Localized } from "@/lib/i18n";
+import { formatPercent, type Localized } from "@/lib/i18n";
 
 /**
  * COUNTRY TAX DATABASE — isolated, versioned data module.
@@ -15,6 +15,14 @@ import type { Localized } from "@/lib/i18n";
  */
 
 export const DATA_VERSION = "2026-07.1";
+
+/**
+ * UK REIT "Property Income Distribution" withholding rate — a narrow
+ * exception to GB's 0% ordinary-dividend rate. Referenced by several
+ * articles in prose; centralized here so a rate change is a one-line edit
+ * instead of a hunt across files.
+ */
+export const GB_REIT_PID_RATE = 0.2;
 
 /** Residences supported by the simulator. "OTHER" = generic treaty-country fallback. */
 export const RESIDENCES = ["FR", "BE", "LU", "CH", "OTHER"] as const;
@@ -233,22 +241,22 @@ export const COUNTRIES: CountryTaxProfile[] = [
     docsRequired: {
       fr: [
         "Aucun dossier de récupération n'est nécessaire pour les dividendes ordinaires : il n'y a rien à récupérer",
-        "Pour les distributions de REIT (PID) : justificatifs de la retenue de 20 % et certificat de résidence",
+        `Pour les distributions de REIT (PID) : justificatifs de la retenue de ${formatPercent(GB_REIT_PID_RATE, "fr")} et certificat de résidence`,
       ],
       en: [
         "No recovery file is needed for ordinary dividends: there is nothing to recover",
-        "For REIT distributions (PIDs): evidence of the 20% withholding and a certificate of residence",
+        `For REIT distributions (PIDs): evidence of the ${formatPercent(GB_REIT_PID_RATE, "en")} withholding and a certificate of residence`,
       ],
     },
     specifics: {
       fr: [
         "Le Royaume-Uni ne prélève pas de retenue à la source sur les dividendes ordinaires : si votre courtier a retenu quelque chose sur une action britannique classique, c'est une anomalie à examiner, pas une fatalité.",
-        "Exception notable : les distributions immobilières des REIT (Property Income Distributions) supportent 20 %, souvent réductibles à 15 % par convention.",
+        `Exception notable : les distributions immobilières des REIT (Property Income Distributions) supportent ${formatPercent(GB_REIT_PID_RATE, "fr")}, souvent réductibles à 15 % par convention.`,
         "Attention aussi aux titres à double cotation : un titre « britannique » peut en réalité distribuer depuis une autre juridiction.",
       ],
       en: [
         "The UK levies no withholding tax on ordinary dividends: if your broker withheld something on a standard UK share, that is an anomaly worth examining, not a given.",
-        "Notable exception: REIT Property Income Distributions bear 20%, often reducible to 15% by treaty.",
+        `Notable exception: REIT Property Income Distributions bear ${formatPercent(GB_REIT_PID_RATE, "en")}, often reducible to 15% by treaty.`,
         "Watch dual-listed securities too: a 'UK' stock may actually distribute from another jurisdiction.",
       ],
     },

@@ -1,6 +1,6 @@
 import { formatCurrency, formatPercent, type Locale } from "@/lib/i18n";
 import { articleHref, countryHref, href } from "@/lib/routes";
-import { COUNTRIES, getCountryById, recoveryGap, treatyRateFor } from "@/data/countries";
+import { COUNTRIES, GB_REIT_PID_RATE, getCountryById, recoveryGap, treatyRateFor } from "@/data/countries";
 import { PRICING } from "@/config/pricing";
 import { missedDeadline } from "./missed-deadline";
 import { frenchSharesForeignBroker } from "./french-shares-foreign-broker";
@@ -139,7 +139,7 @@ const frContent: ArticleBlock[] = [
     type: "callout",
     tone: "info",
     title: `Trois cas où il n'y a rien (ou presque) à récupérer`,
-    text: `Le Royaume-Uni ne prélève rien sur les dividendes ordinaires (seules les distributions de REIT, dites PID, supportent 20 % — chiffre indicatif) ; l'Australie ne retient rien sur les dividendes « fully franked » ; et les [Pays-Bas](${countryHref("fr", nl.slug.fr)}) retiennent ${pct(nl.statutoryRate, "fr")}, soit déjà le taux conventionnel pour un particulier français. Si votre portefeuille se limite à ces cas, personne n'a d'argent à vous récupérer — nous préférons vous le dire ici plutôt que de vous laisser espérer.`,
+    text: `Le Royaume-Uni ne prélève rien sur les dividendes ordinaires (seules les distributions de REIT, dites PID, supportent ${pct(GB_REIT_PID_RATE, "fr")} — chiffre indicatif) ; l'Australie ne retient rien sur les dividendes « fully franked » ; et les [Pays-Bas](${countryHref("fr", nl.slug.fr)}) retiennent ${pct(nl.statutoryRate, "fr")}, soit déjà le taux conventionnel pour un particulier français. Si votre portefeuille se limite à ces cas, personne n'a d'argent à vous récupérer — nous préférons vous le dire ici plutôt que de vous laisser espérer.`,
   },
   { type: "h2", text: `Quelles questions poser à votre courtier ?` },
   {
@@ -309,7 +309,7 @@ const enContent: ArticleBlock[] = [
     type: "callout",
     tone: "info",
     title: `Three cases where there is (almost) nothing to recover`,
-    text: `The United Kingdom withholds nothing on ordinary dividends (only REIT distributions, known as PIDs, bear 20% — indicative figure); Australia withholds nothing on fully franked dividends; and the [Netherlands](${countryHref("en", nl.slug.en)}) withholds ${pct(nl.statutoryRate, "en")}, which is already the treaty rate for a French individual. If your portfolio is limited to these cases, nobody has money to recover for you — we would rather tell you here than let you hope.`,
+    text: `The United Kingdom withholds nothing on ordinary dividends (only REIT distributions, known as PIDs, bear ${pct(GB_REIT_PID_RATE, "en")} — indicative figure); Australia withholds nothing on fully franked dividends; and the [Netherlands](${countryHref("en", nl.slug.en)}) withholds ${pct(nl.statutoryRate, "en")}, which is already the treaty rate for a French individual. If your portfolio is limited to these cases, nobody has money to recover for you — we would rather tell you here than let you hope.`,
   },
   { type: "h2", text: `What questions should you ask your broker?` },
   {

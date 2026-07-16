@@ -186,3 +186,13 @@ Suite au constat que les 5 FAQ par pays (§15) partageaient une structure de phr
 - **`sitemap.ts`** : ajout de `lastModified` (absent jusqu'ici) câblé sur `country.lastReviewed` / `article.updated`, déjà les seules sources de vérité de fraîcheur affichées sur chaque page — aucune date inventée.
 
 Vérifié en navigateur (Royaume-Uni : cas écart nul ; Suisse : cas écart réel, chiffré). `tsc --noEmit` et build propres.
+
+## 17. Piste 2 : centralisation du taux PID britannique et des amendes 3916 (15 juillet 2026)
+
+Suite au signalement du §15 (chiffres écrits en dur, non centralisés), correction effective :
+
+- **`GB_REIT_PID_RATE`** (nouvel export de `countries.ts`, 20 %) : remplace le littéral "20 %"/"20%" recopié à 8 endroits (fiche pays GB elle-même, `best-countries-french-resident.ts`, `broker-wont-tell-you.ts` ×2, `nothing-to-recover.ts`) par une seule constante formatée via `formatPercent`. Un futur changement de ce taux (rare mais possible) devient une modification à un seul endroit.
+- **`FORM_3916_PENALTY_STANDARD` / `FORM_3916_PENALTY_NON_COOPERATIVE`** (constantes locales de `french-shares-foreign-broker.ts`, 1 500 €/10 000 €) : remplacent les montants écrits en dur, désormais formatés via `eur()` comme le reste de l'article.
+- Aucun changement de valeur : rendu identique vérifié en navigateur (fiche Royaume-Uni : "supportent 20 %, souvent réductibles à 15 %" inchangé).
+
+`tsc --noEmit` et build propres.

@@ -1,6 +1,6 @@
 import { formatCurrency, formatPercent, type Locale } from "@/lib/i18n";
 import { articleHref, countryHref, href } from "@/lib/routes";
-import { COUNTRIES, getCountryById, recoveryGap, treatyRateFor } from "@/data/countries";
+import { COUNTRIES, GB_REIT_PID_RATE, getCountryById, recoveryGap, treatyRateFor } from "@/data/countries";
 import type { Article, ArticleBlock } from "./types";
 
 /**
@@ -208,7 +208,7 @@ const frContent: ArticleBlock[] = [
   { type: "h2", text: `Les zéros assumés : Royaume-Uni, Pays-Bas — et la France elle-même` },
   {
     type: "p",
-    text: `Le [Royaume-Uni](${countryHref("fr", gb.slug.fr)}) ne prélève **aucune retenue** sur les dividendes ordinaires : ${pct(gb.statutoryRate, "fr")} retenus, rien à récupérer. L'exception concerne les distributions immobilières des REIT (Property Income Distributions), retenues à 20 % et souvent réductibles par convention. Si votre courtier a retenu quelque chose sur une action britannique classique, c'est une anomalie à examiner — pas un gisement.`,
+    text: `Le [Royaume-Uni](${countryHref("fr", gb.slug.fr)}) ne prélève **aucune retenue** sur les dividendes ordinaires : ${pct(gb.statutoryRate, "fr")} retenus, rien à récupérer. L'exception concerne les distributions immobilières des REIT (Property Income Distributions), retenues à ${pct(GB_REIT_PID_RATE, "fr")} et souvent réductibles par convention. Si votre courtier a retenu quelque chose sur une action britannique classique, c'est une anomalie à examiner — pas un gisement.`,
   },
   {
     type: "p",
@@ -396,7 +396,7 @@ const enContent: ArticleBlock[] = [
   { type: "h2", text: `The honest zeros: the UK, the Netherlands — and France itself` },
   {
     type: "p",
-    text: `The [United Kingdom](${countryHref("en", gb.slug.en)}) levies **no withholding** on ordinary dividends: ${pct(gb.statutoryRate, "en")} withheld, nothing to recover. The exception is REIT Property Income Distributions, withheld at 20% and often treaty-reducible. If your broker withheld something on a standard UK share, that is an anomaly worth examining — not a pool of money.`,
+    text: `The [United Kingdom](${countryHref("en", gb.slug.en)}) levies **no withholding** on ordinary dividends: ${pct(gb.statutoryRate, "en")} withheld, nothing to recover. The exception is REIT Property Income Distributions, withheld at ${pct(GB_REIT_PID_RATE, "en")} and often treaty-reducible. If your broker withheld something on a standard UK share, that is an anomaly worth examining — not a pool of money.`,
   },
   {
     type: "p",

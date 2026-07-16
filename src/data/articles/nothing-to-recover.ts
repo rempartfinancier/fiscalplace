@@ -1,6 +1,6 @@
 import { formatPercent, type Locale } from "@/lib/i18n";
 import { articleHref, countryHref, href } from "@/lib/routes";
-import { getCountryById, treatyRateFor } from "@/data/countries";
+import { GB_REIT_PID_RATE, getCountryById, treatyRateFor } from "@/data/countries";
 import type { Article, ArticleBlock } from "./types";
 
 /**
@@ -61,7 +61,7 @@ const frContent: ArticleBlock[] = [
   { type: "h2", text: `Royaume-Uni : le zéro le plus mal compris` },
   {
     type: "p",
-    text: `Le [Royaume-Uni](${countryHref("fr", gb.slug.fr)}) ne prélève aucune retenue à la source sur les dividendes ordinaires — Shell, HSBC, Unilever ou AstraZeneca vous versent le brut. Si un montant a malgré tout disparu sur une ligne britannique, trois explications dominent, et aucune n'est une retenue récupérable par convention : des frais de courtage ou de change, une distribution de REIT (les « Property Income Distributions » supportent bien 20 %, souvent réductibles à 15 %), ou un titre à double cotation qui distribue en réalité depuis une autre juridiction. Le réflexe utile n'est pas « récupérer » mais **identifier** — c'est exactement ce que fait [la lecture de relevé décrite ici](${articleHref("fr", BROKER_SLUG.fr)}).`,
+    text: `Le [Royaume-Uni](${countryHref("fr", gb.slug.fr)}) ne prélève aucune retenue à la source sur les dividendes ordinaires — Shell, HSBC, Unilever ou AstraZeneca vous versent le brut. Si un montant a malgré tout disparu sur une ligne britannique, trois explications dominent, et aucune n'est une retenue récupérable par convention : des frais de courtage ou de change, une distribution de REIT (les « Property Income Distributions » supportent bien ${pct(GB_REIT_PID_RATE, "fr")}, souvent réductibles à 15 %), ou un titre à double cotation qui distribue en réalité depuis une autre juridiction. Le réflexe utile n'est pas « récupérer » mais **identifier** — c'est exactement ce que fait [la lecture de relevé décrite ici](${articleHref("fr", BROKER_SLUG.fr)}).`,
   },
   { type: "h2", text: `Pays-Bas : le taux retenu est déjà le bon` },
   {
@@ -161,7 +161,7 @@ const enContent: ArticleBlock[] = [
   { type: "h2", text: `The United Kingdom: the most misunderstood zero` },
   {
     type: "p",
-    text: `The [United Kingdom](${countryHref("en", gb.slug.en)}) levies no withholding at source on ordinary dividends — Shell, HSBC, Unilever or AstraZeneca pay you gross. If an amount nonetheless vanished on a UK line, three explanations dominate, and none is a treaty-recoverable withholding: brokerage or FX fees, a REIT distribution (Property Income Distributions do bear 20%, often reducible to 15%), or a dual-listed security actually distributing from another jurisdiction. The useful reflex is not "recover" but **identify** — exactly what [the statement-reading walkthrough here](${articleHref("en", BROKER_SLUG.en)}) does.`,
+    text: `The [United Kingdom](${countryHref("en", gb.slug.en)}) levies no withholding at source on ordinary dividends — Shell, HSBC, Unilever or AstraZeneca pay you gross. If an amount nonetheless vanished on a UK line, three explanations dominate, and none is a treaty-recoverable withholding: brokerage or FX fees, a REIT distribution (Property Income Distributions do bear ${pct(GB_REIT_PID_RATE, "en")}, often reducible to 15%), or a dual-listed security actually distributing from another jurisdiction. The useful reflex is not "recover" but **identify** — exactly what [the statement-reading walkthrough here](${articleHref("en", BROKER_SLUG.en)}) does.`,
   },
   { type: "h2", text: `The Netherlands: the rate withheld is already the right one` },
   {
