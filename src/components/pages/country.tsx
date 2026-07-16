@@ -133,13 +133,18 @@ function buildCountryFaq(country: CountryTaxProfile, locale: Locale): FAQItem[] 
             : "This administration has no e-filing option for this type of claim: filing is done by post."
         }`;
 
-  const rasAnswer = country.reliefAtSource
-    ? locale === "fr"
-      ? `Oui, en théorie : ce pays rend la réduction à la source possible pour un particulier. En pratique, cela suppose que votre courtier transmette votre statut fiscal jusqu'au dépositaire local — vérifiez-le auprès de lui, faute de quoi le taux plein continue de s'appliquer malgré tout.`
-      : `Yes, in theory: ${name} makes relief at source achievable for an individual. In practice it requires your broker to pass your tax status all the way to the local custodian — check with them, otherwise the full rate keeps applying regardless.`
-    : locale === "fr"
-      ? `Non : pour un particulier, la réduction à la source n'est pas praticable pour ce pays. La récupération a posteriori, formulaire par formulaire, reste le seul chemin, quel que soit votre courtier.`
-      : `No: for an individual, relief at source is not practically achievable on ${name}. After-the-fact recovery, form by form, remains the only route, whoever your broker is.`;
+  const rasAnswer =
+    country.reliefAtSource && gap === 0
+      ? locale === "fr"
+        ? `La question ne se pose pas vraiment ici : sans écart entre le taux prélevé et le taux conventionnel, il n'y a rien à corriger dès le versement — la case « réduction à la source » de ce pays répond surtout aux cas particuliers listés plus haut, pas au cas général.`
+        : `The question barely applies here: with no gap between the withheld rate and the treaty rate, there is nothing to correct at payment time — this country's relief-at-source option mostly serves the specific exceptions covered above, not the standard case.`
+      : country.reliefAtSource
+        ? locale === "fr"
+          ? `Oui, en théorie : ce pays rend la réduction à la source possible pour un particulier — de quoi éviter l'intégralité des ${ptsStr} points d'écart avant même le versement. En pratique, cela suppose que votre courtier transmette votre statut fiscal jusqu'au dépositaire local — vérifiez-le auprès de lui, faute de quoi le taux plein continue de s'appliquer malgré tout.`
+          : `Yes, in theory: ${name} makes relief at source achievable for an individual — avoiding the entire ${ptsStr}-point gap before payment even happens. In practice it requires your broker to pass your tax status all the way to the local custodian — check with them, otherwise the full rate keeps applying regardless.`
+        : locale === "fr"
+          ? `Non : pour un particulier, la réduction à la source n'est pas praticable pour ce pays, malgré un écart de ${ptsStr} points. La récupération a posteriori, formulaire par formulaire, reste le seul chemin, quel que soit votre courtier.`
+          : `No: for an individual, relief at source is not practically achievable on ${name}, despite a ${ptsStr}-point gap. After-the-fact recovery, form by form, remains the only route, whoever your broker is.`;
 
   const worthAnswer = (() => {
     if (country.recoveryPotential === "none") {
@@ -153,8 +158,8 @@ function buildCountryFaq(country: CountryTaxProfile, locale: Locale): FAQItem[] 
         : `Rarely: the tax ${name} withholds already matches, in the standard case, the treaty rate for a French resident — there is no over-withholding to claim.`;
     }
     return locale === "fr"
-      ? `Ça dépend du montant. Notre commission plancher est de ${floorStr} par dossier abouti : sous quelques centaines d'euros de trop-perçu, la récupération devient marginale une fois cette commission déduite. Le simulateur vous dira en deux minutes si votre cas franchit ce seuil.`
-      : `It depends on the amount. Our floor fee is ${floorStr} per successful claim: below a few hundred euros of over-withholding, recovery becomes marginal once that fee is deducted. The simulator tells you in two minutes whether your case clears that bar.`;
+      ? `Ça dépend du montant : avec ${ptsStr} points d'écart ici, il faut assez peu de dividendes bruts pour dépasser notre commission plancher de ${floorStr} par dossier abouti. En dessous de quelques centaines d'euros de trop-perçu, la récupération devient marginale une fois cette commission déduite. Le simulateur vous dira en deux minutes si votre cas franchit ce seuil.`
+      : `It depends on the amount: with a ${ptsStr}-point gap here, it doesn't take much in gross dividends to clear our ${floorStr} floor fee per successful claim. Below a few hundred euros of over-withholding, recovery becomes marginal once that fee is deducted. The simulator tells you in two minutes whether your case clears that bar.`;
   })();
 
   const rankAnswer =

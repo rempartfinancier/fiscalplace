@@ -176,3 +176,13 @@ L'autorité externe (backlinks, mentions, relais) ne se corrige pas en éditant 
 
 ### Vérification
 `tsc --noEmit` et `bun --bun run build` propres (166 pages, +4 pour les deux nouveaux articles). Rendu vérifié en navigateur : FAQ pays (Suisse, Royaume-Uni), fiche Suède (badge « Dépôt en ligne » et délai corrigés), les deux nouveaux articles, page `/ressources` (dates étalées visibles).
+
+## 16. FAQ pays : réponses moins formulaires + lastmod du sitemap (15 juillet 2026)
+
+Suite au constat que les 5 FAQ par pays (§15) partageaient une structure de phrase quasi identique d'un pays à l'autre (seuls les chiffres changeaient), deux réponses ont été enrichies pour intégrer l'écart en points propre à chaque pays :
+
+- **Réduction à la source** : cas particulier ajouté quand l'écart est nul (ex. Royaume-Uni) — la réponse ne prétend plus qu'« une réduction à la source est possible » de façon abstraite quand il n'y a structurellement rien à réduire ; et quand elle s'applique réellement, la réponse chiffre désormais l'écart évité.
+- **Rentabilité d'un dossier** : la réponse générique « ça dépend du montant » intègre maintenant l'écart en points du pays concerné, rendant chaque réponse numériquement distincte plutôt qu'un même paragraphe recopié 19 fois.
+- **`sitemap.ts`** : ajout de `lastModified` (absent jusqu'ici) câblé sur `country.lastReviewed` / `article.updated`, déjà les seules sources de vérité de fraîcheur affichées sur chaque page — aucune date inventée.
+
+Vérifié en navigateur (Royaume-Uni : cas écart nul ; Suisse : cas écart réel, chiffré). `tsc --noEmit` et build propres.
