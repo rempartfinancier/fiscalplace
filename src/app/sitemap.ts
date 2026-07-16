@@ -8,11 +8,17 @@ const BASE = "https://fiscalplace.com";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const entries: MetadataRoute.Sitemap = [];
-  const add = (path: string, priority: number, alternates: Record<string, string>) => {
+  const add = (
+    path: string,
+    priority: number,
+    alternates: Record<string, string>,
+    lastModified?: string,
+  ) => {
     entries.push({
       url: BASE + path,
       changeFrequency: "weekly",
       priority,
+      ...(lastModified ? { lastModified } : {}),
       alternates: {
         languages: Object.fromEntries(Object.entries(alternates).map(([l, p]) => [l, BASE + p])),
       },
@@ -28,18 +34,22 @@ export default function sitemap(): MetadataRoute.Sitemap {
   }
   for (const country of COUNTRIES) {
     for (const locale of LOCALES) {
-      add(countryHref(locale, country.slug[locale]), 0.8, {
-        fr: countryHref("fr", country.slug.fr),
-        en: countryHref("en", country.slug.en),
-      });
+      add(
+        countryHref(locale, country.slug[locale]),
+        0.8,
+        { fr: countryHref("fr", country.slug.fr), en: countryHref("en", country.slug.en) },
+        country.lastReviewed,
+      );
     }
   }
   for (const article of ARTICLES) {
     for (const locale of LOCALES) {
-      add(articleHref(locale, article.slug[locale]), 0.6, {
-        fr: articleHref("fr", article.slug.fr),
-        en: articleHref("en", article.slug.en),
-      });
+      add(
+        articleHref(locale, article.slug[locale]),
+        0.6,
+        { fr: articleHref("fr", article.slug.fr), en: articleHref("en", article.slug.en) },
+        article.updated,
+      );
     }
   }
   return entries;
