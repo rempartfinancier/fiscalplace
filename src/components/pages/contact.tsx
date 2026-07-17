@@ -65,8 +65,8 @@ const copy: Localized<ContactCopy> = {
       },
       phone: {
         title: "Par téléphone",
-        body: "Pas encore de ligne ouverte : nous préférons démarrer par l'écrit, qui laisse une trace et vous évite de répéter votre situation.",
-        placeholder: "[LIGNE TÉLÉPHONIQUE À OUVRIR]",
+        body: "Pour un échange direct avec l'équipe qui traite les dossiers.",
+        placeholder: "01 84 16 37 91",
       },
     },
     scope: {
@@ -123,8 +123,8 @@ const copy: Localized<ContactCopy> = {
       },
       phone: {
         title: "By phone",
-        body: "No line open yet: we prefer to start in writing, which leaves a trace and spares you from repeating your situation.",
-        placeholder: "[PHONE LINE TO BE OPENED]",
+        body: "For a direct conversation with the team that handles the claims.",
+        placeholder: "01 84 16 37 91",
       },
     },
     scope: {
@@ -228,8 +228,13 @@ export default function Page({ locale }: { locale: Locale }) {
                 <h2 className="font-display text-lg font-semibold text-ink">
                   {t.channels.phone.title}
                 </h2>
-                <p className="mt-1 font-mono text-[13px] text-mine">
-                  {t.channels.phone.placeholder}
+                <p className="mt-1">
+                  <a
+                    href="tel:+33184163791"
+                    className="font-mono text-[15px] text-brand underline underline-offset-4"
+                  >
+                    {t.channels.phone.placeholder}
+                  </a>
                 </p>
                 <p className="mt-2 text-[15px] leading-relaxed text-mine">
                   {t.channels.phone.body}

@@ -451,6 +451,7 @@ export default function Page({ locale }: { locale: Locale }) {
         name: "FiscalPlace",
         url: BASE_URL,
         description: t.metaDescription,
+        telephone: "+33184163791",
       },
       {
         "@type": "WebSite",

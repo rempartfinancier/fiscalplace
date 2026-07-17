@@ -82,6 +82,11 @@ export function Footer({ locale }: { locale: Locale }) {
               <span className="double-rule absolute -bottom-1 left-0 h-[5px] w-full" aria-hidden="true" />
             </p>
             <p className="mt-4 max-w-[36ch] text-sm leading-relaxed text-mine">{t.footer.baseline}</p>
+            <p className="mt-4">
+              <a href="tel:+33184163791" className="font-mono text-sm text-ink hover:text-brand">
+                01 84 16 37 91
+              </a>
+            </p>
             <p className="mt-4 font-mono text-[12px] text-mine">{t.trustLine}</p>
           </div>
           <FooterColumn title={t.footer.services} links={toLinks(SERVICE_LABELS)} />
