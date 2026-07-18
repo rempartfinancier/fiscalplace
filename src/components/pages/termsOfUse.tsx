@@ -13,7 +13,7 @@ import { Card, Container } from "@/components/ui/primitives";
 /* termsOfSale, privacy and cookies.                                   */
 /* ------------------------------------------------------------------ */
 
-const UPDATED = "2026-07-08";
+const UPDATED = "2026-07-17";
 /** Same address as the contact page (src/components/site/ContactForm.tsx). */
 const CONTACT_EMAIL = "contact@fiscalplace.com";
 
@@ -133,7 +133,7 @@ const copy: Localized<TermsOfUseCopy> = {
     tocLabel: "Sommaire",
     purpose: {
       title: "Objet",
-      p1: "Les CGU définissent les règles d'accès et d'utilisation du site fiscalplace.com (le « Site ») et de l'espace client associé, édités par [DÉNOMINATION SOCIALE À COMPLÉTER] (« l'éditeur », « nous »). Elles s'appliquent à tout visiteur, client ou non. Naviguer sur le Site vaut acceptation des CGU en vigueur à la date de la visite.",
+      p1: "Les CGU définissent les règles d'accès et d'utilisation du site fiscalplace.com (le « Site ») et de l'espace client associé, édités par EXP Capital (« l'éditeur », « nous »). Elles s'appliquent à tout visiteur, client ou non. Naviguer sur le Site vaut acceptation des CGU en vigueur à la date de la visite.",
       p2: (cgv) => (
         <>
           La commande de prestations — récupération au succès, forfaits, abonnement — est régie par
@@ -235,7 +235,7 @@ const copy: Localized<TermsOfUseCopy> = {
     tocLabel: "Contents",
     purpose: {
       title: "Purpose",
-      p1: "These Terms of Use set the rules for accessing and using the fiscalplace.com website (the “Site”) and the associated client area, published by [COMPANY NAME TO BE COMPLETED] (the “publisher”, “we”). They apply to every visitor, client or not. Browsing the Site constitutes acceptance of the Terms of Use in force on the date of the visit.",
+      p1: "These Terms of Use set the rules for accessing and using the fiscalplace.com website (the “Site”) and the associated client area, published by EXP Capital (the “publisher”, “we”). They apply to every visitor, client or not. Browsing the Site constitutes acceptance of the Terms of Use in force on the date of the visit.",
       p2: (cgv) => (
         <>
           Ordering services — success-fee recovery, fixed-fee services, subscription — is governed

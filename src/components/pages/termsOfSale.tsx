@@ -15,7 +15,7 @@ import { DoubleRule, LedgerLine } from "@/components/ui/ledger";
 /* termsOfUse, privacy and cookies.                                    */
 /* ------------------------------------------------------------------ */
 
-const UPDATED = "2026-07-08";
+const UPDATED = "2026-07-17";
 /** Same address as the contact page (src/components/site/ContactForm.tsx). */
 const CONTACT_EMAIL = "contact@fiscalplace.com";
 /** Recovered amount fed to computeCommission() for the worked example (art. 4). */
@@ -199,7 +199,7 @@ const copy: Localized<TermsOfSaleCopy> = {
       title: "Parties et objet",
       p1: (legalNotice) => (
         <>
-          Les CGV sont conclues entre [DÉNOMINATION SOCIALE À COMPLÉTER] (« FiscalPlace », « nous »),
+          Les CGV sont conclues entre EXP Capital (« FiscalPlace », « nous »),
           éditeur du site fiscalplace.com, dont l'identification complète figure dans les{" "}
           {legalNotice}, et toute personne physique ou morale commandant une prestation (« vous »,
           le « Client »). La commande vaut acceptation des CGV en vigueur à sa date.
@@ -397,7 +397,7 @@ const copy: Localized<TermsOfSaleCopy> = {
       title: "Parties and purpose",
       p1: (legalNotice) => (
         <>
-          These Terms of Sale are entered into between [COMPANY NAME TO BE COMPLETED]
+          These Terms of Sale are entered into between EXP Capital
           (“FiscalPlace”, “we”), publisher of fiscalplace.com, fully identified in the {legalNotice},
           and any natural or legal person ordering a service (“you”, the “Client”). Placing an order
           constitutes acceptance of the Terms of Sale in force on that date.

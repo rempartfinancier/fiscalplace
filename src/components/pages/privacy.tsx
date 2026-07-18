@@ -14,7 +14,7 @@ import { Card, Container } from "@/components/ui/primitives";
 /* termsOfUse, termsOfSale and cookies.                                */
 /* ------------------------------------------------------------------ */
 
-const UPDATED = "2026-07-08";
+const UPDATED = "2026-07-17";
 /** Same address as the contact page (src/components/site/ContactForm.tsx). */
 const CONTACT_EMAIL = "contact@fiscalplace.com";
 /**
@@ -164,9 +164,8 @@ const copy: Localized<PrivacyCopy> = {
       title: "Responsable de traitement",
       body: (legalNotice, email) => (
         <>
-          Le responsable de traitement est [ENTITÉ RESPONSABLE DE TRAITEMENT À COMPLÉTER —
-          DÉNOMINATION SOCIALE], dont l'identification complète figure dans les {legalNotice}. Point
-          de contact pour toute question relative aux données : {email}.
+          Le responsable de traitement est EXP Capital, dont l'identification complète figure dans
+          les {legalNotice}. Point de contact pour toute question relative aux données : {email}.
         </>
       ),
       legalNoticeLabel: "mentions légales",
@@ -348,8 +347,8 @@ const copy: Localized<PrivacyCopy> = {
       title: "Data controller",
       body: (legalNotice, email) => (
         <>
-          The data controller is [DATA CONTROLLER ENTITY TO BE COMPLETED — COMPANY NAME], fully
-          identified in the {legalNotice}. Contact point for any data question: {email}.
+          The data controller is EXP Capital, fully identified in the {legalNotice}. Contact point
+          for any data question: {email}.
         </>
       ),
       legalNoticeLabel: "legal notice",

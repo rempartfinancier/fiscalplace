@@ -13,7 +13,7 @@ import { Card, Container } from "@/components/ui/primitives";
 /* termsOfSale, privacy and cookies.                                   */
 /* ------------------------------------------------------------------ */
 
-const UPDATED = "2026-07-08";
+const UPDATED = "2026-07-17";
 /** Same address as the contact page (src/components/site/ContactForm.tsx). */
 const CONTACT_EMAIL = "contact@fiscalplace.com";
 
@@ -113,7 +113,6 @@ interface LegalNoticeCopy {
     title: string;
     intro: string;
     rows: { label: string; value: string }[];
-    note: string;
   };
   service: { title: string; p: string[] };
   ip: { title: string; p: string[] };
@@ -141,29 +140,29 @@ const copy: Localized<LegalNoticeCopy> = {
       title: "Éditeur du site",
       intro: "Le site fiscalplace.com (ci-après « le Site ») est édité par :",
       rows: [
-        { label: "Dénomination sociale", value: "[DÉNOMINATION SOCIALE À COMPLÉTER]" },
-        { label: "Forme juridique", value: "[FORME JURIDIQUE À COMPLÉTER]" },
-        { label: "Capital social", value: "[CAPITAL SOCIAL À COMPLÉTER]" },
-        { label: "Immatriculation", value: "[SIREN / RCS À COMPLÉTER]", mono: true },
+        { label: "Dénomination sociale", value: "EXP Capital" },
+        { label: "Forme juridique", value: "SASU" },
+        { label: "Capital social", value: "1 000 €" },
+        { label: "Immatriculation", value: "RCS Versailles n° 987 986 247", mono: true },
         { label: "TVA intracommunautaire", value: "[N° DE TVA INTRACOMMUNAUTAIRE À COMPLÉTER]", mono: true },
-        { label: "Siège social", value: "[ADRESSE DU SIÈGE SOCIAL À COMPLÉTER]" },
+        { label: "Siège social", value: "25 bis rue de la Côte, 78220 Viroflay" },
+        { label: "ORIAS", value: "N° 25005915 (www.orias.fr)", mono: true },
         { label: "Courriel", value: CONTACT_EMAIL, mono: true },
       ],
     },
     director: {
       title: "Directeur de la publication",
       p: [
-        "Le directeur de la publication est [NOM DU DIRECTEUR DE LA PUBLICATION À COMPLÉTER], en qualité de représentant légal de l'éditeur.",
+        "Le directeur de la publication est Alexandre Pollet, en qualité de représentant légal de l'éditeur.",
       ],
     },
     hosting: {
       title: "Hébergement",
       intro: "Le Site est hébergé par :",
       rows: [
-        { label: "Hébergeur", value: "[HÉBERGEUR UE À CONFIRMER]" },
-        { label: "Adresse", value: "[ADRESSE DE L'HÉBERGEUR À COMPLÉTER]" },
+        { label: "Hébergeur", value: "Vercel Inc." },
+        { label: "Adresse", value: "340 Pine Street, Suite 701, San Francisco, CA 94104, États-Unis" },
       ],
-      note: "L'hébergement est prévu au sein de l'Union européenne ; le prestataire retenu sera confirmé sur cette page avant l'ouverture commerciale du service.",
     },
     service: {
       title: "Nature du service — ce que FiscalPlace est, et n'est pas",
@@ -171,6 +170,7 @@ const copy: Localized<LegalNoticeCopy> = {
         "FiscalPlace fournit un service spécialisé de démarches administratives et fiscales : identification des retenues à la source prélevées en excès sur dividendes étrangers, préparation des dossiers de remboursement, dépôt auprès des administrations fiscales compétentes et suivi jusqu'à la décision, sur mandat exprès du client.",
         "FiscalPlace ne fournit pas de conseil fiscal personnalisé au sens réglementaire. Les contenus publiés sur le Site — taux, délais, guides, simulateurs — sont des informations générales, indicatives, revues régulièrement mais jamais adaptées à une situation individuelle. Ils ne constituent ni une consultation juridique ou fiscale, ni une recommandation d'investissement. Pour une stratégie fiscale d'ensemble, rapprochez-vous d'un avocat fiscaliste ou d'un expert-comptable.",
         "Selon les juridictions dans lesquelles les demandes sont déposées, la représentation devant une administration fiscale étrangère peut relever d'un statut ou d'un agrément particulier : [STATUT / AGRÉMENT ÉVENTUEL DE MANDATAIRE FISCAL SELON LES JURIDICTIONS — À VALIDER PAR CONSEIL JURIDIQUE].",
+        "Avertissement : les contenus publiés sur ce site ont une vocation exclusivement informative et éducative. Ils ne constituent pas un conseil en investissement financier au sens de la réglementation AMF. Tout investissement comporte un risque de perte en capital. Les performances passées ne préjugent pas des performances futures.",
       ],
     },
     ip: {
@@ -212,29 +212,29 @@ const copy: Localized<LegalNoticeCopy> = {
       title: "Site publisher",
       intro: "The fiscalplace.com website (the “Site”) is published by:",
       rows: [
-        { label: "Company name", value: "[COMPANY NAME TO BE COMPLETED]" },
-        { label: "Legal form", value: "[LEGAL FORM TO BE COMPLETED]" },
-        { label: "Share capital", value: "[SHARE CAPITAL TO BE COMPLETED]" },
-        { label: "Registration", value: "[SIREN / RCS NUMBER TO BE COMPLETED]", mono: true },
+        { label: "Company name", value: "EXP Capital" },
+        { label: "Legal form", value: "SASU (French simplified single-shareholder company)" },
+        { label: "Share capital", value: "€1,000" },
+        { label: "Registration", value: "Versailles Trade and Companies Register (RCS), no. 987 986 247", mono: true },
         { label: "EU VAT number", value: "[EU VAT NUMBER TO BE COMPLETED]", mono: true },
-        { label: "Registered office", value: "[REGISTERED OFFICE ADDRESS TO BE COMPLETED]" },
+        { label: "Registered office", value: "25 bis rue de la Côte, 78220 Viroflay, France" },
+        { label: "ORIAS", value: "No. 25005915 (www.orias.fr)", mono: true },
         { label: "Email", value: CONTACT_EMAIL, mono: true },
       ],
     },
     director: {
       title: "Publication director",
       p: [
-        "The publication director is [PUBLICATION DIRECTOR NAME TO BE COMPLETED], acting as legal representative of the publisher.",
+        "The publication director is Alexandre Pollet, acting as legal representative of the publisher.",
       ],
     },
     hosting: {
       title: "Hosting",
       intro: "The Site is hosted by:",
       rows: [
-        { label: "Hosting provider", value: "[EU HOSTING PROVIDER TO BE CONFIRMED]" },
-        { label: "Address", value: "[HOSTING PROVIDER ADDRESS TO BE COMPLETED]" },
+        { label: "Hosting provider", value: "Vercel Inc." },
+        { label: "Address", value: "340 Pine Street, Suite 701, San Francisco, CA 94104, United States" },
       ],
-      note: "Hosting is planned within the European Union; the chosen provider will be confirmed on this page before the service opens commercially.",
     },
     service: {
       title: "Nature of the service — what FiscalPlace is, and is not",
@@ -242,6 +242,7 @@ const copy: Localized<LegalNoticeCopy> = {
         "FiscalPlace provides a specialised administrative and tax-filing service: identifying over-withheld tax on foreign dividends, preparing refund claims, filing them with the competent tax administrations and following them through to the decision, under an express mandate from the client.",
         "FiscalPlace does not provide personalised tax advice in the regulatory sense. The content published on the Site — rates, deadlines, guides, calculators — is general, indicative information, reviewed regularly but never tailored to an individual situation. It is neither legal or tax advice nor an investment recommendation. For an overall tax strategy, consult a tax lawyer or a chartered accountant.",
         "Depending on the jurisdictions where claims are filed, representing clients before a foreign tax administration may require a specific status or licence: [POSSIBLE TAX-AGENT STATUS OR LICENCE PER JURISDICTION — TO BE VALIDATED BY LEGAL COUNSEL].",
+        "Disclaimer: the content published on this site is for information and educational purposes only. It does not constitute investment advice within the meaning of French Financial Markets Authority (AMF) regulations. All investment carries a risk of capital loss. Past performance is not indicative of future results.",
       ],
     },
     ip: {
@@ -330,7 +331,6 @@ export default function Page({ locale }: { locale: Locale }) {
             <Sec n={3} id="hosting" artLabel={t.artLabel} title={t.hosting.title}>
               <P>{t.hosting.intro}</P>
               <IdentityRows rows={t.hosting.rows} />
-              <P>{t.hosting.note}</P>
             </Sec>
 
             <Sec n={4} id="service" artLabel={t.artLabel} title={t.service.title}>
