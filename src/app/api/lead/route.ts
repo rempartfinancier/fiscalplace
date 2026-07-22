@@ -17,7 +17,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ ok: false, error: "invalid_json" }, { status: 400 });
   }
 
-  const { name, email, subject, message } = (body ?? {}) as Record<string, unknown>;
+  const { name, email, subject, message, source } = (body ?? {}) as Record<string, unknown>;
 
   if (typeof email !== "string" || !EMAIL_RE.test(email.trim())) {
     return NextResponse.json({ ok: false, error: "invalid_email" }, { status: 400 });
@@ -35,7 +35,16 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ ok: false, error: "not_configured" }, { status: 502 });
   }
 
-  const sujetTexte = typeof subject === "string" && subject ? `[${subject}] ` : "";
+  // "source" est un tag optionnel et additif (ex. "lead_magnet") permettant de
+  // distinguer l'origine d'un lead sans changer sourceSite (utilisé pour le
+  // filtrage par site côté CRM). Absent -> comportement inchangé (ContactForm).
+  const sourceTag = typeof source === "string" && source.trim() ? source.trim() : "";
+  const sujetTexte =
+    typeof subject === "string" && subject
+      ? `[${subject}] `
+      : sourceTag
+        ? `[${sourceTag}] `
+        : "";
 
   try {
     const res = await fetch(CRM_INGEST_URL, {
@@ -43,6 +52,7 @@ export async function POST(req: NextRequest) {
       headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
       body: JSON.stringify({
         sourceSite: "fiscalplace",
+        ...(sourceTag ? { source: sourceTag } : {}),
         email: email.trim(),
         prenom: name.trim(),
         message: `${sujetTexte}${message.trim()}`,

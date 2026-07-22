@@ -69,6 +69,7 @@ export const ROUTES = {
   },
   countries: { fr: ["pays"], en: ["countries"], section: "marketing" },
   resources: { fr: ["ressources"], en: ["resources"], section: "marketing" },
+  guide: { fr: ["guide"], en: ["guide"], section: "marketing" },
   comparison: { fr: ["comparatif"], en: ["compare"], section: "marketing" },
   reviews: { fr: ["avis-clients"], en: ["reviews"], section: "marketing" },
   about: { fr: ["a-propos"], en: ["about"], section: "marketing" },

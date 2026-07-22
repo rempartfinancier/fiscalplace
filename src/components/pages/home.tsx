@@ -25,6 +25,7 @@ import {
 } from "@/components/ui/primitives";
 import { LedgerLine, DoubleRule, MicroGauge } from "@/components/ui/ledger";
 import { HeroSimulator } from "@/components/site/HeroSimulator";
+import { LeadMagnetForm } from "@/components/site/LeadMagnetForm";
 
 /* ------------------------------------------------------------------ */
 /* Local helpers (foundation files are read-only)                      */
@@ -146,6 +147,14 @@ interface HomeCopy {
     readMin: (minutes: number) => string;
     allLink: string;
   };
+  leadMagnet: {
+    kicker: string;
+    title: string;
+    lede: string;
+    languageNote?: string;
+    formTitle: string;
+    detailsLink: string;
+  };
   finalCta: {
     title: string;
     lede: string;
@@ -265,6 +274,13 @@ const copy: Localized<HomeCopy> = {
       readMin: (minutes) => `${minutes} min de lecture`,
       allLink: "Toutes les ressources",
     },
+    leadMagnet: {
+      kicker: "Guide gratuit",
+      title: "Le dossier de récupération prêt en 60 minutes",
+      lede: "3 pays, 1 checklist imprimable, 4 emails prêts à l'emploi (FR/EN) — pour ne plus attendre deux mois de plus une réponse de votre courtier avant de déposer votre dossier.",
+      formTitle: "Recevez le guide",
+      detailsLink: "Voir tout ce que contient le guide",
+    },
     finalCta: {
       title: "Combien vous doit-on, exactement ?",
       lede: "Deux minutes, sans e-mail ni engagement : le simulateur applique les taux conventionnels à vos dividendes, déduit notre commission et affiche votre net.",
@@ -381,6 +397,14 @@ const copy: Localized<HomeCopy> = {
       lede: "Costs, failures, comparisons, rankings: we publish what the industry prefers to keep vague.",
       readMin: (minutes) => `${minutes} min read`,
       allLink: "All resources",
+    },
+    leadMagnet: {
+      kicker: "Free guide",
+      title: "The claim file, ready in 60 minutes",
+      lede: "3 countries, 1 printable checklist, 4 ready-to-send email scripts (FR/EN) — so you stop waiting another two months for your broker before you can file.",
+      languageNote: "This guide is written in French; an English edition is not yet available.",
+      formTitle: "Get the guide",
+      detailsLink: "See everything the guide covers",
     },
     finalCta: {
       title: "How much are you owed, exactly?",
@@ -868,6 +892,39 @@ export default function Page({ locale }: { locale: Locale }) {
             <ButtonLink variant="ghost" href={href(locale, "resources")}>
               {t.resources.allLink} →
             </ButtonLink>
+          </div>
+        </Container>
+      </section>
+
+      {/* ---------------------------------------------------------- */}
+      {/* LEAD MAGNET — free guide (additive section)                 */}
+      {/* ---------------------------------------------------------- */}
+      <section className="border-y border-rule bg-white">
+        <Container wide className="py-14 sm:py-16">
+          <div className="grid items-center gap-10 lg:grid-cols-[3fr_2fr]">
+            <div>
+              <SectionHeading
+                kicker={t.leadMagnet.kicker}
+                title={t.leadMagnet.title}
+                lede={t.leadMagnet.lede}
+              />
+              {t.leadMagnet.languageNote && (
+                <p className="mt-3 max-w-[68ch] text-[14px] italic leading-relaxed text-mine">
+                  {t.leadMagnet.languageNote}
+                </p>
+              )}
+              <div className="mt-5">
+                <ButtonLink variant="ghost" href={href(locale, "guide")}>
+                  {t.leadMagnet.detailsLink} →
+                </ButtonLink>
+              </div>
+            </div>
+            <div>
+              <h3 className="mb-3 font-display text-lg font-semibold text-ink">
+                {t.leadMagnet.formTitle}
+              </h3>
+              <LeadMagnetForm locale={locale} idPrefix="home-lead-magnet" />
+            </div>
           </div>
         </Container>
       </section>

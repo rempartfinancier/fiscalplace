@@ -54,6 +54,7 @@ const COMPANY_LABELS: Record<string, { fr: string; en: string }> = {
 const TOOLS_LABELS: Record<string, { fr: string; en: string }> = {
   simulator: { fr: "Simulateur de récupération", en: "Refund simulator" },
   solCalculator: { fr: "Calculateur de prescription", en: "Deadline calculator" },
+  guide: { fr: "Guide gratuit (PDF)", en: "Free guide (PDF)" },
   resources: { fr: "Toutes les ressources", en: "All resources" },
 };
 

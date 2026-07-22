@@ -35,6 +35,7 @@ export const PAGES: Record<RouteKey, () => Promise<PageModule>> = {
   statementReader: () => import("@/components/pages/statementReader"),
   countries: () => import("@/components/pages/countries"),
   resources: () => import("@/components/pages/resources"),
+  guide: () => import("@/components/pages/guide"),
   comparison: () => import("@/components/pages/comparison"),
   reviews: () => import("@/components/pages/reviews"),
   about: () => import("@/components/pages/about"),
