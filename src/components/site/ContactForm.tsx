@@ -14,6 +14,12 @@ import { Badge, Button, Card, TrustLine } from "@/components/ui/primitives";
  * left without a route.
  */
 
+declare global {
+  interface Window {
+    dataLayer?: Record<string, unknown>[];
+  }
+}
+
 type SubjectKey = "claim" | "partner" | "press" | "other";
 
 const SUBJECT_KEYS: SubjectKey[] = ["claim", "partner", "press", "other"];
@@ -180,6 +186,10 @@ export function ContactForm({ locale }: { locale: Locale }) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name: name.trim(), email: email.trim(), subject, message: message.trim() }),
       });
+      if (res.ok && typeof window !== "undefined") {
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({ event: "generate_lead" });
+      }
       setStatus(res.ok ? "sent" : "failed");
     } catch {
       setStatus("failed");
