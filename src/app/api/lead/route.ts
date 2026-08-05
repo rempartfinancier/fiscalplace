@@ -7,6 +7,15 @@ import { NextRequest, NextResponse } from "next/server";
 // visiteur (contrairement au mock précédent qui, lui, l'assumait
 // explicitement en l'affichant).
 const CRM_INGEST_URL = "https://rempart-crm.vercel.app/api/ingest/lead";
+// Notification email interne (Brevo), déclenchée EN PLUS du relais CRM ci-dessus,
+// jamais à sa place : le CRM interne reste l'unique source de vérité du succès
+// renvoyé au visiteur. Un échec Brevo (clé absente, API en erreur, réseau) est
+// seulement journalisé, jamais remonté dans la réponse HTTP.
+const BREVO_EMAIL_URL = "https://api.brevo.com/v3/smtp/email";
+const BREVO_NOTIFICATION_RECIPIENTS = [
+  { email: "contact@fiscalplace.com" },
+  { email: "alexandre.pollet@uptimi.fr" },
+];
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export async function POST(req: NextRequest) {
@@ -67,5 +76,78 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ ok: false, error: "delivery_failed" }, { status: 502 });
   }
 
+  // Notification email interne (Brevo) — additive, best-effort : ne doit jamais
+  // faire échouer la réponse renvoyée au visiteur, qui dépend uniquement du CRM
+  // interne ci-dessus (source de vérité du succès, inchangée par cet ajout).
+  try {
+    await sendBrevoLeadNotification({
+      name: name.trim(),
+      email: email.trim(),
+      subject: typeof subject === "string" && subject.trim() ? subject.trim() : undefined,
+      source: sourceTag || undefined,
+      message: message.trim(),
+    });
+  } catch (e) {
+    console.error("[api/lead] Erreur inattendue lors de la notification email interne (Brevo):", e);
+  }
+
   return NextResponse.json({ ok: true });
+}
+
+interface BrevoLeadFields {
+  name: string;
+  email: string;
+  subject?: string;
+  source?: string;
+  message: string;
+}
+
+// Best-effort : toute erreur est journalisée ici et jamais propagée à l'appelant
+// (voir commentaire au point d'appel). Couvre à la fois la clé API absente,
+// le refus de l'API Brevo, et les erreurs réseau.
+async function sendBrevoLeadNotification(lead: BrevoLeadFields) {
+  const apiKey = process.env.BREVO_API_KEY;
+  if (!apiKey) {
+    console.error(
+      "[api/lead] BREVO_API_KEY manquant : notification email interne non envoyée (le lead reste capturé via le CRM interne). Variable à configurer sur le projet Vercel de fiscalplace.com.",
+    );
+    return;
+  }
+
+  const champs = [
+    `Nom : ${lead.name}`,
+    `Email : ${lead.email}`,
+    lead.subject ? `Sujet : ${lead.subject}` : null,
+    lead.source ? `Source : ${lead.source}` : null,
+    `Message : ${lead.message}`,
+  ]
+    .filter((ligne): ligne is string => ligne !== null)
+    .join("\n");
+
+  try {
+    const res = await fetch(BREVO_EMAIL_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        "api-key": apiKey,
+      },
+      body: JSON.stringify({
+        sender: { name: "FiscalPlace", email: "contact@fiscalplace.com" },
+        to: BREVO_NOTIFICATION_RECIPIENTS,
+        replyTo: { email: lead.email, name: lead.name },
+        subject: "Nouveau lead FiscalPlace",
+        textContent: `Nouveau lead reçu sur fiscalplace.com :\n\n${champs}`,
+      }),
+    });
+    if (!res.ok) {
+      console.error(
+        "[api/lead] Brevo a refusé la notification email interne:",
+        res.status,
+        await res.text(),
+      );
+    }
+  } catch (e) {
+    console.error("[api/lead] Erreur réseau lors de la notification email interne (Brevo):", e);
+  }
 }
