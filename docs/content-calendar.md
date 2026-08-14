@@ -37,10 +37,11 @@ Les 5 axes prioritaires correspondent exactement aux valeurs de
    toujours généré depuis `@/data/countries` ou `@/config/pricing`, jamais
    recopié à la main.
 
-Répartition au 2026-08-08 : cost (4), problems (7), comparisons (5),
-reviews (1), best (3) — 20 articles au total. La catégorie **reviews**
+Répartition au 2026-08-14 : cost (4), problems (8), comparisons (5),
+reviews (1), best (3) — 21 articles au total. La catégorie **reviews**
 (1 seul article, `pea-vs-cto-foreign-dividends`) reste le déséquilibre le
-plus net à corriger en priorité dans les prochains runs.
+plus net à corriger en priorité dans les prochains runs — deux idées
+`reviews` ont été ajoutées au backlog ci-dessous pour ça.
 
 ## Garde-fous anti-fabrication (rappel — détail complet dans CONVENTIONS.md §5)
 
@@ -84,40 +85,86 @@ plus net à corriger en priorité dans les prochains runs.
 
 ## Backlog priorisé (prochains runs — à retirer une fois traité, sauf actualité plus pertinente)
 
-1. **[reviews]** ETF américains à distribution vs capitalisation : la
-   retenue à la source que le TER ne montre jamais — vérifier le mécanisme
-   RIC/withholding interne aux fonds US avant rédaction.
-2. **[problems]** REIT américains : le piège du taux à 30 % sur les
+1. **[problems]** REIT américains : le piège du taux à 30 % sur les
    distributions immobilières (nuance FIRPTA sur la part liée à la vente
    d'un bien immobilier US, non réductible par convention même pour un
    petit porteur) — vérifier les seuils de détention (10 %) qui changent le
    traitement.
-3. **[comparisons]** Assurance-vie luxembourgeoise vs compte-titres direct :
+2. **[comparisons]** Assurance-vie luxembourgeoise vs compte-titres direct :
    qui absorbe la retenue à la source sur les unités de compte étrangères —
    vérifier le mécanisme réel de récupération par l'assureur avant d'écrire.
-4. **[best]** Meilleurs courtiers pour la retenue à la source sur dividendes
+3. **[best]** Meilleurs courtiers pour la retenue à la source sur dividendes
    étrangers en 2026 — rester factuel et neutre (grilles tarifaires
    publiques uniquement), ne jamais dénigrer un courtier nommé sans source
    publique vérifiable.
-5. **[cost]** Succession et dividendes étrangers non réclamés : que
+4. **[cost]** Succession et dividendes étrangers non réclamés : que
    deviennent les trop-perçus d'un défunt actionnaire — sujet sensible,
    vérifier les règles de transmission du droit à réclamation avant
    rédaction, ton sobre.
-6. **[comparisons]** Courtier français (avec IFU) vs courtier étranger
+5. **[comparisons]** Courtier français (avec IFU) vs courtier étranger
    (Interactive Brokers, DEGIRO, Trade Republic) : qui simplifie vraiment
    la déclaration de vos dividendes étrangers — angle IFU/absence d'IFU,
    distinct de `broker-tax-handling-compared` qui traite des pratiques de
    retenue, pas de la déclaration.
-7. **[problems]** ETF à réplication synthétique vs physique : la retenue à
-   la source invisible sur votre relevé — distinct de
-   `etf-domicile-ireland-vs-us` (qui traite du domicile, pas du mode de
-   réplication).
-8. **[best]** Dividendes trimestriels vs annuels par pays : où le suivi
+6. **[best]** Dividendes trimestriels vs annuels par pays : où le suivi
    manuel devient intenable — angle multi-versements/multi-échéances,
    complémentaire à `sol-ranking-by-country`.
+7. **[reviews]** Idée reçue « les actions américaines ne valent pas le coup
+   à cause de la retenue à la source » : démonter le raisonnement avec le
+   calcul complet (taux conventionnel + récupération), sans jamais
+   recommander un choix d'allocation — vérifier qu'aucune formulation ne
+   puisse se lire comme un conseil en investissement avant publication.
+8. **[reviews]** Le « service de récupération automatique » que certains
+   courtiers annoncent : ce qu'il couvre vraiment (relief-at-source, c'est-
+   à-dire éviter la sur-retenue dès le départ) et ce qu'il ne couvre jamais
+   (un trop-perçu déjà prélevé par le passé) — prise de position contre
+   l'idée que ce service rendrait une démarche de réclamation superflue,
+   distinct de `fiscalplace-vs-broker` et `broker-tax-handling-compared`
+   qui restent factuels/comparatifs plutôt que pris de position.
+9. **[problems]** Changement de courtier ou transfert de titres en cours
+   d'année : ce qui arrive à un dossier de retenue à la source pas encore
+   réclamé — vérifier si un transfert de titres affecte la preuve de
+   détention exigée par l'administration étrangère avant rédaction.
 
 ## Historique des runs
 
+- **2026-08-14 — run automatique, sujet du backlog.**
+  Veille sur l'actualité fiscale/réglementaire (retenue à la source,
+  conventions, W-8BEN, formulaires 5000/5001) : la seule actualité
+  significative trouvée (nouvelle retenue systématique française sur les
+  dividendes de source française versés à des non-résidents de certains
+  pays sous CGI art. 119 bis A, II, applicable depuis le 1er janvier 2026)
+  concerne le sens inverse du métier de FiscalPlace — des non-résidents sur
+  des dividendes français, pas des résidents français sur des dividendes
+  étrangers — donc écartée comme non pertinente pour l'audience du site.
+  Sujet retenu dans le backlog (ancien item 7) : ETF à réplication
+  synthétique vs physique. Recherches de vérification (justETF, Invesco, Amundi ETF, Bogleheads) :
+  mécanisme confirmé — un ETF synthétique (swap adossé à un indice large et
+  liquide) peut éviter la retenue américaine sur dividendes grâce à
+  l'exemption de la section 871(m) de l'Internal Revenue Code (HIRE Act
+  2010), alors qu'un ETF physique la subit au niveau du fonds. Angle
+  **problems** : le décalage de performance de ~0,20-0,25 point/an que ni
+  le TER ni le relevé personnel n'expliquent, avec le vrai coût de la
+  contrepartie (commission de swap, risque de contrepartie encadré UCITS)
+  et un rappel explicite qu'aucun des deux cas n'est un dossier
+  récupérable pour un particulier. Distinct de `etf-domicile-ireland-vs-us`
+  (qui traite du domicile, pas du mode de réplication) — cité en renfort
+  sans être modifié. Article créé : `etf-synthetic-vs-physical-replication`
+  (catégorie `problems`). Backlog : item traité retiré ; deux nouvelles
+  idées `reviews` ajoutées pour continuer à réduire le déséquilibre de
+  cette catégorie (toujours 1 seul article publié) ; total à 9 entrées.
+  Vérifications : dépôt confirmé à jour avec `origin/main` (`git fetch`
+  initialement en échec réseau transitoire, réussi au second essai ;
+  aucun retard une fois reconnecté), branche créée depuis
+  `content/faster-directive-2026-08-08` (PR #2 encore ouverte, elle-même
+  construite sur PR #1 encore ouverte) pour disposer du calendrier et du
+  registre d'articles à jour et éviter tout doublon — ni PR #1 ni PR #2
+  modifiées. `npx tsc --noEmit` propre, `eslint` scopé propre (1 import
+  inutilisé corrigé), rendu vérifié en navigateur (FR + EN, page article +
+  hub `/ressources`, article bien classé en tête de la section
+  « Problèmes & risques »), aucune erreur console, chiffres (15 %, 30 %)
+  lus dynamiquement depuis `@/data/countries` (`US.statutoryRate`), pas de
+  valeur nouvelle ajoutée à la base de données.
 - **2026-08-08 — run automatique, sujet d'actualité (hors backlog).**
   Veille sur l'actualité fiscale/réglementaire (retenue à la source,
   conventions, W-8BEN, formulaires 5000/5001) : sujet retenu, la directive
