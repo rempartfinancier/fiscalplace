@@ -164,7 +164,8 @@ plus net à corriger en priorité dans les prochains runs — deux idées
   hub `/ressources`, article bien classé en tête de la section
   « Problèmes & risques »), aucune erreur console, chiffres (15 %, 30 %)
   lus dynamiquement depuis `@/data/countries` (`US.statutoryRate`), pas de
-  valeur nouvelle ajoutée à la base de données.
+  valeur nouvelle ajoutée à la base de données. PR :
+  https://github.com/rempartfinancier/fiscalplace/pull/3 (empilée sur PR #2).
 - **2026-08-08 — run automatique, sujet d'actualité (hors backlog).**
   Veille sur l'actualité fiscale/réglementaire (retenue à la source,
   conventions, W-8BEN, formulaires 5000/5001) : sujet retenu, la directive
