@@ -252,6 +252,10 @@ const frContent: ArticleBlock[] = [
   },
   {
     type: "p",
+    text: `Ce classement reste volontairement centré sur l'écart récupérable pour un résident français, sans revenir sur les mécaniques générales de taxation des dividendes (PFU, crédit d'impôt, PEA vs CTO) : pour une vue d'ensemble pays par pays de ces mécaniques, [le comparatif d'Etre Riche et Indépendant](https://etre-riche-et-independant.com/taxation-dividendes-etrangers) est un bon point d'entrée.`,
+  },
+  {
+    type: "p",
     text: `Dernière précision, dans la logique de tout ce site : si votre potentiel se concentre sur un seul petit dossier, la meilleure réponse est parfois de ne pas nous payer — [notre comparatif « faire soi-même ou déléguer »](${articleHref("fr", DIY_SLUG.fr)}) donne le seuil chiffré.`,
   },
   {
@@ -437,6 +441,10 @@ const enContent: ArticleBlock[] = [
         answer: `Yes: each country gets its own claim before its own administration, but the shared documents (residence certificate, statements) are pooled, and a single mandate covers the lot. Multi-country portfolios are precisely where delegating makes sense — for a single country and a small amount, doing it yourself holds up very well.`,
       },
     ],
+  },
+  {
+    type: "p",
+    text: `This ranking stays deliberately narrow, focused on the recoverable gap for a French resident, without re-covering the general mechanics of dividend taxation (flat tax, tax credit, PEA vs. CTO): for a broader country-by-country overview of those mechanics (in French), [Etre Riche et Indépendant's comparison](https://etre-riche-et-independant.com/taxation-dividendes-etrangers) is a good starting point.`,
   },
   {
     type: "p",
