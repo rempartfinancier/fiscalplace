@@ -22,8 +22,14 @@ import { formsByCountry } from "./forms-by-country";
 import { frenchSharesForeignBroker } from "./french-shares-foreign-broker";
 import { etfDomicileIrelandVsUs } from "./etf-domicile-ireland-vs-us";
 import { brokerTaxHandlingCompared } from "./broker-tax-handling-compared";
+import { peaVsCtoForeignDividends } from "./pea-vs-cto-foreign-dividends";
+import { residenceCertificateForm5000 } from "./residence-certificate-form-5000";
+import { trueCostOfDoingNothing } from "./true-cost-of-doing-nothing";
 
 export const ARTICLES: Article[] = [
+  peaVsCtoForeignDividends,
+  residenceCertificateForm5000,
+  trueCostOfDoingNothing,
   frenchSharesForeignBroker,
   brokerWontTellYou,
   brokerTaxHandlingCompared,
