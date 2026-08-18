@@ -37,10 +37,10 @@ Les 5 axes prioritaires correspondent exactement aux valeurs de
    toujours généré depuis `@/data/countries` ou `@/config/pricing`, jamais
    recopié à la main.
 
-Répartition au 2026-08-02 : cost (4), problems (6), comparisons (5),
-reviews (1), best (3). La catégorie **reviews** était vide avant cette
-session — c'est le déséquilibre le plus net à corriger en priorité dans les
-prochains runs.
+Répartition au 2026-08-08 : cost (4), problems (7), comparisons (5),
+reviews (1), best (3) — 20 articles au total. La catégorie **reviews**
+(1 seul article, `pea-vs-cto-foreign-dividends`) reste le déséquilibre le
+plus net à corriger en priorité dans les prochains runs.
 
 ## Garde-fous anti-fabrication (rappel — détail complet dans CONVENTIONS.md §5)
 
@@ -118,6 +118,28 @@ prochains runs.
 
 ## Historique des runs
 
+- **2026-08-08 — run automatique, sujet d'actualité (hors backlog).**
+  Veille sur l'actualité fiscale/réglementaire (retenue à la source,
+  conventions, W-8BEN, formulaires 5000/5001) : sujet retenu, la directive
+  européenne FASTER (UE 2025/50, adoptée le 10 décembre 2024, application au
+  1er janvier 2030) — vérifiée par recherche web croisée (EUR-Lex, Conseil de
+  l'UE, alertes EY/Deloitte/PwC/BDO) avant rédaction. Angle **problems** :
+  démonter l'idée reçue qu'une réforme à quatre ans changerait quoi que ce
+  soit aux délais de prescription en cours — pas de doublon avec
+  `missed-deadline` (que faire une fois prescrit) ni `sol-ranking-by-country`
+  (classement des délais), les deux étant cités en renfort. Article créé :
+  `faster-directive-eu-withholding-tax`. Backlog inchangé (le sujet traité ne
+  venait pas de la liste, qui reste donc à 8 entrées, seuil minimum
+  respecté). Vérifications : dépôt confirmé à jour avec `origin/main`
+  (fast-forward automatique, `4cee563` → `a51d23f`), branche créée depuis
+  `content/seo-batch-1-2026-08-02` (PR #1 encore ouverte au moment de ce run)
+  pour disposer de ce calendrier et du registre d'articles à jour et éviter
+  tout doublon — PR #1 non modifiée, ce fichier de calendrier a servi de base
+  puis a été mis à jour ici avec la nouvelle entrée. `npx tsc --noEmit`
+  propre, `eslint` scopé propre (1 import inutilisé corrigé), rendu vérifié
+  en navigateur (FR + EN, page article + hub `/ressources`), aucune erreur
+  console, chiffres de l'exemple chiffré (Allemagne, 4 000 € bruts)
+  recalculés dynamiquement depuis `@/data/countries`.
 - **2026-08-02 — session initiale (rédaction manuelle, hors routine).**
   Exploration de l'architecture, verrouillage du contexte légal, analyse de
   gaps (8 angles identifiés), rédaction de 3 articles :
