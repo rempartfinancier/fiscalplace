@@ -248,6 +248,10 @@ const frContent: ArticleBlock[] = [
         question: `Puis-je traiter plusieurs pays en même temps ?`,
         answer: `Oui : chaque pays fait l'objet d'une demande distincte auprès de son administration, mais les pièces communes (attestation de résidence, relevés) se mutualisent, et un seul mandat couvre l'ensemble. C'est précisément sur les portefeuilles multi-pays que la délégation prend son sens — pour un pays unique et un petit montant, faire soi-même se défend très bien.`,
       },
+      {
+        question: `Ce classement remplace-t-il un guide généraliste sur la fiscalité des dividendes étrangers ?`,
+        answer: `Non : il reste volontairement centré sur l'écart récupérable pour un résident français, sans revenir sur les mécaniques générales (PFU, crédit d'impôt, PEA vs CTO). Pour une vue d'ensemble pays par pays, [le comparatif d'Etre Riche et Indépendant](https://etre-riche-et-independant.com/taxation-dividendes-etrangers) est un bon point d'entrée avant de creuser le potentiel de récupération ici.`,
+      },
     ],
   },
   {
@@ -435,6 +439,10 @@ const enContent: ArticleBlock[] = [
       {
         question: `Can I run several countries at once?`,
         answer: `Yes: each country gets its own claim before its own administration, but the shared documents (residence certificate, statements) are pooled, and a single mandate covers the lot. Multi-country portfolios are precisely where delegating makes sense — for a single country and a small amount, doing it yourself holds up very well.`,
+      },
+      {
+        question: `Does this ranking replace a general guide to foreign dividend taxation?`,
+        answer: `No: it stays deliberately narrow, focused on the recoverable gap for a French resident, without re-covering the general mechanics (flat tax, tax credit, PEA vs. CTO). For a broader country-by-country overview (in French), [Etre Riche et Indépendant's comparison](https://etre-riche-et-independant.com/taxation-dividendes-etrangers) is a good starting point before digging into recovery potential here.`,
       },
     ],
   },
