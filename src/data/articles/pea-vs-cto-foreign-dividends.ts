@@ -102,6 +102,10 @@ const frContent: ArticleBlock[] = [
     type: "p",
     text: `Le PEA reste pertinent pour un portefeuille dominé par des actions françaises ou par des valeurs de pays où l'écart de retenue est nul ou faible. Pour un portefeuille délibérément construit autour de gros payeurs de dividendes étrangers à écart élevé (Suisse, Belgique, Allemagne, pays nordiques), le calcul est plus fin qu'on ne le présente d'ordinaire : l'exonération française après cinq ans a un coût caché, permanent, qui n'apparaît sur aucun relevé annuel. Le bon réflexe n'est pas de renoncer au PEA, mais de le savoir avant de l'utiliser comme réceptacle principal de dividendes étrangers à forte fiscalité de source.`,
   },
+  {
+    type: "p",
+    text: `Ce comparatif reste centré sur l'angle retenue à la source ; pour la mécanique purement française de taxation des dividendes (PFU, barème progressif, abattements), [le guide de la fiscalité des dividendes de RevenusEtDividendes.com](https://revenusetdividendes.com/guides/guide-de-la-fiscalite-des-dividendes/) creuse ce volet en détail.`,
+  },
   { type: "h2", text: `Vos questions sur PEA et retenue à la source` },
   {
     type: "faq",
@@ -198,6 +202,10 @@ const enContent: ArticleBlock[] = [
   {
     type: "p",
     text: `The PEA still makes sense for a portfolio dominated by French shares or by countries with little or no withholding gap. For a portfolio deliberately built around large foreign dividend payers with a high gap (Switzerland, Belgium, Germany, the Nordics), the arithmetic is finer than usually presented: the French five-year exemption has a hidden, permanent cost that shows up on no annual statement. The right move isn't to abandon the PEA — it's to know this before using it as the main container for high-withholding foreign dividends.`,
+  },
+  {
+    type: "p",
+    text: `This comparison stays focused on the withholding-tax angle; for the purely French dividend taxation mechanics (flat tax vs. progressive scale, allowances), [RevenusEtDividendes.com's guide (in French)](https://revenusetdividendes.com/guides/guide-de-la-fiscalite-des-dividendes/) covers that side in detail.`,
   },
   { type: "h2", text: `Your questions on the PEA and withholding tax` },
   {
