@@ -27,8 +27,10 @@ import { residenceCertificateForm5000 } from "./residence-certificate-form-5000"
 import { trueCostOfDoingNothing } from "./true-cost-of-doing-nothing";
 import { fasterDirectiveEuWithholdingTax } from "./faster-directive-eu-withholding-tax";
 import { etfSyntheticVsPhysicalReplication } from "./etf-synthetic-vs-physical-replication";
+import { usReitFirptaTrap } from "./us-reit-firpta-trap";
 
 export const ARTICLES: Article[] = [
+  usReitFirptaTrap,
   etfSyntheticVsPhysicalReplication,
   fasterDirectiveEuWithholdingTax,
   peaVsCtoForeignDividends,
