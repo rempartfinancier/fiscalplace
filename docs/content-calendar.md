@@ -162,16 +162,19 @@ plus net à corriger en priorité dans les prochains runs — deux idées
   run du 2026-08-08). Vérifications : dépôt confirmé à jour avec
   `origin/main` (fast-forward automatique, `a51d23f` → `7899b87`, 11
   commits), branche créée directement depuis `main` à jour (pas de PR
-  parente ouverte à empiler au moment de ce run). `npx tsc --noEmit` et
-  `eslint` scopés aux fichiers touchés : [à compléter après exécution].
-  Rendu vérifié en navigateur : [à compléter après exécution]. Chiffres
-  (30 %, 15 %, 21 %, 10 %) lus dynamiquement depuis `@/data/countries`
-  (`US.statutoryRate`, `treatyRateFor`) pour les deux premiers ; les
-  constantes FIRPTA (21 % de retenue légale, seuil de détention de 10 %)
-  sont des faits de droit fiscal américain vérifiés par recherche web
-  (non présents dans `countries.ts`, qui ne couvre que les paramètres
-  propres à chaque pays pour un résident français) — même traitement que
-  la section 871(m) dans l'article ETF synthétique du 2026-08-14.
+  parente ouverte à empiler au moment de ce run). `npx tsc --noEmit` propre,
+  `eslint` scopé aux fichiers touchés propre (1 warning corrigé : constante
+  de slug inutilisée). Rendu vérifié en navigateur (serveur de dev local) :
+  FR et EN, page article et hub `/ressources` (article bien classé en tête
+  de la section « Problèmes & risques », désormais 9 articles), aucune
+  erreur console. Chiffres (30 %, 15 %, 21 %, 10 %) lus dynamiquement depuis
+  `@/data/countries` (`US.statutoryRate`, `treatyRateFor`) pour les deux
+  premiers ; les constantes FIRPTA (21 % de retenue légale, seuil de
+  détention de 10 %) sont des faits de droit fiscal américain vérifiés par
+  recherche web (non présents dans `countries.ts`, qui ne couvre que les
+  paramètres propres à chaque pays pour un résident français) — même
+  traitement que la section 871(m) dans l'article ETF synthétique du
+  2026-08-14. PR : https://github.com/rempartfinancier/fiscalplace/pull/7.
 - **2026-08-14 — run automatique, sujet du backlog.**
   Veille sur l'actualité fiscale/réglementaire (retenue à la source,
   conventions, W-8BEN, formulaires 5000/5001) : la seule actualité
