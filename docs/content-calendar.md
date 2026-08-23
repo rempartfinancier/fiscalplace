@@ -37,8 +37,8 @@ Les 5 axes prioritaires correspondent exactement aux valeurs de
    toujours généré depuis `@/data/countries` ou `@/config/pricing`, jamais
    recopié à la main.
 
-Répartition au 2026-08-14 : cost (4), problems (8), comparisons (5),
-reviews (1), best (3) — 21 articles au total. La catégorie **reviews**
+Répartition au 2026-08-21 : cost (4), problems (9), comparisons (5),
+reviews (1), best (3) — 22 articles au total. La catégorie **reviews**
 (1 seul article, `pea-vs-cto-foreign-dividends`) reste le déséquilibre le
 plus net à corriger en priorité dans les prochains runs — deux idées
 `reviews` ont été ajoutées au backlog ci-dessous pour ça.
@@ -85,49 +85,96 @@ plus net à corriger en priorité dans les prochains runs — deux idées
 
 ## Backlog priorisé (prochains runs — à retirer une fois traité, sauf actualité plus pertinente)
 
-1. **[problems]** REIT américains : le piège du taux à 30 % sur les
-   distributions immobilières (nuance FIRPTA sur la part liée à la vente
-   d'un bien immobilier US, non réductible par convention même pour un
-   petit porteur) — vérifier les seuils de détention (10 %) qui changent le
-   traitement.
-2. **[comparisons]** Assurance-vie luxembourgeoise vs compte-titres direct :
+1. **[comparisons]** Assurance-vie luxembourgeoise vs compte-titres direct :
    qui absorbe la retenue à la source sur les unités de compte étrangères —
    vérifier le mécanisme réel de récupération par l'assureur avant d'écrire.
-3. **[best]** Meilleurs courtiers pour la retenue à la source sur dividendes
+2. **[best]** Meilleurs courtiers pour la retenue à la source sur dividendes
    étrangers en 2026 — rester factuel et neutre (grilles tarifaires
    publiques uniquement), ne jamais dénigrer un courtier nommé sans source
    publique vérifiable.
-4. **[cost]** Succession et dividendes étrangers non réclamés : que
+3. **[cost]** Succession et dividendes étrangers non réclamés : que
    deviennent les trop-perçus d'un défunt actionnaire — sujet sensible,
    vérifier les règles de transmission du droit à réclamation avant
    rédaction, ton sobre.
-5. **[comparisons]** Courtier français (avec IFU) vs courtier étranger
+4. **[comparisons]** Courtier français (avec IFU) vs courtier étranger
    (Interactive Brokers, DEGIRO, Trade Republic) : qui simplifie vraiment
    la déclaration de vos dividendes étrangers — angle IFU/absence d'IFU,
    distinct de `broker-tax-handling-compared` qui traite des pratiques de
    retenue, pas de la déclaration.
-6. **[best]** Dividendes trimestriels vs annuels par pays : où le suivi
+5. **[best]** Dividendes trimestriels vs annuels par pays : où le suivi
    manuel devient intenable — angle multi-versements/multi-échéances,
    complémentaire à `sol-ranking-by-country`.
-7. **[reviews]** Idée reçue « les actions américaines ne valent pas le coup
+6. **[reviews]** Idée reçue « les actions américaines ne valent pas le coup
    à cause de la retenue à la source » : démonter le raisonnement avec le
    calcul complet (taux conventionnel + récupération), sans jamais
    recommander un choix d'allocation — vérifier qu'aucune formulation ne
    puisse se lire comme un conseil en investissement avant publication.
-8. **[reviews]** Le « service de récupération automatique » que certains
+7. **[reviews]** Le « service de récupération automatique » que certains
    courtiers annoncent : ce qu'il couvre vraiment (relief-at-source, c'est-
    à-dire éviter la sur-retenue dès le départ) et ce qu'il ne couvre jamais
    (un trop-perçu déjà prélevé par le passé) — prise de position contre
    l'idée que ce service rendrait une démarche de réclamation superflue,
    distinct de `fiscalplace-vs-broker` et `broker-tax-handling-compared`
    qui restent factuels/comparatifs plutôt que pris de position.
-9. **[problems]** Changement de courtier ou transfert de titres en cours
+8. **[problems]** Changement de courtier ou transfert de titres en cours
    d'année : ce qui arrive à un dossier de retenue à la source pas encore
    réclamé — vérifier si un transfert de titres affecte la preuve de
    détention exigée par l'administration étrangère avant rédaction.
 
 ## Historique des runs
 
+- **2026-08-21 — run automatique, sujet du backlog.**
+  Veille sur l'actualité fiscale/réglementaire (retenue à la source,
+  conventions, W-8BEN, formulaires 5000/5001) : la seule actualité 2026
+  identifiée (retenue à la source « conservatoire » sur les dividendes de
+  source française versés à des non-résidents, CGI art. 119 bis A II,
+  applicable depuis le 1er janvier 2026) concerne à nouveau le sens inverse
+  du métier de FiscalPlace, comme déjà noté au run du 2026-08-14 — écartée
+  pour la même raison. Recherche ciblée sur d'éventuelles nouvelles versions
+  des formulaires W-8BEN/5000/5001 : rien de daté 2026 (révision IRS
+  toujours celle d'octobre 2021 pour le W-8BEN individuel). Sujet retenu
+  dans le backlog (ancien item 1) : REIT américains et le piège FIRPTA.
+  Recherches de vérification (IRS FIRPTA withholding, 26 U.S. Code §897(h)
+  et §897(k) sur Cornell LII, résumé PATH Act 2015) : mécanisme confirmé —
+  les dividendes ordinaires d'un REIT sont un revenu FDAP classique (30 %
+  statutaire / 15 % conventionnel via W-8BEN), mais une distribution de
+  plus-value liée à la vente d'un bien immobilier sous-jacent est requalifiée
+  en gain FIRPTA (§897), retenue à 21 % (§1445(e)(6)) et non réductible par
+  convention — **sauf** exception pour les REIT cotés (§897(k)) : si
+  l'actionnaire n'a détenu à aucun moment plus de 10 % d'une catégorie
+  d'actions durant les 12 mois précédant le versement (seuil relevé de 5 %
+  à 10 % par le PATH Act 2015, confirmé toujours en vigueur), la distribution
+  redevient un dividende ordinaire traité normalement. Angle **problems**
+  retenu : contrairement au backlog initial qui présentait ce piège comme
+  non réductible « même pour un petit porteur », la vérification montre que
+  l'exception des 10 % protège en pratique la quasi-totalité des
+  particuliers détenant un REIT coté via un courtier — le vrai risque
+  concerne les REIT non cotés ou une position exceptionnellement concentrée,
+  distinction absente de la plupart des articles trouvés en recherche et
+  donc angle mort méconnu pertinent. Article explicitement cadré comme hors
+  périmètre du service FiscalPlace dans le cas FIRPTA réel (déclaration de
+  revenus américaine réelle, pas une réclamation de trop-perçu). Article
+  créé : `us-reit-firpta-trap` (catégorie `problems`) — distinct des
+  mentions de REIT britanniques (PID) dans `broker-wont-tell-you`,
+  `nothing-to-recover` et `best-countries-french-resident` (pays et
+  mécanisme différents, citées en renfort sans être modifiées). Backlog :
+  item traité retiré, 8 entrées restantes (seuil minimum respecté, comme au
+  run du 2026-08-08). Vérifications : dépôt confirmé à jour avec
+  `origin/main` (fast-forward automatique, `a51d23f` → `7899b87`, 11
+  commits), branche créée directement depuis `main` à jour (pas de PR
+  parente ouverte à empiler au moment de ce run). `npx tsc --noEmit` propre,
+  `eslint` scopé aux fichiers touchés propre (1 warning corrigé : constante
+  de slug inutilisée). Rendu vérifié en navigateur (serveur de dev local) :
+  FR et EN, page article et hub `/ressources` (article bien classé en tête
+  de la section « Problèmes & risques », désormais 9 articles), aucune
+  erreur console. Chiffres (30 %, 15 %, 21 %, 10 %) lus dynamiquement depuis
+  `@/data/countries` (`US.statutoryRate`, `treatyRateFor`) pour les deux
+  premiers ; les constantes FIRPTA (21 % de retenue légale, seuil de
+  détention de 10 %) sont des faits de droit fiscal américain vérifiés par
+  recherche web (non présents dans `countries.ts`, qui ne couvre que les
+  paramètres propres à chaque pays pour un résident français) — même
+  traitement que la section 871(m) dans l'article ETF synthétique du
+  2026-08-14. PR : https://github.com/rempartfinancier/fiscalplace/pull/7.
 - **2026-08-14 — run automatique, sujet du backlog.**
   Veille sur l'actualité fiscale/réglementaire (retenue à la source,
   conventions, W-8BEN, formulaires 5000/5001) : la seule actualité
