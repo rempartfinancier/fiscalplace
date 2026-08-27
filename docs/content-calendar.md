@@ -37,11 +37,11 @@ Les 5 axes prioritaires correspondent exactement aux valeurs de
    toujours généré depuis `@/data/countries` ou `@/config/pricing`, jamais
    recopié à la main.
 
-Répartition au 2026-08-21 : cost (4), problems (9), comparisons (5),
-reviews (1), best (3) — 22 articles au total. La catégorie **reviews**
+Répartition au 2026-08-27 : cost (4), problems (9), comparisons (6),
+reviews (1), best (3) — 23 articles au total. La catégorie **reviews**
 (1 seul article, `pea-vs-cto-foreign-dividends`) reste le déséquilibre le
 plus net à corriger en priorité dans les prochains runs — deux idées
-`reviews` ont été ajoutées au backlog ci-dessous pour ça.
+`reviews` restent dans le backlog ci-dessous pour ça.
 
 ## Garde-fous anti-fabrication (rappel — détail complet dans CONVENTIONS.md §5)
 
@@ -85,44 +85,115 @@ plus net à corriger en priorité dans les prochains runs — deux idées
 
 ## Backlog priorisé (prochains runs — à retirer une fois traité, sauf actualité plus pertinente)
 
-1. **[comparisons]** Assurance-vie luxembourgeoise vs compte-titres direct :
-   qui absorbe la retenue à la source sur les unités de compte étrangères —
-   vérifier le mécanisme réel de récupération par l'assureur avant d'écrire.
-2. **[best]** Meilleurs courtiers pour la retenue à la source sur dividendes
+1. **[best]** Meilleurs courtiers pour la retenue à la source sur dividendes
    étrangers en 2026 — rester factuel et neutre (grilles tarifaires
    publiques uniquement), ne jamais dénigrer un courtier nommé sans source
    publique vérifiable.
-3. **[cost]** Succession et dividendes étrangers non réclamés : que
+2. **[cost]** Succession et dividendes étrangers non réclamés : que
    deviennent les trop-perçus d'un défunt actionnaire — sujet sensible,
    vérifier les règles de transmission du droit à réclamation avant
    rédaction, ton sobre.
-4. **[comparisons]** Courtier français (avec IFU) vs courtier étranger
+3. **[comparisons]** Courtier français (avec IFU) vs courtier étranger
    (Interactive Brokers, DEGIRO, Trade Republic) : qui simplifie vraiment
    la déclaration de vos dividendes étrangers — angle IFU/absence d'IFU,
    distinct de `broker-tax-handling-compared` qui traite des pratiques de
    retenue, pas de la déclaration.
-5. **[best]** Dividendes trimestriels vs annuels par pays : où le suivi
+4. **[best]** Dividendes trimestriels vs annuels par pays : où le suivi
    manuel devient intenable — angle multi-versements/multi-échéances,
    complémentaire à `sol-ranking-by-country`.
-6. **[reviews]** Idée reçue « les actions américaines ne valent pas le coup
+5. **[reviews]** Idée reçue « les actions américaines ne valent pas le coup
    à cause de la retenue à la source » : démonter le raisonnement avec le
    calcul complet (taux conventionnel + récupération), sans jamais
    recommander un choix d'allocation — vérifier qu'aucune formulation ne
    puisse se lire comme un conseil en investissement avant publication.
-7. **[reviews]** Le « service de récupération automatique » que certains
+6. **[reviews]** Le « service de récupération automatique » que certains
    courtiers annoncent : ce qu'il couvre vraiment (relief-at-source, c'est-
    à-dire éviter la sur-retenue dès le départ) et ce qu'il ne couvre jamais
    (un trop-perçu déjà prélevé par le passé) — prise de position contre
    l'idée que ce service rendrait une démarche de réclamation superflue,
    distinct de `fiscalplace-vs-broker` et `broker-tax-handling-compared`
    qui restent factuels/comparatifs plutôt que pris de position.
-8. **[problems]** Changement de courtier ou transfert de titres en cours
+7. **[problems]** Changement de courtier ou transfert de titres en cours
    d'année : ce qui arrive à un dossier de retenue à la source pas encore
    réclamé — vérifier si un transfert de titres affecte la preuve de
    détention exigée par l'administration étrangère avant rédaction.
+8. **[cost]** Foncières cotées européennes (SIIC françaises, REIT
+   britanniques/allemands hors REIT américains) : le vrai coût de la
+   retenue à la source sur les distributions immobilières cotées en
+   Europe — distinct de `us-reit-firpta-trap` (mécanisme américain
+   FIRPTA/§897, sans rapport) ; vérifier le régime propre à chaque pays
+   avant rédaction, ne pas généraliser un mécanisme national aux autres.
+9. **[problems]** Actions à double cotation (dual-listed) ou ADR : les cas
+   où la retenue affichée sur le relevé ne correspond à aucun des deux
+   pays attendus (ex. structures historiques Unilever, Shell, Rio Tinto)
+   — vérifier des cas concrets avant rédaction ; distinct de
+   `broker-wont-tell-you` et `nothing-to-recover`, qui mentionnent le
+   sujet en une phrase sans le traiter en profondeur.
 
 ## Historique des runs
 
+- **2026-08-27 — run automatique, sujet du backlog.**
+  Veille sur l'actualité fiscale/réglementaire (retenue à la source,
+  conventions, W-8BEN, formulaires 5000/5001, assurance-vie luxembourgeoise) :
+  aucune actualité 2026 suffisamment forte et spécifique à l'audience
+  (investisseur résident français détenant des actions/ETF étrangers) n'a
+  été trouvée. Écarté : la réforme CGI art. 119 bis A II (retenue
+  « conservatoire » sur dividendes français versés à des non-résidents,
+  1er janvier 2026) — sens inverse du métier, déjà écartée aux runs du
+  2026-08-14 et du 2026-08-21 pour la même raison. Écarté également : la
+  consultation HMRC du 13 juillet 2026 sur l'allègement à la source de la
+  retenue britannique sur les **intérêts** versés à l'étranger — sujet
+  distinct (intérêts, pas dividendes) et encore au stade de consultation
+  (clôture le 7 septembre 2026), rien d'applicable à vérifier ni à publier
+  aujourd'hui. Vérifications complémentaires sans suite : aucune réforme
+  2026 confirmée du régime suisse de retenue à la source (Verrechnungssteuer,
+  toujours par remboursement, jamais à la source pour un non-résident) ;
+  l'assouplissement irlandais 2026 sur les DWT (exemption des « EEA
+  investment limited partnerships ») est un sujet institutionnel/B2B sans
+  pertinence pour un particulier. Sujet retenu dans le backlog (ancien
+  item 1) : assurance-vie luxembourgeoise vs compte-titres direct, sur qui
+  absorbe réellement la retenue à la source sur les dividendes étrangers.
+  Recherches de vérification (fiches produits d'assureurs luxembourgeois
+  sur les fonds internes dédiés/FID, principes du droit des assurances sur
+  la propriété des actifs représentatifs, mécanique du bénéficiaire effectif
+  pour les véhicules intermédiés) : mécanisme confirmé — dans un contrat
+  d'assurance-vie (français ou luxembourgeois, unités de compte classiques
+  ou FID/FAS sur mesure), le souscripteur détient une créance sur l'assureur,
+  jamais la propriété directe des titres logés dans le contrat ; c'est donc
+  l'assureur (ou la banque dépositaire du fonds) qui est le bénéficiaire
+  effectif reconnu par les conventions fiscales, y compris quand le
+  souscripteur a lui-même composé l'allocation d'un FID. Angle
+  **comparisons** retenu : même retenue étrangère, même montant, mais un
+  seul des deux supports (compte-titres) permet une récupération
+  individuelle — l'assurance-vie n'en permet aucune, par construction,
+  quelle que soit la sophistication du support ; certains assureurs
+  annoncent négocier une récupération partielle à leur niveau, mais de façon
+  opaque et non pilotable par le souscripteur (fait noté avec prudence,
+  source : documentation commerciale d'assureurs, pas un texte réglementaire).
+  Article explicitement cadré comme non-conseil patrimonial (le choix entre
+  les deux enveloppes dépend d'objectifs bien plus larges que la seule
+  retenue à la source). Article créé :
+  `life-insurance-wrapper-vs-brokerage-account` (catégorie `comparisons`) —
+  applique le même principe de bénéficiaire effectif que
+  `etf-domicile-ireland-vs-us` (citée en renfort, non modifiée) à un
+  véhicule différent (contrat d'assurance-vie plutôt que fonds). Backlog :
+  item traité retiré, 2 nouvelles idées ajoutées (foncières cotées
+  européennes hors FIRPTA ; actions à double cotation/ADR) pour rester
+  au-dessus du seuil minimum — 9 entrées restantes. Vérifications : dépôt
+  confirmé à jour avec `origin/main` (déjà à jour, aucun retard, branche
+  créée directement depuis `main`), un fichier non suivi
+  (`.backlink-outreach-log.md`, hors périmètre de cette routine) laissé
+  intact. `npx tsc --noEmit` propre, `eslint` scopé aux fichiers touchés
+  propre (1 import inutilisé corrigé). Rendu vérifié en navigateur (serveur
+  de dev local) : FR et EN, page article et hub `/ressources` (article bien
+  classé en tête de la section « Comparaisons », désormais 6 articles),
+  aucune erreur console. Chiffres (26,375 %, 15 %) lus dynamiquement depuis
+  `@/data/countries` (`DE.statutoryRate`, `treatyRateFor`) ; le principe de
+  droit des assurances (créance sur l'assureur, non-propriété directe des
+  actifs représentatifs) est un fait de droit vérifié par recherche web, non
+  présent dans `countries.ts` qui ne couvre que les paramètres pays — même
+  traitement que le mécanisme FIRPTA dans l'article REIT du 2026-08-21.
+  PR : https://github.com/rempartfinancier/fiscalplace/pull/8.
 - **2026-08-21 — run automatique, sujet du backlog.**
   Veille sur l'actualité fiscale/réglementaire (retenue à la source,
   conventions, W-8BEN, formulaires 5000/5001) : la seule actualité 2026
