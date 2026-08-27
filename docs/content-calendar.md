@@ -193,6 +193,7 @@ plus net à corriger en priorité dans les prochains runs — deux idées
   actifs représentatifs) est un fait de droit vérifié par recherche web, non
   présent dans `countries.ts` qui ne couvre que les paramètres pays — même
   traitement que le mécanisme FIRPTA dans l'article REIT du 2026-08-21.
+  PR : https://github.com/rempartfinancier/fiscalplace/pull/8.
 - **2026-08-21 — run automatique, sujet du backlog.**
   Veille sur l'actualité fiscale/réglementaire (retenue à la source,
   conventions, W-8BEN, formulaires 5000/5001) : la seule actualité 2026
