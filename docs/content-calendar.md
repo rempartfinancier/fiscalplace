@@ -37,11 +37,11 @@ Les 5 axes prioritaires correspondent exactement aux valeurs de
    toujours généré depuis `@/data/countries` ou `@/config/pricing`, jamais
    recopié à la main.
 
-Répartition au 2026-08-21 : cost (4), problems (9), comparisons (5),
-reviews (1), best (3) — 22 articles au total. La catégorie **reviews**
+Répartition au 2026-08-28 : cost (4), problems (9), comparisons (6),
+reviews (1), best (3) — 23 articles au total. La catégorie **reviews**
 (1 seul article, `pea-vs-cto-foreign-dividends`) reste le déséquilibre le
 plus net à corriger en priorité dans les prochains runs — deux idées
-`reviews` ont été ajoutées au backlog ci-dessous pour ça.
+`reviews` restent dans le backlog ci-dessous pour ça.
 
 ## Garde-fous anti-fabrication (rappel — détail complet dans CONVENTIONS.md §5)
 
@@ -88,6 +88,11 @@ plus net à corriger en priorité dans les prochains runs — deux idées
 1. **[comparisons]** Assurance-vie luxembourgeoise vs compte-titres direct :
    qui absorbe la retenue à la source sur les unités de compte étrangères —
    vérifier le mécanisme réel de récupération par l'assureur avant d'écrire.
+   **Déjà rédigé, en attente de fusion** : branche
+   `content/life-insurance-wrapper-vs-brokerage-2026-08-27`, PR
+   https://github.com/rempartfinancier/fiscalplace/pull/8 (ouverte au
+   2026-08-28) — ne pas retraiter ce sujet tant que cette PR n'est ni
+   fusionnée ni fermée ; vérifier son état avant de le retirer du backlog.
 2. **[best]** Meilleurs courtiers pour la retenue à la source sur dividendes
    étrangers en 2026 — rester factuel et neutre (grilles tarifaires
    publiques uniquement), ne jamais dénigrer un courtier nommé sans source
@@ -96,33 +101,107 @@ plus net à corriger en priorité dans les prochains runs — deux idées
    deviennent les trop-perçus d'un défunt actionnaire — sujet sensible,
    vérifier les règles de transmission du droit à réclamation avant
    rédaction, ton sobre.
-4. **[comparisons]** Courtier français (avec IFU) vs courtier étranger
-   (Interactive Brokers, DEGIRO, Trade Republic) : qui simplifie vraiment
-   la déclaration de vos dividendes étrangers — angle IFU/absence d'IFU,
-   distinct de `broker-tax-handling-compared` qui traite des pratiques de
-   retenue, pas de la déclaration.
-5. **[best]** Dividendes trimestriels vs annuels par pays : où le suivi
+4. **[best]** Dividendes trimestriels vs annuels par pays : où le suivi
    manuel devient intenable — angle multi-versements/multi-échéances,
    complémentaire à `sol-ranking-by-country`.
-6. **[reviews]** Idée reçue « les actions américaines ne valent pas le coup
+5. **[reviews]** Idée reçue « les actions américaines ne valent pas le coup
    à cause de la retenue à la source » : démonter le raisonnement avec le
    calcul complet (taux conventionnel + récupération), sans jamais
    recommander un choix d'allocation — vérifier qu'aucune formulation ne
    puisse se lire comme un conseil en investissement avant publication.
-7. **[reviews]** Le « service de récupération automatique » que certains
+6. **[reviews]** Le « service de récupération automatique » que certains
    courtiers annoncent : ce qu'il couvre vraiment (relief-at-source, c'est-
    à-dire éviter la sur-retenue dès le départ) et ce qu'il ne couvre jamais
    (un trop-perçu déjà prélevé par le passé) — prise de position contre
    l'idée que ce service rendrait une démarche de réclamation superflue,
    distinct de `fiscalplace-vs-broker` et `broker-tax-handling-compared`
    qui restent factuels/comparatifs plutôt que pris de position.
-8. **[problems]** Changement de courtier ou transfert de titres en cours
+7. **[problems]** Changement de courtier ou transfert de titres en cours
    d'année : ce qui arrive à un dossier de retenue à la source pas encore
    réclamé — vérifier si un transfert de titres affecte la preuve de
    détention exigée par l'administration étrangère avant rédaction.
+8. **[cost]** Ce que coûte vraiment une déclaration 2047/IFU incomplète sur
+   des dividendes étrangers oubliés (majoration, intérêts de retard au
+   sens du CGI) comparé au coût d'un dossier de récupération classique —
+   vérifier les taux de majoration en vigueur avant rédaction ; distinct de
+   `ifu-vs-foreign-broker-declaration` qui traite de la mécanique
+   déclarative, pas du coût d'une erreur.
+9. **[best]** Calendrier des échéances à ne pas rater sur les dividendes
+   étrangers : date de transmission de l'IFU (mi-février), date limite de
+   la déclaration de revenus française, et délai de prescription propre à
+   chaque pays source — un classement des échéances pour prioriser dans
+   quel ordre traiter ses dossiers, complémentaire à `sol-ranking-by-country`
+   et à `ifu-vs-foreign-broker-declaration`.
 
 ## Historique des runs
 
+- **2026-08-28 — run automatique, sujet du backlog.**
+  Veille sur l'actualité fiscale/réglementaire (retenue à la source,
+  conventions, W-8BEN, formulaires 5000/5001) : recherches sur la retenue
+  française art. 119 bis A II sur dividendes vers non-résidents (déjà
+  écartée aux runs du 2026-08-14 et du 2026-08-21, sens inverse du métier),
+  sur d'éventuelles nouvelles versions W-8BEN/5000/5001 (rien de nouveau
+  daté 2026) et sur l'actualité des conventions fiscales dividendes en
+  général (rien de significatif pour un résident français en août 2026) :
+  aucune actualité assez pertinente trouvée. Sujet retenu dans le backlog
+  (ancien item 4, devenu obsolète comme angle numéroté après le traitement) :
+  courtier français avec IFU vs courtier étranger, angle déclaratif — le
+  premier item du backlog (assurance-vie luxembourgeoise vs compte-titres)
+  a été écarté car déjà rédigé dans une PR non fusionnée du run précédent
+  (branche `content/life-insurance-wrapper-vs-brokerage-2026-08-27`, PR
+  #8, encore ouverte à la vérification git de ce run) — le retraiter aurait
+  créé un doublon si les deux PR étaient fusionnées. Recherches de
+  vérification (multiples sources concordantes : rotek.fr, fiafter40.com,
+  dim-mathinnov.fr, forum investisseurs-heureux.fr, forum moneyvox.fr) :
+  mécanisme confirmé — un courtier agréé en France transmet un Imprimé
+  Fiscal Unique (IFU, formulaire 2561) à la DGFiP avant mi-février, qui
+  pré-remplit automatiquement le crédit d'impôt conventionnel en case 2AB
+  du formulaire 2042 ; un courtier étranger (Interactive Brokers, DEGIRO,
+  Trade Republic) n'en transmet aucun, laissant l'investisseur reconstituer
+  ses dividendes étrangers via le formulaire 2047 puis les cases 8PL
+  (nouvelle en 2026) et 8VL. Nuance vérifiée et non trouvée formulée
+  clairement ailleurs : l'IBAN français que Trade Republic attribue depuis
+  janvier 2025 dispense uniquement de la déclaration d'existence du compte
+  (formulaire 3916), pas de la déclaration des dividendes eux-mêmes, Trade
+  Republic Bank GmbH restant un établissement allemand sans IFU français —
+  angle mort méconnu retenu comme fil rouge de l'article. Second mécanisme
+  vérifié (source : legifiscal.fr et cabinets d'avocats fiscalistes) : le
+  crédit d'impôt, qu'il soit pré-rempli via l'IFU ou saisi à la main via le
+  2047, reste dans les deux cas plafonné au taux conventionnel — l'excédent
+  éventuel (retenue statutaire au-delà de ce taux) n'apparaît dans aucune
+  des deux cases et ne se réclame que directement auprès de l'administration
+  fiscale étrangère, ce qui distingue clairement le sujet déclaratif de cet
+  article du sujet de récupération traité par le reste du site. Article
+  créé : `ifu-vs-foreign-broker-declaration` (catégorie `comparisons`) —
+  distinct de `broker-tax-handling-compared` (retenue à la source, pas
+  déclaration) et de `french-shares-foreign-broker`/`missed-deadline`
+  (mentions ponctuelles du 2047 sans développer le contraste IFU/2047),
+  cités en renfort sans être modifiés. Exemple chiffré (dividendes
+  allemands, taux statutaire vs conventionnel) calculé dynamiquement depuis
+  `@/data/countries` (`DE.statutoryRate`, `treatyRateFor`) ; les mécaniques
+  déclaratives françaises (IFU, formulaire 2561, cases 2AB/2047/8PL/8VL,
+  formulaire 3916, amende de 1 500 €) sont des faits de droit fiscal
+  français vérifiés par recherche web, hors périmètre de `countries.ts` qui
+  ne couvre que les paramètres propres à chaque pays source — même
+  traitement que les cases 2DC/2CK dans `french-shares-foreign-broker.ts`.
+  Backlog : item traité retiré (ancien item 4), item 1 (assurance-vie)
+  conservé avec note explicite sur la PR #8 en attente pour éviter tout
+  doublon lors d'un run futur, 2 nouvelles idées ajoutées pour rester à 9
+  entrées (seuil minimum respecté). Vérifications : dépôt confirmé à jour
+  avec `origin/main` (`git fetch` propre, `main` déjà synchronisé avec
+  `origin/main`, aucun pull nécessaire), branche créée directement depuis
+  `main` à jour (`content/ifu-vs-foreign-broker-declaration-2026-08-28`) —
+  la branche `content/life-insurance-wrapper-vs-brokerage-2026-08-27`,
+  laissée checked-out par le run précédent avec sa PR encore ouverte, n'a
+  pas été modifiée ; un fichier non suivi et sans rapport avec cette
+  routine (`.backlink-outreach-log.md`, probablement un reliquat d'une
+  tâche de backlink) a été repéré au statut git initial et volontairement
+  laissé intact. `npx tsc --noEmit` propre, `eslint` scopé aux fichiers
+  modifiés/créés propre (aucune erreur). Rendu vérifié en navigateur
+  (serveur de dev local) : FR et EN, page article et hub `/ressources`
+  (article bien classé en tête de la section « Comparaisons », désormais 6
+  articles, compteur de catégorie à jour), aucune erreur console sur les
+  deux pages. PR : [lien à ajouter après ouverture].
 - **2026-08-21 — run automatique, sujet du backlog.**
   Veille sur l'actualité fiscale/réglementaire (retenue à la source,
   conventions, W-8BEN, formulaires 5000/5001) : la seule actualité 2026
