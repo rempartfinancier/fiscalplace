@@ -201,7 +201,7 @@ plus net à corriger en priorité dans les prochains runs — deux idées
   (serveur de dev local) : FR et EN, page article et hub `/ressources`
   (article bien classé en tête de la section « Comparaisons », désormais 6
   articles, compteur de catégorie à jour), aucune erreur console sur les
-  deux pages. PR : [lien à ajouter après ouverture].
+  deux pages. PR : https://github.com/rempartfinancier/fiscalplace/pull/9.
 - **2026-08-21 — run automatique, sujet du backlog.**
   Veille sur l'actualité fiscale/réglementaire (retenue à la source,
   conventions, W-8BEN, formulaires 5000/5001) : la seule actualité 2026
