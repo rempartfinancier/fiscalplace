@@ -37,11 +37,11 @@ Les 5 axes prioritaires correspondent exactement aux valeurs de
    toujours généré depuis `@/data/countries` ou `@/config/pricing`, jamais
    recopié à la main.
 
-Répartition au 2026-08-21 : cost (4), problems (9), comparisons (5),
-reviews (1), best (3) — 22 articles au total. La catégorie **reviews**
-(1 seul article, `pea-vs-cto-foreign-dividends`) reste le déséquilibre le
-plus net à corriger en priorité dans les prochains runs — deux idées
-`reviews` ont été ajoutées au backlog ci-dessous pour ça.
+Répartition au 2026-09-05 : cost (4), problems (9), comparisons (5),
+reviews (2), best (3) — 23 articles au total. La catégorie **reviews**
+(désormais 2 articles) reste le déséquilibre le plus net à corriger en
+priorité dans les prochains runs — une idée `reviews` reste au backlog
+ci-dessous pour continuer à la combler.
 
 ## Garde-fous anti-fabrication (rappel — détail complet dans CONVENTIONS.md §5)
 
@@ -104,25 +104,88 @@ plus net à corriger en priorité dans les prochains runs — deux idées
 5. **[best]** Dividendes trimestriels vs annuels par pays : où le suivi
    manuel devient intenable — angle multi-versements/multi-échéances,
    complémentaire à `sol-ranking-by-country`.
-6. **[reviews]** Idée reçue « les actions américaines ne valent pas le coup
-   à cause de la retenue à la source » : démonter le raisonnement avec le
-   calcul complet (taux conventionnel + récupération), sans jamais
-   recommander un choix d'allocation — vérifier qu'aucune formulation ne
-   puisse se lire comme un conseil en investissement avant publication.
-7. **[reviews]** Le « service de récupération automatique » que certains
+6. **[reviews]** Le « service de récupération automatique » que certains
    courtiers annoncent : ce qu'il couvre vraiment (relief-at-source, c'est-
    à-dire éviter la sur-retenue dès le départ) et ce qu'il ne couvre jamais
    (un trop-perçu déjà prélevé par le passé) — prise de position contre
    l'idée que ce service rendrait une démarche de réclamation superflue,
    distinct de `fiscalplace-vs-broker` et `broker-tax-handling-compared`
    qui restent factuels/comparatifs plutôt que pris de position.
-8. **[problems]** Changement de courtier ou transfert de titres en cours
+7. **[problems]** Changement de courtier ou transfert de titres en cours
    d'année : ce qui arrive à un dossier de retenue à la source pas encore
    réclamé — vérifier si un transfert de titres affecte la preuve de
    détention exigée par l'administration étrangère avant rédaction.
+8. **[problems]** Dividendes américains « qualified » vs « non qualified » :
+   une distinction de fiscalité domestique US qui ne change rien à la
+   retenue d'un non-résident — confusion fréquente chez les investisseurs
+   français qui lisent des ressources orientées contribuables américains ;
+   vérifier via IRS.gov que la qualification n'a aucun effet sur le taux
+   FDAP applicable via W-8BEN avant d'écrire.
+9. **[cost]** Le coût d'opportunité du délai de traitement : combien coûte,
+   en valeur actuelle, le fait d'attendre 12 à 24 mois un remboursement déjà
+   acquis (par opposition à `true-cost-of-doing-nothing`, qui traite du
+   trop-perçu jamais réclamé) — vérifier des délais de traitement réalistes
+   par pays avant de chiffrer, rester prudent sur toute hypothèse de taux
+   d'actualisation.
 
 ## Historique des runs
 
+- **2026-09-05 — run automatique, sujet du backlog enrichi d'une actualité vérifiée.**
+  Veille sur l'actualité fiscale/réglementaire (retenue à la source,
+  conventions, W-8BEN, formulaires 5000/5001) : la seule actualité française
+  2026 identifiée reste la retenue à la source « conservatoire » sur les
+  dividendes de source française versés à des non-résidents (CGI art. 119
+  bis A II, applicable depuis le 1er janvier 2026), déjà écartée aux runs du
+  2026-08-14 et du 2026-08-21 pour la même raison (sens inverse du métier de
+  FiscalPlace). En revanche, une actualité fiscale française pertinente pour
+  l'audience du site a été identifiée et vérifiée par recherche croisée
+  (Banque Transatlantique, Que Choisir, TGS France, DLA Piper) : la loi de
+  financement de la Sécurité sociale pour 2026, adoptée le 16 décembre 2025,
+  relève les prélèvements sociaux sur les revenus du capital — dont les
+  dividendes — de 17,2 % à 18,6 %. Sujet retenu (backlog, ancien item 6) :
+  l'idée reçue « les actions américaines ne valent pas le coup à cause de la
+  retenue à la source », enrichie de cette actualité pour la rendre à la
+  fois vérifiée et datée. Recherches de vérification complémentaires
+  (mécanique du crédit d'impôt conventionnel pour les dividendes américains
+  d'un résident de France, plusieurs sources de pratique fiscale
+  recoupées) : confirmé — le crédit d'impôt généré par la retenue
+  américaine à 15 % (taux conventionnel avec W-8BEN valide, art. 10 de la
+  convention France-États-Unis) ne s'impute que sur la part impôt sur le
+  revenu du PFU (12,8 %), jamais sur les prélèvements sociaux, et l'excédent
+  (2,2 points) est perdu sans report. Angle **reviews** retenu : démonter le
+  raisonnement additif (« 30 % retenus + impôt français = la moitié
+  perdue ») avec le calcul complet, en distinguant clairement le vrai
+  trop-perçu récupérable (absence de W-8BEN, 15 points au-delà du taux
+  conventionnel, dossier FiscalPlace réel) de l'écart structurel minime et
+  non récupérable (2,2 % du brut, lié au seul plafonnement du crédit
+  d'impôt) — et en montrant que la hausse de CSG 2026 alourdit également les
+  dividendes français et étrangers, sans creuser cet écart spécifique.
+  Aucune formulation ne recommande un choix d'allocation (garde-fou
+  explicite en tête d'article). Article créé :
+  `us-dividends-withholding-tax-myth` (catégorie `reviews`, désormais 2
+  articles dans cette catégorie encore déséquilibrée) — distinct de
+  `pea-vs-cto-foreign-dividends` (même mécanisme de crédit d'impôt, mais
+  centré sur l'arbitrage d'enveloppe PEA/CTO plutôt que sur le mythe
+  retenue-à-la-source) et de `us-reit-firpta-trap` (retenue américaine non
+  réductible par convention, non abordée ici), tous deux cités sans être
+  modifiés. Backlog : item traité retiré, 7 entrées restantes, deux
+  nouvelles idées ajoutées pour rester au-dessus du seuil minimum (9
+  entrées au total). Vérifications : dépôt confirmé à jour avec
+  `origin/main` (aucun retard, `f79931b`), branche créée directement depuis
+  `main` à jour (pas de PR parente ouverte à empiler au moment de ce run).
+  `npx tsc --noEmit` propre, `eslint` scopé aux fichiers touchés propre (1
+  warning corrigé : constante d'URL source non utilisée, intégrée en
+  citation dans le callout CSG). Rendu vérifié en navigateur (serveur de
+  dev local) : FR et EN, page article et hub `/ressources` (article bien
+  classé en tête de la section « Avis & retours », désormais 2 articles),
+  aucune erreur console. Chiffres américains (30 %, 15 %) lus dynamiquement
+  depuis `@/data/countries` (`US.statutoryRate`, `treatyRateFor`,
+  `recoveryGap`) ; les taux du PFU français 2026 (12,8 % impôt sur le
+  revenu, 18,6 % prélèvements sociaux) sont des faits de fiscalité
+  domestique française vérifiés par recherche web (non couverts par
+  `countries.ts`, qui ne modélise que les données des pays étrangers) —
+  même traitement que les constantes FIRPTA de l'article du 2026-08-21. PR :
+  [lien à ajouter après ouverture].
 - **2026-08-21 — run automatique, sujet du backlog.**
   Veille sur l'actualité fiscale/réglementaire (retenue à la source,
   conventions, W-8BEN, formulaires 5000/5001) : la seule actualité 2026

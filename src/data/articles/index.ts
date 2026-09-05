@@ -28,8 +28,10 @@ import { trueCostOfDoingNothing } from "./true-cost-of-doing-nothing";
 import { fasterDirectiveEuWithholdingTax } from "./faster-directive-eu-withholding-tax";
 import { etfSyntheticVsPhysicalReplication } from "./etf-synthetic-vs-physical-replication";
 import { usReitFirptaTrap } from "./us-reit-firpta-trap";
+import { usDividendsWithholdingTaxMyth } from "./us-dividends-withholding-tax-myth";
 
 export const ARTICLES: Article[] = [
+  usDividendsWithholdingTaxMyth,
   usReitFirptaTrap,
   etfSyntheticVsPhysicalReplication,
   fasterDirectiveEuWithholdingTax,
