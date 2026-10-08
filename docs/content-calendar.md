@@ -180,7 +180,8 @@ au backlog ci-dessous pour continuer à la combler.
   article présent dans le hub `/ressources`). Constat au passage : le
   composant FAQ retire les liens Markdown des réponses (`stripInline`), donc
   les liens internes ont été placés dans le corps du texte. Point à garder
-  en tête pour les prochains articles. PR : [lien à ajouter après ouverture].
+  en tête pour les prochains articles. PR :
+  https://github.com/rempartfinancier/fiscalplace/pull/11 (empilée sur PR #10).
 - **2026-09-05 — run automatique, sujet du backlog enrichi d'une actualité vérifiée.**
   Veille sur l'actualité fiscale/réglementaire (retenue à la source,
   conventions, W-8BEN, formulaires 5000/5001) : la seule actualité française
