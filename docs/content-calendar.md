@@ -37,11 +37,12 @@ Les 5 axes prioritaires correspondent exactement aux valeurs de
    toujours généré depuis `@/data/countries` ou `@/config/pricing`, jamais
    recopié à la main.
 
-Répartition au 2026-09-05 : cost (4), problems (9), comparisons (5),
-reviews (2), best (3) — 23 articles au total. La catégorie **reviews**
-(désormais 2 articles) reste le déséquilibre le plus net à corriger en
-priorité dans les prochains runs — une idée `reviews` reste au backlog
-ci-dessous pour continuer à la combler.
+Répartition au 2026-10-08 (branche de ce run, empilée sur PR #10 ; hors PR #8
+et #9 encore ouvertes, qui ajoutent chacune un article **comparisons**) :
+cost (4), problems (9), comparisons (6), reviews (2), best (3) — 24 articles
+au total. La catégorie **reviews** (2 articles) reste le déséquilibre le plus
+net à corriger en priorité dans les prochains runs — une idée `reviews` reste
+au backlog ci-dessous pour continuer à la combler.
 
 ## Garde-fous anti-fabrication (rappel — détail complet dans CONVENTIONS.md §5)
 
@@ -85,51 +86,101 @@ ci-dessous pour continuer à la combler.
 
 ## Backlog priorisé (prochains runs — à retirer une fois traité, sauf actualité plus pertinente)
 
-1. **[comparisons]** Assurance-vie luxembourgeoise vs compte-titres direct :
-   qui absorbe la retenue à la source sur les unités de compte étrangères —
-   vérifier le mécanisme réel de récupération par l'assureur avant d'écrire.
-2. **[best]** Meilleurs courtiers pour la retenue à la source sur dividendes
+1. **[best]** Meilleurs courtiers pour la retenue à la source sur dividendes
    étrangers en 2026 — rester factuel et neutre (grilles tarifaires
    publiques uniquement), ne jamais dénigrer un courtier nommé sans source
    publique vérifiable.
-3. **[cost]** Succession et dividendes étrangers non réclamés : que
+2. **[cost]** Succession et dividendes étrangers non réclamés : que
    deviennent les trop-perçus d'un défunt actionnaire — sujet sensible,
    vérifier les règles de transmission du droit à réclamation avant
    rédaction, ton sobre.
-4. **[comparisons]** Courtier français (avec IFU) vs courtier étranger
-   (Interactive Brokers, DEGIRO, Trade Republic) : qui simplifie vraiment
-   la déclaration de vos dividendes étrangers — angle IFU/absence d'IFU,
-   distinct de `broker-tax-handling-compared` qui traite des pratiques de
-   retenue, pas de la déclaration.
-5. **[best]** Dividendes trimestriels vs annuels par pays : où le suivi
+3. **[best]** Dividendes trimestriels vs annuels par pays : où le suivi
    manuel devient intenable — angle multi-versements/multi-échéances,
    complémentaire à `sol-ranking-by-country`.
-6. **[reviews]** Le « service de récupération automatique » que certains
+4. **[reviews]** Le « service de récupération automatique » que certains
    courtiers annoncent : ce qu'il couvre vraiment (relief-at-source, c'est-
    à-dire éviter la sur-retenue dès le départ) et ce qu'il ne couvre jamais
    (un trop-perçu déjà prélevé par le passé) — prise de position contre
    l'idée que ce service rendrait une démarche de réclamation superflue,
    distinct de `fiscalplace-vs-broker` et `broker-tax-handling-compared`
    qui restent factuels/comparatifs plutôt que pris de position.
-7. **[problems]** Changement de courtier ou transfert de titres en cours
+5. **[problems]** Changement de courtier ou transfert de titres en cours
    d'année : ce qui arrive à un dossier de retenue à la source pas encore
    réclamé — vérifier si un transfert de titres affecte la preuve de
    détention exigée par l'administration étrangère avant rédaction.
-8. **[problems]** Dividendes américains « qualified » vs « non qualified » :
+6. **[problems]** Dividendes américains « qualified » vs « non qualified » :
    une distinction de fiscalité domestique US qui ne change rien à la
    retenue d'un non-résident — confusion fréquente chez les investisseurs
    français qui lisent des ressources orientées contribuables américains ;
    vérifier via IRS.gov que la qualification n'a aucun effet sur le taux
    FDAP applicable via W-8BEN avant d'écrire.
-9. **[cost]** Le coût d'opportunité du délai de traitement : combien coûte,
+7. **[cost]** Le coût d'opportunité du délai de traitement : combien coûte,
    en valeur actuelle, le fait d'attendre 12 à 24 mois un remboursement déjà
    acquis (par opposition à `true-cost-of-doing-nothing`, qui traite du
    trop-perçu jamais réclamé) — vérifier des délais de traitement réalistes
    par pays avant de chiffrer, rester prudent sur toute hypothèse de taux
    d'actualisation.
+8. **[problems]** Remboursement étranger obtenu après coup : faut-il
+   rectifier la déclaration française ? — cas où le crédit d'impôt a été
+   déclaré au taux réellement retenu plutôt qu'au taux conventionnel, puis
+   où le pays source rembourse l'écart ; vérifier sur BOFiP / impots.gouv.fr
+   la procédure de régularisation avant d'écrire, ton prudent.
+9. **[best]** Les pays où le PFU fait perdre une partie du crédit
+   d'impôt conventionnel (taux conventionnel supérieur à 12,8 %) —
+   classement généré depuis `@/data/countries` (`treatyRateFor`), le taux du
+   PFU restant une constante française sourcée comme dans
+   `us-dividends-withholding-tax-myth` ; complémentaire de
+   `pfu-vs-progressive-scale-foreign-dividends`, sans recommander d'option.
 
 ## Historique des runs
 
+- **2026-10-08 — run automatique, sujet d'actualité (hors backlog).**
+  Reprise préalable : le run du 2026-09-05 avait laissé son commit
+  (`us-dividends-withholding-tax-myth`) en local sur
+  `content/us-withholding-myth-2026-09-01`, sans push ni PR. Branche poussée
+  telle quelle et PR #10 ouverte, sans modifier le contenu. Branche de ce run
+  empilée sur PR #10 pour conserver le calendrier et le registre à jour.
+  Veille (retenue à la source, conventions, W-8BEN, 5000/5001, PLF 2027) :
+  W-8BEN toujours en révision d'octobre 2021 ; retenue française
+  « conservatoire » sur les non-résidents (CGI art. 119 bis A) toujours hors
+  sujet (sens inverse du métier) ; le PLF 2027, présenté le 1er octobre 2026,
+  ne contient aucune mesure sur le PFU ou les dividendes dans le texte du
+  gouvernement (seul un amendement LFI non adopté, écarté comme non
+  vérifiable à ce stade). Actualité retenue : l'article 126 de la loi de
+  finances pour 2026 (modifiant CGI art. 200 A, 2) rend **révocable**
+  l'option pour le barème progressif (case 2OP) à partir des revenus 2026
+  (déclaration 2027), dans le délai de réclamation ; l'option reste annuelle
+  et globale, et l'irrévocabilité est maintenue pour les revenus 2025.
+  Sources recoupées : Vademecum Patrimoine, Louvre Banque Privée, Meilleurtaux
+  Placement, Socic. Mécanismes français vérifiés par recherche web : abattement
+  de 40 % sous barème (CGI art. 158, 3-2°), CSG déductible de 6,8 % sous
+  barème seulement, prélèvements sociaux à 18,6 % (LFSS 2026), crédit d'impôt
+  conventionnel plafonné à l'impôt français « correspondant ». D'après le
+  BOFiP, sous barème, ce plafond se calcule au taux moyen du foyer, alors que
+  plusieurs sources de pratique utilisent à tort la TMI. L'article ne calcule
+  donc pas ce plafond par tranche : il présente **trois hypothèses
+  explicitement étiquetées** (0 €, 90 €, 200 € d'impôt attribuable). Angle
+  **comparisons** : l'option déplace le plafond du crédit, mais aucune option
+  ne récupère le trop-perçu au-delà du taux conventionnel (exemple suisse,
+  35 % / 15 % lus depuis `@/data/countries`). L'article insiste aussi sur la
+  séparation entre délai de réclamation français et prescription étrangère.
+  Aucune recommandation d'option (le choix est renvoyé au simulateur officiel
+  ou à un professionnel). Article créé :
+  `pfu-vs-progressive-scale-foreign-dividends` (catégorie `comparisons`). Il
+  est distinct de `pea-vs-cto-foreign-dividends` (choix d'enveloppe) et de
+  `us-dividends-withholding-tax-myth` (calcul sous PFU uniquement), cités
+  sans être modifiés. Backlog : retrait des anciens items 1 (assurance-vie
+  luxembourgeoise vs compte-titres) et 4 (IFU vs courtier étranger), déjà
+  traités dans les PR #8 et #9 encore ouvertes et absents de cette branche.
+  Deux idées ajoutées, soit 9 entrées. Vérifications : `main` à jour avec
+  `origin/main` (`f79931b`, aucun retard). `npx tsc --noEmit` et `eslint`
+  scopé propres. Le serveur de dev ne peut pas être lancé en session
+  planifiée non surveillée, d'où une vérification par `npm run build` réussi
+  et une relecture du HTML généré (FR + EN : aucun `undefined`/`NaN`,
+  article présent dans le hub `/ressources`). Constat au passage : le
+  composant FAQ retire les liens Markdown des réponses (`stripInline`), donc
+  les liens internes ont été placés dans le corps du texte. Point à garder
+  en tête pour les prochains articles. PR : [lien à ajouter après ouverture].
 - **2026-09-05 — run automatique, sujet du backlog enrichi d'une actualité vérifiée.**
   Veille sur l'actualité fiscale/réglementaire (retenue à la source,
   conventions, W-8BEN, formulaires 5000/5001) : la seule actualité française
@@ -185,7 +236,8 @@ ci-dessous pour continuer à la combler.
   domestique française vérifiés par recherche web (non couverts par
   `countries.ts`, qui ne modélise que les données des pays étrangers) —
   même traitement que les constantes FIRPTA de l'article du 2026-08-21. PR :
-  [lien à ajouter après ouverture].
+  https://github.com/rempartfinancier/fiscalplace/pull/10 (commit resté local
+  et jamais poussé lors de ce run ; poussé et PR ouverte au run du 2026-10-08).
 - **2026-08-21 — run automatique, sujet du backlog.**
   Veille sur l'actualité fiscale/réglementaire (retenue à la source,
   conventions, W-8BEN, formulaires 5000/5001) : la seule actualité 2026
