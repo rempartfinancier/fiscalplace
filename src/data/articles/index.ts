@@ -29,8 +29,10 @@ import { fasterDirectiveEuWithholdingTax } from "./faster-directive-eu-withholdi
 import { etfSyntheticVsPhysicalReplication } from "./etf-synthetic-vs-physical-replication";
 import { usReitFirptaTrap } from "./us-reit-firpta-trap";
 import { usDividendsWithholdingTaxMyth } from "./us-dividends-withholding-tax-myth";
+import { pfuVsProgressiveScaleForeignDividends } from "./pfu-vs-progressive-scale-foreign-dividends";
 
 export const ARTICLES: Article[] = [
+  pfuVsProgressiveScaleForeignDividends,
   usDividendsWithholdingTaxMyth,
   usReitFirptaTrap,
   etfSyntheticVsPhysicalReplication,
