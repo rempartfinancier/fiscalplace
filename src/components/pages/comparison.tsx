@@ -47,6 +47,7 @@ interface Copy {
   metaTitle: string;
   metaDescription: string;
   hero: { kicker: string; h1: string; lede: string };
+  video: { kicker: string; title: string; lede: string; note: string; captionsLabel: string; fallback: string };
   table: {
     kicker: string;
     title: string;
@@ -104,6 +105,14 @@ const copy: Localized<Copy> = {
       kicker: "Comparatif",
       h1: "Faire seul, passer par votre courtier, ou FiscalPlace : le comparatif honnête",
       lede: "Nous vendons l'une des trois colonnes de ce comparatif — la méfiance est donc légitime. C'est pourquoi cette page commence par les critères, continue par les deux cas où vous n'avez pas besoin de nous, et ne finit que par le nôtre.",
+    },
+    video: {
+      kicker: "En vidéo",
+      title: "Retenue à la source : les 7 approches, celles que nous utilisons et celles que nous écartons",
+      lede: "Ne rien faire, compter sur son courtier, W-8BEN, demande de remboursement, PEA : chaque approche passée à la même grille de six critères, avec les chiffres publiés sur ce site.",
+      note: "Vidéo en français, sous-titrée · 2 min 45 · montants indicatifs, données revues mi-2026",
+      captionsLabel: "Français",
+      fallback: "Votre navigateur ne lit pas cette vidéo.",
     },
     table: {
       kicker: "Les critères qui comptent",
@@ -246,6 +255,14 @@ const copy: Localized<Copy> = {
       h1: "Doing it yourself, your broker, or FiscalPlace: the honest comparison",
       lede: "We sell one of this comparison's three columns — so scepticism is fair. That's why this page starts with the criteria, moves on to the two cases where you don't need us, and only ends with ours.",
     },
+    video: {
+      kicker: "Video",
+      title: "Withholding tax: the 7 approaches, the ones we use and the ones we rule out",
+      lede: "Doing nothing, relying on your broker, W-8BEN, refund claims, the French PEA: each approach run through the same six criteria, using the figures published on this site.",
+      note: "Video in French with French subtitles · 2 min 45 · indicative amounts, data reviewed mid-2026",
+      captionsLabel: "Français",
+      fallback: "Your browser cannot play this video.",
+    },
     table: {
       kicker: "The criteria that matter",
       title: "Three options, seven criteria, zero spin",
@@ -383,6 +400,10 @@ export function getMeta(locale: Locale): PageMeta {
   return { title: t.metaTitle, description: t.metaDescription };
 }
 
+const BASE_URL = "https://fiscalplace.com";
+/** Static assets in public/videos (MP4, poster, French WebVTT subtitles). */
+const VIDEO_BASE = "/videos/retenue-a-la-source-7-approches";
+
 export default function Page({ locale }: { locale: Locale }) {
   const t = copy[locale];
   const common = getCommon(locale);
@@ -409,6 +430,41 @@ export default function Page({ locale }: { locale: Locale }) {
       </section>
 
       <Container>
+        {/* ------------------------------------------------ Video */}
+        <section className="pt-14 sm:pt-20">
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{
+              __html: JSON.stringify({
+                "@context": "https://schema.org",
+                "@type": "VideoObject",
+                name: t.video.title,
+                description: t.video.lede,
+                thumbnailUrl: `${BASE_URL}${VIDEO_BASE}.jpg`,
+                contentUrl: `${BASE_URL}${VIDEO_BASE}.mp4`,
+                uploadDate: "2026-10-10",
+                duration: "PT2M45S",
+                inLanguage: "fr",
+              }),
+            }}
+          />
+          <SectionHeading kicker={t.video.kicker} title={t.video.title} lede={t.video.lede} />
+          <Card className="mt-8 overflow-hidden">
+            <video
+              controls
+              playsInline
+              preload="none"
+              poster={`${VIDEO_BASE}.jpg`}
+              className="block aspect-video w-full bg-ink"
+            >
+              <source src={`${VIDEO_BASE}.mp4`} type="video/mp4" />
+              <track kind="subtitles" srcLang="fr" label={t.video.captionsLabel} src={`${VIDEO_BASE}.fr.vtt`} default />
+              {t.video.fallback}
+            </video>
+          </Card>
+          <p className="mt-3 font-mono text-xs uppercase tracking-wide text-mine">{t.video.note}</p>
+        </section>
+
         {/* ------------------------------------------------ Comparison table */}
         <section className="py-14 sm:py-20">
           <SectionHeading kicker={t.table.kicker} title={t.table.title} lede={t.table.lede} />
