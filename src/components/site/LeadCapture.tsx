@@ -376,7 +376,7 @@ function LeadCaptureModal({
                     placeholder={t.fields.name.placeholder}
                     aria-invalid={errors.name ? true : undefined}
                     aria-describedby={errors.name ? "lead-name-error" : undefined}
-                    className="w-full rounded-[6px] border border-rule bg-white px-3 py-2 text-[15px] text-ink"
+                    className="w-full rounded-[6px] border border-rule bg-white px-3 py-2.5 text-base sm:text-[15px] text-ink"
                   />
                   {errors.name && (
                     <p id="lead-name-error" role="alert" className="mt-1.5 text-sm text-debit">
@@ -392,12 +392,14 @@ function LeadCaptureModal({
                     id="lead-email"
                     type="email"
                     autoComplete="email"
+ inputMode="email"
+ autoCapitalize="none"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder={t.fields.email.placeholder}
                     aria-invalid={errors.email ? true : undefined}
                     aria-describedby={errors.email ? "lead-email-error" : undefined}
-                    className="w-full rounded-[6px] border border-rule bg-white px-3 py-2 text-[15px] text-ink"
+                    className="w-full rounded-[6px] border border-rule bg-white px-3 py-2.5 text-base sm:text-[15px] text-ink"
                   />
                   {errors.email && (
                     <p id="lead-email-error" role="alert" className="mt-1.5 text-sm text-debit">
@@ -417,7 +419,7 @@ function LeadCaptureModal({
                   value={note}
                   onChange={(e) => setNote(e.target.value)}
                   placeholder={t.fields.note.placeholder}
-                  className="w-full rounded-[6px] border border-rule bg-white px-3 py-2 text-[15px] text-ink"
+                  className="w-full rounded-[6px] border border-rule bg-white px-3 py-2.5 text-base sm:text-[15px] text-ink"
                 />
               </div>
 

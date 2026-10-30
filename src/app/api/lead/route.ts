@@ -14,6 +14,7 @@ const CRM_INGEST_URL = "https://rempart-crm.vercel.app/api/ingest/lead";
 const BREVO_EMAIL_URL = "https://api.brevo.com/v3/smtp/email";
 const BREVO_NOTIFICATION_RECIPIENTS = [
   { email: "contact@fiscalplace.com" },
+  { email: "alexandre.pollet@rempartfinancier.fr" },
   { email: "alexandre.pollet@uptimi.fr" },
 ];
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;

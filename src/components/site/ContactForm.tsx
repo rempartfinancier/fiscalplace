@@ -249,7 +249,7 @@ export function ContactForm({ locale }: { locale: Locale }) {
               placeholder={t.fields.name.placeholder}
               aria-invalid={errors.name ? true : undefined}
               aria-describedby={errors.name ? "contact-name-error" : undefined}
-              className="w-full rounded-[6px] border border-rule bg-white px-3 py-2 text-[15px] text-ink"
+              className="w-full rounded-[6px] border border-rule bg-white px-3 py-2.5 text-base sm:text-[15px] text-ink"
             />
             {errors.name && (
               <p id="contact-name-error" role="alert" className="mt-1.5 text-sm text-debit">
@@ -265,12 +265,14 @@ export function ContactForm({ locale }: { locale: Locale }) {
               id="contact-email"
               type="email"
               autoComplete="email"
+ inputMode="email"
+ autoCapitalize="none"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder={t.fields.email.placeholder}
               aria-invalid={errors.email ? true : undefined}
               aria-describedby={errors.email ? "contact-email-error" : undefined}
-              className="w-full rounded-[6px] border border-rule bg-white px-3 py-2 text-[15px] text-ink"
+              className="w-full rounded-[6px] border border-rule bg-white px-3 py-2.5 text-base sm:text-[15px] text-ink"
             />
             {errors.email && (
               <p id="contact-email-error" role="alert" className="mt-1.5 text-sm text-debit">
@@ -288,7 +290,7 @@ export function ContactForm({ locale }: { locale: Locale }) {
             id="contact-subject"
             value={subject}
             onChange={(e) => setSubject(e.target.value as SubjectKey)}
-            className="w-full rounded-[6px] border border-rule bg-white px-3 py-2 text-[15px] text-ink"
+            className="w-full rounded-[6px] border border-rule bg-white px-3 py-2.5 text-base sm:text-[15px] text-ink"
           >
             {SUBJECT_KEYS.map((key) => (
               <option key={key} value={key}>
@@ -312,7 +314,7 @@ export function ContactForm({ locale }: { locale: Locale }) {
             aria-describedby={
               errors.message ? "contact-message-error contact-message-hint" : "contact-message-hint"
             }
-            className="w-full rounded-[6px] border border-rule bg-white px-3 py-2 text-[15px] text-ink"
+            className="w-full rounded-[6px] border border-rule bg-white px-3 py-2.5 text-base sm:text-[15px] text-ink"
           />
           <p id="contact-message-hint" className="mt-1.5 text-xs text-mine">
             {t.fields.message.hint}
