@@ -40,8 +40,7 @@ export async function POST(req: NextRequest) {
 
   const token = process.env.INGEST_TOKEN;
   if (!token) {
-    console.error("[api/lead] INGEST_TOKEN manquant : capture impossible.");
-    return NextResponse.json({ ok: false, error: "not_configured" }, { status: 502 });
+    console.error("[api/lead] INGEST_TOKEN manquant : relais CRM impossible, bascule sur le mail de secours.");
   }
 
   // "source" est un tag optionnel et additif (ex. "lead_magnet") permettant de
@@ -55,40 +54,59 @@ export async function POST(req: NextRequest) {
         ? `[${sourceTag}] `
         : "";
 
-  try {
-    const res = await fetch(CRM_INGEST_URL, {
-      method: "POST",
-      headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
-      body: JSON.stringify({
-        sourceSite: "fiscalplace",
-        ...(sourceTag ? { source: sourceTag } : {}),
-        email: email.trim(),
-        prenom: name.trim(),
-        message: `${sujetTexte}${message.trim()}`,
-      }),
-    });
-    if (!res.ok) {
-      console.error("[api/lead] CRM interne a refusé le lead:", res.status, await res.text());
-      return NextResponse.json({ ok: false, error: "delivery_failed" }, { status: 502 });
+  // Le CRM reste la destination principale ; trois tentatives pour absorber
+  // un incident réseau ou un redémarrage à froid.
+  let crmOk = false;
+  let crmError = token ? "" : "INGEST_TOKEN manquant";
+  if (token) {
+    for (let attempt = 1; attempt <= 3 && !crmOk; attempt++) {
+      try {
+        const res = await fetch(CRM_INGEST_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+          body: JSON.stringify({
+            sourceSite: "fiscalplace",
+            ...(sourceTag ? { source: sourceTag } : {}),
+            email: email.trim(),
+            prenom: name.trim(),
+            message: `${sujetTexte}${message.trim()}`,
+          }),
+          signal: AbortSignal.timeout(8000),
+        });
+        if (res.ok) {
+          crmOk = true;
+        } else {
+          crmError = `HTTP ${res.status}`;
+          console.error("[api/lead] CRM a refusé le lead (tentative", attempt, "):", res.status, await res.text());
+          // Un 4xx (hors 408/429) ne se corrigera pas en réessayant.
+          if (res.status >= 400 && res.status < 500 && res.status !== 408 && res.status !== 429) break;
+        }
+      } catch (e) {
+        crmError = e instanceof Error ? e.message : String(e);
+        console.error("[api/lead] Erreur réseau CRM (tentative", attempt, "):", e);
+      }
+      if (!crmOk && attempt < 3) await new Promise((r) => setTimeout(r, 400 * attempt));
     }
-  } catch (e) {
-    console.error("[api/lead] Erreur réseau CRM interne:", e);
-    return NextResponse.json({ ok: false, error: "delivery_failed" }, { status: 502 });
   }
 
-  // Notification email interne (Brevo) — additive, best-effort : ne doit jamais
-  // faire échouer la réponse renvoyée au visiteur, qui dépend uniquement du CRM
-  // interne ci-dessus (source de vérité du succès, inchangée par cet ajout).
-  try {
-    await sendBrevoLeadNotification({
+  // Mail interne (Brevo) : toujours envoyé. Si le CRM a échoué, il devient le
+  // filet de sécurité et son objet l'indique.
+  const mailOk = await sendBrevoLeadNotification(
+    {
       name: name.trim(),
       email: email.trim(),
       subject: typeof subject === "string" && subject.trim() ? subject.trim() : undefined,
       source: sourceTag || undefined,
       message: message.trim(),
+    },
+    crmOk ? undefined : crmError || "inconnue",
+  );
+
+  if (!crmOk && !mailOk) {
+    console.error("[api/lead] PERTE POTENTIELLE : ni le CRM ni le mail de secours n'ont abouti.", {
+      email: email.trim(),
     });
-  } catch (e) {
-    console.error("[api/lead] Erreur inattendue lors de la notification email interne (Brevo):", e);
+    return NextResponse.json({ ok: false, error: "delivery_failed" }, { status: 502 });
   }
 
   return NextResponse.json({ ok: true });
@@ -105,13 +123,13 @@ interface BrevoLeadFields {
 // Best-effort : toute erreur est journalisée ici et jamais propagée à l'appelant
 // (voir commentaire au point d'appel). Couvre à la fois la clé API absente,
 // le refus de l'API Brevo, et les erreurs réseau.
-async function sendBrevoLeadNotification(lead: BrevoLeadFields) {
+async function sendBrevoLeadNotification(lead: BrevoLeadFields, crmFailure?: string): Promise<boolean> {
   const apiKey = process.env.BREVO_API_KEY;
   if (!apiKey) {
     console.error(
       "[api/lead] BREVO_API_KEY manquant : notification email interne non envoyée (le lead reste capturé via le CRM interne). Variable à configurer sur le projet Vercel de fiscalplace.com.",
     );
-    return;
+    return false;
   }
 
   const champs = [
@@ -120,6 +138,7 @@ async function sendBrevoLeadNotification(lead: BrevoLeadFields) {
     lead.subject ? `Sujet : ${lead.subject}` : null,
     lead.source ? `Source : ${lead.source}` : null,
     `Message : ${lead.message}`,
+    crmFailure ? `\n⚠ Le relais CRM a échoué (${crmFailure}) : à saisir manuellement dans le CRM.` : null,
   ]
     .filter((ligne): ligne is string => ligne !== null)
     .join("\n");
@@ -136,7 +155,7 @@ async function sendBrevoLeadNotification(lead: BrevoLeadFields) {
         sender: { name: "FiscalPlace", email: "contact@fiscalplace.com" },
         to: BREVO_NOTIFICATION_RECIPIENTS,
         replyTo: { email: lead.email, name: lead.name },
-        subject: "Nouveau lead FiscalPlace",
+        subject: crmFailure ? "[ÉCHEC CRM] Nouveau lead FiscalPlace" : "Nouveau lead FiscalPlace",
         textContent: `Nouveau lead reçu sur fiscalplace.com :\n\n${champs}`,
       }),
     });
@@ -146,8 +165,11 @@ async function sendBrevoLeadNotification(lead: BrevoLeadFields) {
         res.status,
         await res.text(),
       );
+      return false;
     }
+    return true;
   } catch (e) {
     console.error("[api/lead] Erreur réseau lors de la notification email interne (Brevo):", e);
+    return false;
   }
 }
